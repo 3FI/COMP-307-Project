@@ -44,7 +44,7 @@
 
 ## Contact
 
-* Matan Atlas - matan.atlas@mail.mcgill.ca
+* Matan Atlas (Team captain) - matan.atlas@mail.mcgill.ca
 * Étienne Cadotte - etienne.cadotte@mail.mcgill.ca
 * Sissy Chen - xi.chen20@mail.mcgill.ca
 * Louis-Antoine Habre - louis-antoine.habre@mail.mcgill.ca
