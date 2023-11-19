@@ -1,4 +1,6 @@
-[![Contributors][Contributors-shield]][Contributors-url]
+<p align="center" width="100%">>
+    [![Contributors][Contributors-shield]][Contributors-url]
+</p>
 
 # COMP 307 Fall 2023 Project
 
@@ -16,12 +18,27 @@
 ### Installation
 
 1. [Add SSH key to Github account](https://docs.github.com/en/authentication/connecting-to-github-with-ssh)
-2. Navigate to C:\xampp
-3. Clone the repo
+2. Clone the repo
    ```sh
    git clone git@github.com:3FI/COMP-307-Project.git
    ```
-4. Copy cgi-bin, htdocs, and mysql folders in COMP-307-Project to C:\xampp
+3. Navigate to `COMP-307-Project` and copy the folders `cgi-bin`, `htdocs`, and `mysql`
+4. Navigate to C:\xampp and paste the folders
+
+    C:\xampp\
+    ├── ...
+    ├── cgi-bin
+    │   └── ...                 # Executables
+    ├── ...
+    ├── htdocs
+    │   ├── ...
+    │   ├── public_html
+    |   │   └── ...             # HTML and CSS files
+    │   └── ...
+    ├── ...
+    ├── mysql
+    │   └── ...                 # Databases
+    └── ...
 
 
 
