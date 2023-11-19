@@ -12,7 +12,7 @@
 
 ### Installation
 
-1. Add SSH key to your Github account [Connecting To Github With SSH](https://docs.github.com/en/authentication/connecting-to-github-with-ssh)
+1. [Add SSH key to Github account](https://docs.github.com/en/authentication/connecting-to-github-with-ssh)
 2. Navigate to C:\xampp\htdocs
 3. Clone the repo
    ```sh
@@ -22,6 +22,8 @@
 
 
 ## Roadmap
+
+![Storyboard](storyboard.png)
 
 - [x] Landing page
     - [X] Login form
@@ -42,16 +44,16 @@
 
 ## Contact
 
-Matan Atlas - matan.atlas@mail.mcgill.ca
-Étienne Cadotte - etienne.cadotte@mail.mcgill.ca
-Sissy Chen - xi.chen20@mail.mcgill.ca
-Louis-Antoine Habre - louis-antoine.habre@mail.mcgill.ca
+* Matan Atlas - matan.atlas@mail.mcgill.ca
+* Étienne Cadotte - etienne.cadotte@mail.mcgill.ca
+* Sissy Chen - xi.chen20@mail.mcgill.ca
+* Louis-Antoine Habre - louis-antoine.habre@mail.mcgill.ca
 
 
 
 ## Acknowledgments
 
-* [Best README Template](https://github.com/othneildrew/Best-README-Template/blob/master/README.md?plain=1)
+* [Best README Template](https://github.com/othneildrew/Best-README-Template/blob/master/README.md)
 
 
 
