@@ -1,6 +1,4 @@
-<p align="center" width="100%">>
-    [![Contributors][Contributors-shield]][Contributors-url]
-</p>
+[![Contributors][Contributors-shield]][Contributors-url]
 
 # COMP 307 Fall 2023 Project
 
@@ -25,7 +23,8 @@
 3. Navigate to `COMP-307-Project` and copy the folders `cgi-bin`, `htdocs`, and `mysql`
 4. Navigate to C:\xampp and paste the folders
 
-    C:\xampp\
+    ```sh
+    C:\\xampp\\
     ├── ...
     ├── cgi-bin
     │   └── ...                 # Executables
@@ -39,6 +38,7 @@
     ├── mysql
     │   └── ...                 # Databases
     └── ...
+    ```
 
 
 
