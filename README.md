@@ -23,8 +23,8 @@
 3. Navigate to `COMP-307-Project` and copy the folders `cgi-bin`, `htdocs`, and `mysql`
 4. Navigate to C:\xampp and paste the folders
 
-    ```sh
-    C:\\xampp\\
+    ```
+    C:\xampp\
     ├── ...
     ├── cgi-bin
     │   └── ...                 # Executables
@@ -44,12 +44,12 @@
 
 ## Roadmap
 
-![Storyboard](storyboard.png)
+![Storyboard](/storyboard.png)
 
-- [x] Landing page
-    - [X] Login functionality
-- [x] Registration page
-- [ ] Select Discussion Board page
+- [x] Landing page (Matan)
+    - [X] Login page
+- [x] Registration page (Matan)
+- [ ] Select Discussion Board page (Sissy)
     - [ ] Create Board functionality
     - [ ] Delete Board functionality
     - [ ] Select Board functionality
