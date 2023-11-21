@@ -15,7 +15,7 @@
     $result = $conn->query($sql);
 
     if ($result->num_rows === 0) {
-        $sql = "INSERT INTO users (email, password) VALUES ('".$email."','".$password."')";
+        $sql = "INSERT INTO users (email, password, username) VALUES ('".$email."','".$password."','".$email."')";
         
         $result = $conn->query($sql);
         if ($result === TRUE) {
