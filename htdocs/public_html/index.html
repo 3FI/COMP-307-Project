@@ -10,6 +10,47 @@
     <title>Landing Page</title>
 </head>
 
+ <!-- errorMessage(): Checks if the fields are empty before sending the form -->
+<script>
+
+    function errorMessage() {
+
+        var email_input = document.getElementById("exampleInputEmail1").value;
+        var password_input = document.getElementById("exampleInputPassword1").value;
+
+        var error_email = false;
+        var error_password = false;
+
+        var missing_at_sign = false
+
+        if (email_input == ''){
+            error_email = true
+            document.getElementById("email_text").style.color = "red"
+        } else {
+            error_email = false
+            document.getElementById("email_text").style.color = "black"
+        }
+
+        if (password_input == ''){
+            error_password = true
+            document.getElementById("password_text").style.color = "red"
+        } else {
+            error_password = false
+            document.getElementById("password_text").style.color = "black"
+        }
+
+        if ((error_email || error_password)){
+                alert("Please fill out all the fields")
+                return false
+            } else {
+                return true
+        }
+
+    }
+
+</script>
+
+
 <body>
     <nav class="navbar navbar-light bg-light">
         <a class="navbar-brand" href="#">
@@ -26,15 +67,15 @@
                 <h1 class="col-8"> Welcome to the COMP 307 Project</h1>
             </div>
             <div class="login-register col-3 mx-auto">
-                <form class="login" action="login.php" method="post">
+                <form class="login" action="login.php" method="post" onsubmit="return errorMessage()">
                     <h1>Login</h1>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Email address</label>
+                        <label for="exampleInputEmail1" id="email_text">Email address</label>
                         <input type="email" class="form-control" id="exampleInputEmail1" name="email" aria-describedby="emailHelp"
                             placeholder="Enter email">
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputPassword1">Password</label>
+                        <label for="exampleInputPassword1" id="password_text">Password</label>
                         <input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="Password">
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
