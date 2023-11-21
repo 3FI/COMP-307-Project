@@ -15,23 +15,25 @@
     $result = $conn->query($sql);
 
     if ($result->num_rows === 0) {
+
+        #set default username to email
         $sql = "INSERT INTO users (email, password, username) VALUES ('".$email."','".$password."','".$email."')";
         
         $result = $conn->query($sql);
         if ($result === TRUE) {
             readfile("index.html");
-            #TODO : Do better than a localhost pop-up
+            #TODO : work on the hide/unhide feature
             echo "<script> window.onload = function () { alert('Your Account as Been Successfully Created Please Log-In'); } </script>"; 
         }
         else{
             readfile("register.html");
-            #TODO : Do better than a localhost pop-up
+            #TODO : work on the hide/unhide feature
             echo "<script> window.onload = function () { alert('An Error Happened Please Try Again'); } </script>"; 
         }
     }
     else {
         readfile("register.html");
-            #TODO : Do better than a localhost pop-up
+            #TODO : work on the hide/unhide feature
             echo "<script> window.onload = function () { alert('A user with this email is already registered'); } </script>"; 
     }
 
