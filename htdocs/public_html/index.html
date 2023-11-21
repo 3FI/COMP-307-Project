@@ -9,17 +9,21 @@
     <link rel="stylesheet" href="landingpage.css">
     <title>Landing Page</title>
     <style>
-        #successMessage {
-            display: none; /* Initially hide the success message */
+        #registration-error {
+            display: none; /* Initially hide the registration error message */
+            border : 1px solid black;
+            border-radius: 25px;
+            background-color: lightgray;
+            text-align: center;
+            margin-bottom:10px;
         }
-        #empty_fields {
-            display: none; /* Initially hide the empty fields message */
+        .error-icon {
+            display: inline-block;
+            margin: 10px;
+            align-items: left;
         }
-        #invalid_email {
-            display: none; /* Initially hide the invalid email message */
-        }
-        #invalid_password {
-            display: none; /* Initially hide the invalid password message */
+        .btn{
+            margin-top: 10px;
         }
     </style>
 </head>
@@ -34,8 +38,6 @@
 
         var error_email = false;
         var error_password = false;
-
-        var missing_at_sign = false
 
         if (email_input == ''){
             error_email = true
@@ -54,9 +56,18 @@
         }
 
         if ((error_email || error_password)){
-                document.getElementById('empty_fields').style.display = 'block';
-                document.getElementById('invalid_email').style.display = 'none';
-                document.getElementById('invalid_password').style.display = 'none';
+                document.getElementById('registration-error').style.display = 'block';
+                if (error_email){
+                    document.getElementById('invalid-email').style.display = 'block';
+                } else {
+                    document.getElementById('invalid-email').style.display = 'none';
+                }
+                if (error_password){
+                    document.getElementById('invalid-password').style.display = 'block';
+                } else {
+                    document.getElementById('invalid-password').style.display = 'none';
+                }
+
                 return false
             } else {
                 return true
@@ -85,14 +96,10 @@
             <div class="login-register col-3 mx-auto">
                 <form class="login" action="login.php" method="post" onsubmit="return errorMessage()">
                     <h1>Login</h1>
-                    <div id="empty_fields">
-                        <p>Please fill out all the fields</p>
-                    </div>
-                    <div id="invalid_email">
-                        <p>Invalid Email</p>
-                    </div>
-                    <div id="invalid_password">
-                        <p>Invalid Password</p>
+                    <div class="col-8 mx-auto" id="registration-error">
+                        <img class="error-icon" src="../img/error_icon.svg" width="30" height="30">
+                        <p id="invalid-email">Invalid Email</p>
+                        <p id="invalid-password">Invalid Password</p>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1" id="email_text">Email address</label>

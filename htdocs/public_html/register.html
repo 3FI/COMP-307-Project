@@ -7,15 +7,23 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="landingpage.css">
-    <title>Landing Page</title>
+    <title>Register New User</title>
     <style>
-        #unavailable_email {
-            display: none; /* Initially hide the unavailable email message */
+        #registration-error {
+            display: none; /* Initially hide the registration error message */
+            border : 1px solid black;
+            border-radius: 25px;
+            background-color: lightgray;
             text-align: center;
+            margin-bottom:10px;
         }
-        #empty_fields {
-            display: none; /* Initially hide the empty fields message */
-            text-align: center;
+        .error-icon {
+            display: inline-block;
+            margin: 10px;
+            align-items: left;
+        }
+        .btn{
+            margin-top: 10px;
         }
     </style>
 </head>
@@ -32,8 +40,6 @@
         var error_email = false;
         var error_password = false;
 
-        var missing_at_sign = false
-
         if (email_input == ''){
             error_email = true
             document.getElementById("email_text").style.color = "red"
@@ -42,7 +48,7 @@
             document.getElementById("email_text").style.color = "black"
         }
 
-        if (password_input == ''){
+        if (password_input == '' || insecurePassword(password_input)){
             error_password = true
             document.getElementById("password_text").style.color = "red"
         } else {
@@ -51,12 +57,34 @@
         }
 
         if ((error_email || error_password)){
-                document.getElementById('empty_fields').style.display = 'block';
-                document.getElementById('unavailable_email').style.display = 'none';
+                document.getElementById('registration-error').style.display = 'block';
+                if (error_email){
+                    document.getElementById('invalid-email').style.display = 'block';
+                } else {
+                    document.getElementById('invalid-email').style.display = 'none';
+                }
+                if (error_password){
+                    document.getElementById('invalid-password').style.display = 'block';
+                } else {
+                    document.getElementById('invalid-password').style.display = 'none';
+                }
 
                 return false
             } else {
                 return true
+        }
+    }
+    function insecurePassword(password){
+        if (password.length < 8){
+            return true
+        } else if (password.search(/[a-z]/) == -1){
+            return true
+        } else if (password.search(/[A-Z]/) == -1){
+            return true
+        } else if (password.search(/[0-9]/) == -1){
+            return true
+        } else {
+            return false
         }
 
     }
@@ -75,11 +103,10 @@
     </nav>
     <div>
         <h1 class="col-8 mx-auto text-center">Register</h1>
-        <div id="unavailable_email">
-            <p>A user with this email is already registered</p>
-        </div>
-        <div id="empty_fields">
-            <p>Please fill out all the fields</p>
+        <div class="col-2 mx-auto" id="registration-error">
+            <img class="error-icon" src="../img/error_icon.svg" width="30" height="30">
+            <p id="invalid-email">Invalid Email</p>
+            <p id="invalid-password">Invalid Password</p>
         </div>
         <form class="text-center" action="register.php" method="post" onsubmit="return errorMessage()">
             <div class="form-group col-4 mx-auto">
@@ -87,8 +114,9 @@
               <input type="email" class="form-control" id="exampleInputEmail1" name="email" aria-describedby="emailHelp" placeholder="Enter email">
             </div>
             <div class="form-group col-4 mx-auto">
-              <label for="exampleInputPassword1" id="password_text">Password</label>
+              <label for="exampleInputPassword1" id="password_text">Password</label><br>
               <input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="Password">
+              <small>Must be at least 8 characters long, contain a capital letter, a lowercase letter, and a number</small>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
           </form>
