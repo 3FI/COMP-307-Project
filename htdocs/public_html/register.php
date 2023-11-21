@@ -22,19 +22,27 @@
         $result = $conn->query($sql);
         if ($result === TRUE) {
             readfile("index.html");
-            #TODO : work on the hide/unhide feature
-            echo "<script> window.onload = function () { alert('Your Account as Been Successfully Created Please Log-In'); } </script>"; 
+            #Unhide message if user was created successfully
+            echo "<script>
+                    window.onload = function () {
+                        document.getElementById('successMessage').style.display = 'block';
+                    }
+             </script>"; 
         }
         else{
             readfile("register.html");
-            #TODO : work on the hide/unhide feature
-            echo "<script> window.onload = function () { alert('An Error Happened Please Try Again'); } </script>"; 
+            #Unhide error message
+            echo "<script> window.onload = function () { 
+                document.getElementById('random_error').style.display = 'block';
+            } </script>"; 
         }
     }
     else {
         readfile("register.html");
-            #TODO : work on the hide/unhide feature
-            echo "<script> window.onload = function () { alert('A user with this email is already registered'); } </script>"; 
+            #Unhide unavailable email message
+            echo "<script> window.onload = function () { 
+                document.getElementById('unavailable_email').style.display = 'block';
+             } </script>"; 
     }
 
     

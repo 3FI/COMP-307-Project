@@ -10,7 +10,8 @@
     $sql = "SELECT * FROM users WHERE email='".$email."'";
     $result = $conn->query($sql);
 
-    if ($result->num_rows === 0) { $error = "Invalid Email";}
+    if ($result->num_rows === 0) { $error = "invalid_email";}
+    #not sure about this multiple account thing
     else if ($result->num_rows > 1) {$error = "Multiple Accounts tied to this Email";}
     else {
         $user = $result->fetch_assoc();
@@ -19,13 +20,21 @@
             $_SESSION["user_id"] = $user['user_id'];
             readfile("select-discussion.html");
         }
-        else{ $error = "Invalid Password"; }
+        else{ $error = "invalid_password"; }
     }
     
     if (isset($error)) {
         readfile("index.html");
-        #TODO : Do better than a localhost pop-up
-        echo "<script> window.onload = function () { alert('".$error."'); } </script>"; 
+
+        if ($error == "invalid_email"){
+            echo "<script> window.onload = function () {
+                document.getElementById('invalid_email').style.display = 'block';
+             } </script>"; 
+        } else {
+            echo "<script> window.onload = function () {
+                document.getElementById('invalid_password').style.display = 'block';
+             } </script>"; 
+        }
     }
 
     $conn->close();

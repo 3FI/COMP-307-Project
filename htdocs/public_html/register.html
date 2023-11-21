@@ -8,6 +8,16 @@
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="landingpage.css">
     <title>Landing Page</title>
+    <style>
+        #unavailable_email {
+            display: none; /* Initially hide the unavailable email message */
+            text-align: center;
+        }
+        #empty_fields {
+            display: none; /* Initially hide the empty fields message */
+            text-align: center;
+        }
+    </style>
 </head>
 
 
@@ -41,7 +51,9 @@
         }
 
         if ((error_email || error_password)){
-                alert("Please fill out all the fields")
+                document.getElementById('empty_fields').style.display = 'block';
+                document.getElementById('unavailable_email').style.display = 'none';
+
                 return false
             } else {
                 return true
@@ -63,6 +75,12 @@
     </nav>
     <div>
         <h1 class="col-8 mx-auto text-center">Register</h1>
+        <div id="unavailable_email">
+            <p>A user with this email is already registered</p>
+        </div>
+        <div id="empty_fields">
+            <p>Please fill out all the fields</p>
+        </div>
         <form class="text-center" action="register.php" method="post" onsubmit="return errorMessage()">
             <div class="form-group col-4 mx-auto">
               <label for="exampleInputEmail1" id="email_text">Email address</label>

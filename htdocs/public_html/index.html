@@ -8,6 +8,20 @@
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="landingpage.css">
     <title>Landing Page</title>
+    <style>
+        #successMessage {
+            display: none; /* Initially hide the success message */
+        }
+        #empty_fields {
+            display: none; /* Initially hide the empty fields message */
+        }
+        #invalid_email {
+            display: none; /* Initially hide the invalid email message */
+        }
+        #invalid_password {
+            display: none; /* Initially hide the invalid password message */
+        }
+    </style>
 </head>
 
  <!-- errorMessage(): Checks if the fields are empty before sending the form -->
@@ -40,7 +54,9 @@
         }
 
         if ((error_email || error_password)){
-                alert("Please fill out all the fields")
+                document.getElementById('empty_fields').style.display = 'block';
+                document.getElementById('invalid_email').style.display = 'none';
+                document.getElementById('invalid_password').style.display = 'none';
                 return false
             } else {
                 return true
@@ -69,6 +85,15 @@
             <div class="login-register col-3 mx-auto">
                 <form class="login" action="login.php" method="post" onsubmit="return errorMessage()">
                     <h1>Login</h1>
+                    <div id="empty_fields">
+                        <p>Please fill out all the fields</p>
+                    </div>
+                    <div id="invalid_email">
+                        <p>Invalid Email</p>
+                    </div>
+                    <div id="invalid_password">
+                        <p>Invalid Password</p>
+                    </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1" id="email_text">Email address</label>
                         <input type="email" class="form-control" id="exampleInputEmail1" name="email" aria-describedby="emailHelp"
@@ -82,6 +107,11 @@
                 </form>
                 <hr>
                 <button type="button" onclick="location.href='register.html'" class="btn btn-outline-secondary">Register</button>
+
+                <div id="successMessage">
+                    <p>Your Account as Been Successfully Created Please Log-In</p>
+                </div>
+
             </div>
         </div>
     </div>
