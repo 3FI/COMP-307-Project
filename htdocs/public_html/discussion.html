@@ -10,7 +10,7 @@
     <title>Discussion Page</title>
 </head>
 
-<body>
+<body onload="getChannels()">
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
             <span class="navbar-brand" href="#">Current Discussion Name</span>
@@ -32,37 +32,8 @@
                 <div class="header">
                     <span class="navbar-brand">Channels</span>
                 </div>
-                <div class="channel-select">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid esse consequuntur at, omnis est
-                    autem reprehenderit similique quasi dolores, adipisci accusantium. Reiciendis asperiores laboriosam
-                    repellendus illo neque, quae expedita aspernatur!
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid esse consequuntur at, omnis est
-                    autem reprehenderit similique quasi dolores, adipisci accusantium. Reiciendis asperiores laboriosam
-                    repellendus illo neque, quae expedita aspernatur!
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid esse consequuntur at, omnis est
-                    autem reprehenderit similique quasi dolores, adipisci accusantium. Reiciendis asperiores laboriosam
-                    repellendus illo neque, quae expedita aspernatur!
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid esse consequuntur at, omnis est
-                    autem reprehenderit similique quasi dolores, adipisci accusantium. Reiciendis asperiores laboriosam
-                    repellendus illo neque, quae expedita aspernatur!
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid esse consequuntur at, omnis est
-                    autem reprehenderit similique quasi dolores, adipisci accusantium. Reiciendis asperiores laboriosam
-                    repellendus illo neque, quae expedita aspernatur!
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid esse consequuntur at, omnis est
-                    autem reprehenderit similique quasi dolores, adipisci accusantium. Reiciendis asperiores laboriosam
-                    repellendus illo neque, quae expedita aspernatur!
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid esse consequuntur at, omnis est
-                    autem reprehenderit similique quasi dolores, adipisci accusantium. Reiciendis asperiores laboriosam
-                    repellendus illo neque, quae expedita aspernatur!
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid esse consequuntur at, omnis est
-                    autem reprehenderit similique quasi dolores, adipisci accusantium. Reiciendis asperiores laboriosam
-                    repellendus illo neque, quae expedita aspernatur!
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid esse consequuntur at, omnis est
-                    autem reprehenderit similique quasi dolores, adipisci accusantium. Reiciendis asperiores laboriosam
-                    repellendus illo neque, quae expedita aspernatur!
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid esse consequuntur at, omnis est
-                    autem reprehenderit similique quasi dolores, adipisci accusantium. Reiciendis asperiores laboriosam
-                    repellendus illo neque, quae expedita aspernatur!
+                <div id="channel-select">
+
                 </div>
             </div>
             <div class="discussion col-10">
@@ -76,9 +47,10 @@
 
     </div>
     <script>
+        // test function to add messages to the discussion
         function sendMessage() {
             var key = window.event.keyCode;
-            if (key === 13 && document.getElementsByClassName("text-box")[0].value != ""){
+            if (key === 13 && document.getElementsByClassName("text-box")[0].value != "") {
                 console.log("Enter pressed");
                 var message = document.getElementsByClassName("text-box")[0].value;
                 var messages = document.getElementById("messages");
@@ -95,6 +67,19 @@
                 messages.appendChild(newMessage);
                 document.getElementsByClassName("text-box")[0].value = "";
             }
+        }
+        function getChannels() {
+            console.log("getChannels called");
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("channel-select").innerHTML = this.responseText;
+                }
+            };
+            // TODO: Set str to query discussion id
+            // str = 
+            xmlhttp.open("GET", "getChannels.php?q=" + str, true);
+            xmlhttp.send();
         }
     </script>
 </body>
