@@ -29,7 +29,7 @@ nav {
         background-color: gray;
     }
 
-    >.channel-select {
+    >#channel-select {
         padding: 6px 12px;
     }
 }
