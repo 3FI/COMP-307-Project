@@ -1,14 +1,37 @@
 <?php
+	$request = $_SERVER['REQUEST_URI'];
+	$viewDir = '/public_html/';
 
-	#implement routing within index.php
+	switch ($request) {
+	    case '':
+	    case '/':
+	        require __DIR__ . $viewDir . 'login-form.php';
+	        break;
+		case '/login-form':
+			require __DIR__ . $viewDir . 'login-form.php';
+			break;
+		case '/login':
+			require __DIR__ . $viewDir . 'login.php';
+			break;
+	    case '/register-form':
+	        require __DIR__ . $viewDir . 'register-form.php';
+	        break;
+		case '/register':
+			require __DIR__ . $viewDir . 'register.php';
+			break;
+	    case '/logout':
+	        require __DIR__ . $viewDir . 'logout.php';
+	        break;
 
-	if (!empty($_SERVER['HTTPS']) && ('on' == $_SERVER['HTTPS'])) {
-		$uri = 'https://';
-	} else {
-		$uri = 'http://';
-	}
-	$uri .= $_SERVER['HTTP_HOST'];
-	header('Location: '.$uri.'/dashboard/');
-	exit;
+
+
+
+
+
+
+
+	    default:
+	        http_response_code(404);
+	        require __DIR__ . $viewDir . '404.php';
+}
 ?>
-Something is wrong with the XAMPP installation :-(

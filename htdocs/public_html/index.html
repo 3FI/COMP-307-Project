@@ -94,7 +94,7 @@
                 <h1 class="col-8"> Welcome to the COMP 307 Project</h1>
             </div>
             <div class="login-register col-3 mx-auto">
-                <form class="login" action="login.php" method="post" onsubmit="return errorMessage()">
+                <form class="login" action="/login" method="post" onsubmit="return errorMessage()">
                     <h1>Login</h1>
                     <div class="col-8 mx-auto" id="registration-error">
                         <img class="error-icon" src="../img/error_icon.svg" width="30" height="30">
@@ -113,7 +113,7 @@
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
                 <hr>
-                <button type="button" onclick="location.href='register.html'" class="btn btn-outline-secondary">Register</button>
+                <button type="button" onclick="location.href='/register-form'" class="btn btn-outline-secondary">Register</button>
 
                 <div id="successMessage">
                     <p>Your Account as Been Successfully Created Please Log-In</p>

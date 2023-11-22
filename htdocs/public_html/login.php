@@ -1,41 +1,48 @@
 <?php
+    session_start();
+
+    # TODO : DOUBLE CHECK IF INVALID INPUT
+    if(!isset($_POST['email'])) {$errors["invalid_password"] = "Invalid Password";}
+    if(!isset($_POST['password'])) {$errors["invalid_password"] = "Invalid Password";}
+    if (isset($errors)) {
+        $_SESSION['errors'] = $errors;
+        $conn->close();
+        header('Location: /login-form');
+        die();
+    }
+
+
     $email = $_POST['email'];
     $password = $_POST['password'];
-
-    #TODO : Sanitize Both Against SQL Injection
-
+    
     $conn = new mysqli("localhost", "root", "", "COMP307-Project");
     if ($conn->connect_error) { die("Internal Server Error: " . $conn->connect_error); }
 
-    $sql = "SELECT * FROM users WHERE email='".$email."'";
-    $result = $conn->query($sql);
-
-    if ($result->num_rows === 0) { $error = "invalid_email";}
-    #not sure about this multiple account thing
-    else if ($result->num_rows > 1) {$error = "Multiple Accounts tied to this Email";}
-    else {
-        $user = $result->fetch_assoc();
-        if ($user && password_verify($password, $user['password'])){
-            session_start();
-            $_SESSION["user_id"] = $user['user_id'];
-            readfile("select-discussion.html");
-        }
-        else{ $error = "invalid_password"; }
-    }
-    
-    if (isset($error)) {
-        readfile("index.html");
-
-        if ($error == "invalid_email"){
-            echo "<script> window.onload = function () {
-                document.getElementById('invalid_email').style.display = 'block';
-             } </script>"; 
-        } else {
-            echo "<script> window.onload = function () {
-                document.getElementById('invalid_password').style.display = 'block';
-             } </script>"; 
+    $sql = "SELECT * FROM users WHERE email=?";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, 's', $email);
+    if (mysqli_stmt_execute($stmt)){  
+        $result = mysqli_stmt_get_result($stmt);
+        if ($result->num_rows === 0) { $errors["invalid_email"] = "Invalid Email";}
+        else if ($result->num_rows > 1) {$errors["invalid_email"] = "Multiple Accounts tied to this Email";}
+        else {
+            $user = $result->fetch_assoc();
+            if ($user && password_verify($password, $user['password'])){
+                $_SESSION["user_id"] = $user['user_id'];
+                #TODO: ROUTING HERE
+                require "select-discussion.html";
+            }
+            else{ $errors["invalid_password"] = "Invalid Password"; }
         }
     }
+    else{
+        $errors["invalid_password"] = "Invalid Password";
+    }
 
-    $conn->close();
+    if (isset($errors)) {
+        $_SESSION['errors'] = $errors;
+        $conn->close();
+        header('Location: /login-form');
+        die();
+    }
 ?>
