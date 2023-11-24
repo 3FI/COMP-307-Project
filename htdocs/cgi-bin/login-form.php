@@ -37,5 +37,4 @@ if (isset($inputs["register_success"])){
     } </script>"; 
 }
 require "index.html";
-
 ?>

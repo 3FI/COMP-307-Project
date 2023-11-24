@@ -1,6 +1,6 @@
 <?php
 	$request = $_SERVER['REQUEST_URI'];
-	$viewDir = '/public_html/';
+	$viewDir = '/cgi-bin/';
 
 	switch ($request) {
 	    case '':
