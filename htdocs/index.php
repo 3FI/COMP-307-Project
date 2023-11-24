@@ -1,5 +1,5 @@
 <?php
-	$request = $_SERVER['REQUEST_URI'];
+	$request = strtok($_SERVER['REQUEST_URI'], '?');
 	$viewDir = '/cgi-bin/';
 
 	switch ($request) {
