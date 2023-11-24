@@ -22,6 +22,12 @@
 	    case '/logout':
 	        require __DIR__ . $viewDir . 'logout.php';
 	        break;
+		case '/select-discussion':
+			require 'select-discussion.html';
+			break;
+		case '/fetch-ticket':
+			require __DIR__ . $viewDir . 'fetch-ticket.php';
+			break;
 
 
 

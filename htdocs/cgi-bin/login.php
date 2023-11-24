@@ -28,9 +28,21 @@
         else {
             $user = $result->fetch_assoc();
             if ($user && password_verify($password, $user['password'])){
+                
                 $_SESSION["user_id"] = $user['user_id'];
-                #TODO: ROUTING HERE
-                require "select-discussion.html";
+
+                #Generate ticket
+                $min = 10000000;
+                $max = 99999999; 
+                $ticket = rand($min, $max);
+ 
+                $updateSql = "UPDATE users SET ticket = ? WHERE user_id = ?";
+                $updateStmt = mysqli_prepare($conn, $updateSql);
+                mysqli_stmt_bind_param($updateStmt, 'ii', $ticket, $user['user_id']);
+                mysqli_stmt_execute($updateStmt);
+ 
+                header('Location: /select-discussion?ticket=' . $ticket);
+
             }
             else{ $errors["invalid_password"] = "Invalid Password"; }
         }
