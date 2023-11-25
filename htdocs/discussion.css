@@ -48,6 +48,13 @@ nav {
 .text-box:focus{
     outline: none;
 }
+
+.btn-secondary:hover {
+    color: #ffffff;
+    background-color: #e60000;
+    border-color: #e60000;
+}
+
 #messages{
     padding: 20px 15px;
 }

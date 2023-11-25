@@ -8,6 +8,7 @@
 
 * [![Bootstrap][Bootstrap.com]][Bootstrap-url]
 * [![XAMPP][Xampp.com]][Xampp-url]
+* [![PHP][Php.com]][Php-url]
 
 
 
@@ -20,23 +21,14 @@
    ```sh
    git clone git@github.com:3FI/COMP-307-Project.git
    ```
-3. Navigate to `COMP-307-Project` and copy the folders `cgi-bin`, `htdocs`, and `mysql`
-4. Navigate to C:\xampp and paste the folders
+3. Navigate to `COMP-307-Project` and copy the folder `htdocs`
+4. Navigate to C:\xampp, remove the existing `htdocs`, and paste the folder
 
     ```
     C:\xampp\
     ├── ...
-    ├── cgi-bin
-    │   └── ...                 # Executables
-    ├── ...
     ├── htdocs
     │   ├── ...
-    │   ├── public_html
-    |   │   └── ...             # HTML and CSS files
-    │   └── ...
-    ├── ...
-    ├── mysql
-    │   └── ...                 # Databases
     └── ...
     ```
 
@@ -49,11 +41,11 @@
 - [x] Landing page (Matan)
     - [X] Login page
 - [x] Registration page (Matan)
-- [ ] Select Discussion Board page (Sissy)
+- [X] Select Discussion Board page (Sissy)
     - [ ] Create Board functionality
-    - [ ] Delete Board functionality
-    - [ ] Select Board functionality
+    - [ ] Navigate To Board functionality
 - [ ] Discussion Board page
+    - [ ] Manage Board functionality
     - [ ] Manage Channels functionality
     - [ ] Manage Members functionality
     - [ ] Search Messages functionality
@@ -81,3 +73,5 @@
 [Bootstrap-url]: https://getbootstrap.com
 [Xampp.com]: https://img.shields.io/badge/XAMPP-orange?style=for-the-badge&logo=xampp&logoColor=white
 [Xampp-url]: https://www.apachefriends.org/
+[Php.com]: https://img.shields.io/badge/PHP-indigo?style=for-the-badge&logo=php&logoColor=white
+[Php-url]: https://www.php.net/

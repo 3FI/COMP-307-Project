@@ -1,3 +1,29 @@
-.nav-pills li {
-    margin-left: 15px;
+.btn-primary.create-board {
+    margin-top: 10px;
+}
+
+.btn-secondary:hover {
+    color: #ffffff;
+    background-color: #e60000;
+    border-color: #e60000;
+}
+
+.home {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.welcome {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+p.empty-dashboard {
+    color: #a6a6a6;
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+label {
+    margin-bottom: 0.5rem;
 }
