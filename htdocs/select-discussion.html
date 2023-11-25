@@ -28,6 +28,7 @@
     //if there is no ticket in the URL
     if (ticket === null) {
         // Redirect to logout.php
+        alert("Invalid ticket");
         window.location.href = '/logout';
     } else {
 
@@ -55,6 +56,7 @@
                     alert("The URL ticket: " + ticket + " is equal to the DB ticket: " + response.ticket);
                 }
                 else {
+                    alert("Invalid ticket");
                     window.location.href = '/logout';
                 }
             }
@@ -100,6 +102,42 @@
     };
 
     function generateBoard() {
+        
+        //THIS IS THE AJAX TO CREATE A BOARD
+
+        // SET THESE TO YOUR VALUES
+        var name_input = 'TESTNAME';
+
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if(xhr.readyState == 4 && xhr.status == 200) {
+                console.log(this.responseText);
+                if(this.responseText == "TRUE") {
+                    console.log("DONE")
+                    // FETCH/RELOAD THE DASHBOARD
+                }
+            }
+        }
+        xhr.open('POST', '/create-board', false);  // Set the third parameter to false for a synchronous request
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhr.send('name='+name_input);
+
+
+        
+        //THIS IS THE AJAX TO FETCH THE VALID BOARDS
+
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if(xhr.readyState == 4 && xhr.status == 200) {
+                // DO/CALL YOUR RENDER FROM IN HERE
+                console.log(this.responseText);
+            }
+        }
+        xhr.open('GET', '/fetch-board-list', false);  // Set the third parameter to false for a synchronous request
+        xhr.send();
+
+
+
         dashboard = document.getElementById("empty-dashboard");
         form = document.getElementById("form");
         boardName = document.forms["board form"]["board name"].value;

@@ -31,7 +31,8 @@
 		case '/fetch-board-list':
 			require __DIR__ . $viewDir . 'fetch-board-list.php';
 			break;
-
+		case '/create-board':
+			require __DIR__ . $viewDir . 'create-board.php';
 
 
 
