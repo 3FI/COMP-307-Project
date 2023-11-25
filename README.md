@@ -20,23 +20,14 @@
    ```sh
    git clone git@github.com:3FI/COMP-307-Project.git
    ```
-3. Navigate to `COMP-307-Project` and copy the folders `cgi-bin`, `htdocs`, and `mysql`
-4. Navigate to C:\xampp and paste the folders
+3. Navigate to `COMP-307-Project` and copy the folder `htdocs`
+4. Navigate to C:\xampp, remove the existing `htdocs`, and paste the folder
 
     ```
     C:\xampp\
     ├── ...
-    ├── cgi-bin
-    │   └── ...                 # Executables
-    ├── ...
     ├── htdocs
     │   ├── ...
-    │   ├── public_html
-    |   │   └── ...             # HTML and CSS files
-    │   └── ...
-    ├── ...
-    ├── mysql
-    │   └── ...                 # Databases
     └── ...
     ```
 
@@ -51,9 +42,9 @@
 - [x] Registration page (Matan)
 - [ ] Select Discussion Board page (Sissy)
     - [ ] Create Board functionality
-    - [ ] Delete Board functionality
-    - [ ] Select Board functionality
+    - [ ] Navigate To Board functionality
 - [ ] Discussion Board page
+    - [ ] Delete Board functionality
     - [ ] Manage Channels functionality
     - [ ] Manage Members functionality
     - [ ] Search Messages functionality
