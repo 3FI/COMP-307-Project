@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : sam. 25 nov. 2023 à 03:45
+-- Généré le : sam. 25 nov. 2023 à 07:32
 -- Version du serveur : 10.4.28-MariaDB
 -- Version de PHP : 8.2.4
 
@@ -24,17 +24,6 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Structure de la table `board-access`
---
-
-CREATE TABLE `board-access` (
-  `user_id` int(11) NOT NULL,
-  `board_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Structure de la table `boards`
 --
 
@@ -44,6 +33,33 @@ CREATE TABLE `boards` (
   `description` varchar(150) NOT NULL,
   `admin_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `boards`
+--
+
+INSERT INTO `boards` (`id`, `name`, `description`, `admin_id`) VALUES
+(0, 'TestBoard', 'This is a test board! Thanks', 9),
+(1, 'TestBoard2', 'This is another testboard!', 9);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `board_access`
+--
+
+CREATE TABLE `board_access` (
+  `user_id` int(11) NOT NULL,
+  `board_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `board_access`
+--
+
+INSERT INTO `board_access` (`user_id`, `board_id`) VALUES
+(8, 0),
+(8, 1);
 
 -- --------------------------------------------------------
 
@@ -69,7 +85,7 @@ CREATE TABLE `messages` (
   `board_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `message` varchar(2000) NOT NULL,
-  `date` datetime NOT NULL
+  `date` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -91,7 +107,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `email`, `password`, `username`, `ticket`) VALUES
-(8, 'test@test', '$2y$10$GpzPGuMXcp/8pxTCBeibgeqitsYLujLM8O6tjyLqeZMqQmeQbiE0O', 'test@test', 34130899),
+(8, 'test@test', '$2y$10$GpzPGuMXcp/8pxTCBeibgeqitsYLujLM8O6tjyLqeZMqQmeQbiE0O', 'test@test', 86805817),
 (9, 'abc@abc', '$2y$10$Dwict0UMqLFmObpmGKoHpOHtE8Pq4HWL6OxG0dQ2GBbfF91heVpf.', 'abc@abc', NULL);
 
 --
@@ -99,18 +115,18 @@ INSERT INTO `users` (`user_id`, `email`, `password`, `username`, `ticket`) VALUE
 --
 
 --
--- Index pour la table `board-access`
---
-ALTER TABLE `board-access`
-  ADD PRIMARY KEY (`user_id`,`board_id`),
-  ADD KEY `board-access_ibfk_1` (`board_id`);
-
---
 -- Index pour la table `boards`
 --
 ALTER TABLE `boards`
   ADD PRIMARY KEY (`id`),
   ADD KEY `admin_id` (`admin_id`);
+
+--
+-- Index pour la table `board_access`
+--
+ALTER TABLE `board_access`
+  ADD PRIMARY KEY (`user_id`,`board_id`),
+  ADD KEY `board-access_ibfk_1` (`board_id`);
 
 --
 -- Index pour la table `channels`
@@ -139,6 +155,24 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT pour la table `boards`
+--
+ALTER TABLE `boards`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT pour la table `channels`
+--
+ALTER TABLE `channels`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `messages`
+--
+ALTER TABLE `messages`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
@@ -149,17 +183,17 @@ ALTER TABLE `users`
 --
 
 --
--- Contraintes pour la table `board-access`
---
-ALTER TABLE `board-access`
-  ADD CONSTRAINT `board-access_ibfk_1` FOREIGN KEY (`board_id`) REFERENCES `boards` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `board-access_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
 -- Contraintes pour la table `boards`
 --
 ALTER TABLE `boards`
   ADD CONSTRAINT `boards_ibfk_1` FOREIGN KEY (`admin_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Contraintes pour la table `board_access`
+--
+ALTER TABLE `board_access`
+  ADD CONSTRAINT `board_access_ibfk_1` FOREIGN KEY (`board_id`) REFERENCES `boards` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `board_access_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `channels`

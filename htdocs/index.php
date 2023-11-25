@@ -28,6 +28,9 @@
 		case '/fetch-ticket':
 			require __DIR__ . $viewDir . 'fetch-ticket.php';
 			break;
+		case '/fetch-board-list':
+			require __DIR__ . $viewDir . 'fetch-board-list.php';
+			break;
 
 
 
