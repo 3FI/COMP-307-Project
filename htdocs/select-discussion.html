@@ -107,34 +107,31 @@
 
         // SET THESE TO YOUR VALUES
         var name_input = 'TESTNAME';
-
-        var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function() {
-            if(xhr.readyState == 4 && xhr.status == 200) {
-                console.log(this.responseText);
+        var xhr_create = new XMLHttpRequest();
+        xhr_create.onreadystatechange = function() {
+            if(xhr_create.readyState == 4 && xhr_create.status == 200) {
                 if(this.responseText == "TRUE") {
-                    console.log("DONE")
                     // FETCH/RELOAD THE DASHBOARD
                 }
             }
         }
-        xhr.open('POST', '/create-board', false);  // Set the third parameter to false for a synchronous request
-        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-        xhr.send('name='+name_input);
+        xhr_create.open('POST', '/create-board', false);  // Set the third parameter to false for a synchronous request
+        xhr_create.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhr_create.send('name='+name_input);
 
 
         
         //THIS IS THE AJAX TO FETCH THE VALID BOARDS
 
-        var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function() {
-            if(xhr.readyState == 4 && xhr.status == 200) {
+        var xhr_fetch = new XMLHttpRequest();
+        xhr_fetch.onreadystatechange = function() {
+            if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
                 // DO/CALL YOUR RENDER FROM IN HERE
                 console.log(this.responseText);
             }
         }
-        xhr.open('GET', '/fetch-board-list', false);  // Set the third parameter to false for a synchronous request
-        xhr.send();
+        xhr_fetch.open('GET', '/fetch-board-list', false);  // Set the third parameter to false for a synchronous request
+        xhr_fetch.send();
 
 
 

@@ -1,8 +1,17 @@
-<?php print_r($_POST); ?>
-
 <?php
-
 session_start();
+
+#header('Content-type: application/json');
+#
+#function isValidJSON($str) {
+#    json_decode($str);
+#    return json_last_error() == JSON_ERROR_NONE;
+# }
+# 
+#$json_params = file_get_contents("php://input");
+#
+#if (strlen($json_params) > 0 && isValidJSON($json_params))
+#  $_POST = json_decode($json_params, true);
 
 if(!isset($_POST['name']) || !isset($_SESSION['user_id'])) {die("Invalid Request");}
 
@@ -32,7 +41,7 @@ $stmt = mysqli_prepare($conn, $sql);
 mysqli_stmt_bind_param($stmt, 'ii' ,$userId ,$boardId);
 
 if (mysqli_stmt_execute($stmt)) {
-
+    die("TRUE");
 } else {
     die("Failed to Execute the Querry");
 }
