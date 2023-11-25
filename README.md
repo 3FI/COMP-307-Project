@@ -8,6 +8,7 @@
 
 * [![Bootstrap][Bootstrap.com]][Bootstrap-url]
 * [![XAMPP][Xampp.com]][Xampp-url]
+* [![PHP][Php.com]][Php-url]
 
 
 
@@ -40,11 +41,11 @@
 - [x] Landing page (Matan)
     - [X] Login page
 - [x] Registration page (Matan)
-- [ ] Select Discussion Board page (Sissy)
+- [X] Select Discussion Board page (Sissy)
     - [ ] Create Board functionality
     - [ ] Navigate To Board functionality
 - [ ] Discussion Board page
-    - [ ] Delete Board functionality
+    - [ ] Manage Board functionality
     - [ ] Manage Channels functionality
     - [ ] Manage Members functionality
     - [ ] Search Messages functionality
@@ -72,3 +73,5 @@
 [Bootstrap-url]: https://getbootstrap.com
 [Xampp.com]: https://img.shields.io/badge/XAMPP-orange?style=for-the-badge&logo=xampp&logoColor=white
 [Xampp-url]: https://www.apachefriends.org/
+[Php.com]: https://img.shields.io/badge/PHP-indigo?style=for-the-badge&logo=php&logoColor=white
+[Php-url]: https://www.php.net/
