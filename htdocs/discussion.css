@@ -33,8 +33,18 @@ nav {
         left: 0;
         padding: 6px 12px;
         background-color: gray;
-        /* Not sure if this looks good */
-        /* text-align: center; */
+        
+        >.new-channel-btn {
+            display: inline;
+            float: right;
+            margin-right: 0px;
+            padding: 0px 7px;
+            border-radius: 5px;
+            transition: background-color 0.1s ease-in-out;
+        }
+        >.new-channel-btn:hover{
+            background-color: #777575;
+        }
     }
 
     >#channel-select {

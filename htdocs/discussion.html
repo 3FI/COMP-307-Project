@@ -31,6 +31,7 @@
             <div class="channels col-2">
                 <div class="header">
                     <span class="navbar-brand">Channels</span>
+                    <span class="new-channel-btn navbar-brand" onclick="newChannel()">+</span>
                 </div>
                 <div id="channel-select">
                     <div class="channel">
@@ -96,6 +97,43 @@
                 messages.scrollTo(0, 1000);
             }
         }
+
+        function isAlphaNumeric(str) {
+            var code, i, len;
+            let empty = true;
+            for (i = 0, len = str.length; i < len; i++) {
+                code = str.charCodeAt(i);
+                if (code != 32) {
+                    empty = false;
+                }
+                if (!(code > 47 && code < 58) && // numeric (0-9)
+                    !(code > 64 && code < 91) && // upper alpha (A-Z)
+                    !(code > 96 && code < 123) && // lower alpha (a-z)
+                    !(code == 32)) { // space
+                        return false;
+                }
+            }
+            return !(empty);
+        };
+
+        function newChannel(){
+            var channelName = prompt("Please enter the name of the new channel");
+            if (channelName != null && channelName != "" && isAlphaNumeric(channelName)) {
+                // Check if channel name already exists
+
+                // If channel name does not exist, create channel
+                var channels = document.getElementById("channel-select");
+                var newChannel = document.createElement("div");
+                newChannel.className = "channel";
+                newChannel.innerHTML = "<span class=\"channel-name\">" + channelName + "</span>";
+                channels.appendChild(newChannel);
+
+            }
+            else{
+                alert("Invalid channel name");
+            }
+        }
+
         function getChannels() {
             console.log("getChannels called");
             var xmlhttp = new XMLHttpRequest();
