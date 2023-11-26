@@ -1,17 +1,7 @@
 <?php
 session_start();
 
-#header('Content-type: application/json');
-#
-#function isValidJSON($str) {
-#    json_decode($str);
-#    return json_last_error() == JSON_ERROR_NONE;
-# }
-# 
-#$json_params = file_get_contents("php://input");
-#
-#if (strlen($json_params) > 0 && isValidJSON($json_params))
-#  $_POST = json_decode($json_params, true);
+#TODO : VERIFY TICKET
 
 if(!isset($_POST['name']) || !isset($_SESSION['user_id'])) {die("Invalid Request");}
 
@@ -33,6 +23,7 @@ if (mysqli_stmt_execute($stmt)) {
     $row = mysqli_fetch_array($result);
     $boardId = $row[0];
 } else {
+    $conn->close();
     die("Failed to Execute the Querry");
 }
 
@@ -41,10 +32,11 @@ $stmt = mysqli_prepare($conn, $sql);
 mysqli_stmt_bind_param($stmt, 'ii' ,$userId ,$boardId);
 
 if (mysqli_stmt_execute($stmt)) {
+    $conn->close();
     die("TRUE");
 } else {
+    $conn->close();
     die("Failed to Execute the Querry");
 }
 
-$conn->close();
 ?>

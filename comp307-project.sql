@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : sam. 25 nov. 2023 à 07:32
+-- Généré le : dim. 26 nov. 2023 à 18:34
 -- Version du serveur : 10.4.28-MariaDB
 -- Version de PHP : 8.2.4
 
@@ -39,8 +39,14 @@ CREATE TABLE `boards` (
 --
 
 INSERT INTO `boards` (`id`, `name`, `description`, `admin_id`) VALUES
-(0, 'TestBoard', 'This is a test board! Thanks', 9),
-(1, 'TestBoard2', 'This is another testboard!', 9);
+(69, 'TESTNAME', 'No Description', 8),
+(70, 'TESTNAME', 'No Description', 8),
+(71, 'TESTNAME', 'No Description', 8),
+(72, 'TESTNAME', 'No Description', 8),
+(73, 'TESTNAME', 'No Description', 8),
+(74, 'TESTNAME', 'No Description', 8),
+(75, 'TESTNAME', 'No Description', 8),
+(76, 'TESTNAME', 'No Description', 8);
 
 -- --------------------------------------------------------
 
@@ -58,8 +64,13 @@ CREATE TABLE `board_access` (
 --
 
 INSERT INTO `board_access` (`user_id`, `board_id`) VALUES
-(8, 0),
-(8, 1);
+(8, 70),
+(8, 71),
+(8, 72),
+(8, 73),
+(8, 74),
+(8, 75),
+(8, 76);
 
 -- --------------------------------------------------------
 
@@ -73,6 +84,26 @@ CREATE TABLE `channels` (
   `name` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Déchargement des données de la table `channels`
+--
+
+INSERT INTO `channels` (`id`, `board_id`, `name`) VALUES
+(1, 69, 'MyChannel'),
+(2, 69, 'MyChannel'),
+(3, 69, 'my channel'),
+(4, 69, 'my channel'),
+(5, 70, 'my channel'),
+(6, 70, 'TESTNAME'),
+(7, 70, 'TESTNAME'),
+(8, 70, 'TESTNAME'),
+(9, 70, 'TESTNAME'),
+(10, 70, 'TESTNAME'),
+(11, 70, 'TESTNAME'),
+(12, 70, 'TESTNAME'),
+(13, 70, 'TESTNAME'),
+(14, 70, 'TESTNAME');
+
 -- --------------------------------------------------------
 
 --
@@ -82,11 +113,22 @@ CREATE TABLE `channels` (
 CREATE TABLE `messages` (
   `id` int(11) NOT NULL,
   `channel_id` int(11) NOT NULL,
-  `board_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `message` varchar(2000) NOT NULL,
   `date` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `messages`
+--
+
+INSERT INTO `messages` (`id`, `channel_id`, `user_id`, `message`, `date`) VALUES
+(1, 5, 8, 'test message', '2023-11-26 11:40:05'),
+(2, 5, 8, 'test message', '2023-11-26 11:40:10'),
+(3, 1, 9, 'abc', '2023-11-26 11:41:13'),
+(4, 2, 8, 'aaaa', '2023-11-26 11:53:47'),
+(5, 5, 8, 'abcdefghijk', '2023-11-26 12:07:28'),
+(6, 5, 8, 'TESTMESSAGE', '2023-11-26 12:28:41');
 
 -- --------------------------------------------------------
 
@@ -107,7 +149,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `email`, `password`, `username`, `ticket`) VALUES
-(8, 'test@test', '$2y$10$GpzPGuMXcp/8pxTCBeibgeqitsYLujLM8O6tjyLqeZMqQmeQbiE0O', 'test@test', 86805817),
+(8, 'test@test', '$2y$10$GpzPGuMXcp/8pxTCBeibgeqitsYLujLM8O6tjyLqeZMqQmeQbiE0O', 'test@test', 41355254),
 (9, 'abc@abc', '$2y$10$Dwict0UMqLFmObpmGKoHpOHtE8Pq4HWL6OxG0dQ2GBbfF91heVpf.', 'abc@abc', NULL);
 
 --
@@ -139,8 +181,7 @@ ALTER TABLE `channels`
 -- Index pour la table `messages`
 --
 ALTER TABLE `messages`
-  ADD PRIMARY KEY (`id`,`channel_id`,`board_id`),
-  ADD KEY `board_id` (`board_id`),
+  ADD PRIMARY KEY (`id`,`channel_id`) USING BTREE,
   ADD KEY `channel_id` (`channel_id`),
   ADD KEY `user_id` (`user_id`);
 
@@ -158,19 +199,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT pour la table `boards`
 --
 ALTER TABLE `boards`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
 
 --
 -- AUTO_INCREMENT pour la table `channels`
 --
 ALTER TABLE `channels`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT pour la table `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT pour la table `users`
@@ -205,9 +246,8 @@ ALTER TABLE `channels`
 -- Contraintes pour la table `messages`
 --
 ALTER TABLE `messages`
-  ADD CONSTRAINT `messages_ibfk_1` FOREIGN KEY (`board_id`) REFERENCES `boards` (`id`),
-  ADD CONSTRAINT `messages_ibfk_2` FOREIGN KEY (`channel_id`) REFERENCES `channels` (`id`),
-  ADD CONSTRAINT `messages_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+  ADD CONSTRAINT `messages_ibfk_1` FOREIGN KEY (`channel_id`) REFERENCES `channels` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `messages_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

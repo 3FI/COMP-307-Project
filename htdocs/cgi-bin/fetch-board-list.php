@@ -1,6 +1,8 @@
 <?php
 session_start();
 
+#TODO : VERIFY TICKET
+
 if(!isset($_SESSION['user_id'])) {die("Invalid Request");}
 
 $userId = $_SESSION['user_id'];

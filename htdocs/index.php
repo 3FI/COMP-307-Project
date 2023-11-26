@@ -33,8 +33,14 @@
 			break;
 		case '/create-board':
 			require __DIR__ . $viewDir . 'create-board.php';
-
-
+		case '/fetch-channels-list':
+			require __DIR__ . $viewDir . 'fetch-channels-list.php';
+		case '/create-channel':
+			require __DIR__ . $viewDir . 'create-channel.php';
+		case '/fetch-messages-list':
+			require __DIR__ . $viewDir . 'fetch-messages-list.php';
+		case '/create-message':
+			require __DIR__ . $viewDir . 'create-message.php';
 
 
 

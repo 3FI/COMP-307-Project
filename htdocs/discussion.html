@@ -90,5 +90,86 @@
             xmlhttp.open("GET", "getChannels.php?q=" + str, true);
             xmlhttp.send();
         }
+
+
+
+
+
+        
+        //THIS IS THE AJAX TO CREATE A CHANNEL
+
+        // SET THESE TO YOUR VALUES
+        var name_input = 'TESTNAME';
+        var board_id = '70';
+
+        var xhr_create = new XMLHttpRequest();
+        xhr_create.onreadystatechange = function() {
+            if(xhr_create.readyState == 4 && xhr_create.status == 200) {
+                if(this.responseText == "TRUE") {
+                    // FETCH/RELOAD THE CHANNEL LIST HERE
+                }
+            }
+        }
+        xhr_create.open('POST', '/create-channel', false);
+        xhr_create.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhr_create.send('boardId='+board_id+'&name='+name_input);
+
+
+        
+        //THIS IS THE AJAX TO FETCH THE CHANNELS
+        
+        // SET THESE TO YOUR VALUES
+        var board_id = '70';
+
+        var xhr_fetch = new XMLHttpRequest();
+        xhr_fetch.onreadystatechange = function() {
+            if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
+                // DO/CALL YOUR RENDER FROM IN HERE
+                console.log(this.responseText);
+            }
+        }
+        xhr_fetch.open('POST', '/fetch-channels-list', false);
+        xhr_fetch.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhr_fetch.send('boardId='+board_id);
+
+        
+
+
+
+        //THIS IS THE AJAX TO CREATE A MESSAGE
+
+        // SET THESE TO YOUR VALUES
+        var message = 'TESTMESSAGE';
+        var channel_id = '5';
+
+        var xhr_create = new XMLHttpRequest();
+        xhr_create.onreadystatechange = function() {
+            if(xhr_create.readyState == 4 && xhr_create.status == 200) {
+                if(this.responseText == "TRUE") {
+                    // FETCH/RELOAD THE MESSAGE LIST HERE
+                }
+            }
+        }
+        xhr_create.open('POST', '/create-message', false);
+        xhr_create.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhr_create.send('channelId='+channel_id+'&message='+message);
+
+
+        
+        //THIS IS THE AJAX TO FETCH THE MESSAGES
+        
+        // SET THESE TO YOUR VALUES
+        var channel_id = '5';
+
+        var xhr_fetch = new XMLHttpRequest();
+        xhr_fetch.onreadystatechange = function() {
+            if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
+                // DO/CALL YOUR RENDER FROM IN HERE
+                console.log(this.responseText);
+            }
+        }
+        xhr_fetch.open('POST', '/fetch-messages-list', false);
+        xhr_fetch.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhr_fetch.send('channelId='+channel_id);
     </script>
 </body>
