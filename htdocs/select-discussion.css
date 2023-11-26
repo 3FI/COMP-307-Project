@@ -22,7 +22,11 @@ label {
     margin-bottom: 0.5rem;
 }
 
+.board-widget {
+    transition: box-shadow .3s;
+}
+
 .board-widget:hover {
-    background-color: #e6f0ff;
-    transform: scale(1.02);
+    color: #0066ff;
+    box-shadow: 0 0 11px rgba(33,33,33,.2); 
 }

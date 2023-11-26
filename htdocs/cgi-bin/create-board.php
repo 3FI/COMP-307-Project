@@ -6,7 +6,7 @@ session_start();
 if(!isset($_POST['name']) || !isset($_SESSION['user_id'])) {die("Invalid Request");}
 
 $name = $_POST['name'];
-$description = "No Description";
+$description = $_POST['description'];
 $userId = $_SESSION['user_id'];
 
 $conn = new mysqli("localhost", "root", "", "COMP307-Project");
