@@ -14,8 +14,8 @@
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
             <span class="navbar-brand" href="#">Current Discussion Name</span>
-            <div class="collapse navbar-collapse" id="navbarText">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <div class="navbar-modified" id="navbarText">
+                <ul class="navbar-nav me-auto mb-lg-0">
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="select-discussion.html">Home</a>
                     </li>
@@ -33,6 +33,12 @@
                     <span class="navbar-brand">Channels</span>
                 </div>
                 <div id="channel-select">
+                    <div class="channel">
+                        <span class="channel-name">Channel 1</span>
+                    </div>
+                    <div class="channel">
+                        <span class="channel-name">Channel 2</span>
+                    </div>
                 </div>
             </div>
             <div class="discussion col-10">
@@ -58,22 +64,35 @@
         function sendMessage() {
             var key = window.event.keyCode;
             if (key === 13 && document.getElementsByClassName("text-box")[0].value != "") {
-                console.log("Enter pressed");
+                // Getting required elements
                 var message = document.getElementsByClassName("text-box")[0].value;
                 var messages = document.getElementById("messages");
+                //creating new message html element
                 var newMessage = document.createElement("div");
                 newMessage.className = "message";
+                //creating the user html element
                 var user = document.createElement("div");
                 user.className = "user";
                 user.innerHTML = "<strong>User 1</strong>";
+                //creating the datetime html element
+                var time = document.createElement("div");
+                time.className = "datetime";
+                const date = new Date();
+                time.innerHTML = date.getMonth() + "/" + date.getDate() + "/" + date.getFullYear()  + " "  + date.getHours() + ":" + date.getMinutes();
+                console.log(time.innerHTML);
+                //creating the text html element
                 var text = document.createElement("div");
                 text.className = "text";
                 text.innerHTML = message;
+                //adding user and text as children of newMessage
                 newMessage.appendChild(user);
+                newMessage.appendChild(time);
                 newMessage.appendChild(text);
+                //adding newMessage to messages
                 messages.appendChild(newMessage);
+                //clearing the text box
                 document.getElementsByClassName("text-box")[0].value = "";
-                
+                //scrolling to bottom of messages
                 messages.scrollTo(0, 1000);
             }
         }
