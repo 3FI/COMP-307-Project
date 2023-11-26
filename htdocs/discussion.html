@@ -26,12 +26,21 @@
             </div>
         </div>
     </nav>
-    <div class="container-fluid">
+    <div id="create-new-window">
+        <div class="header" id="create-new-header"></div>
+        <div id="enter-below"></div>
+        <input type="text" id="name" placeholder="">
+        <div class="buttons">
+            <button type="button" class="btn btn-secondary" onclick="closeWindow()">Cancel</button>
+            <button type="button" class="btn btn-primary" id="create-btn"></button>
+        </div>
+    </div>
+    <div class="container-fluid" id="disable">
         <div class="row">
-            <div class="channels col-2">
-                <div class="header">
+            <div class="channels-users col-2">
+                <div class="header channels">
                     <span class="navbar-brand">Channels</span>
-                    <span class="new-channel-btn navbar-brand" onclick="newChannel()">+</span>
+                    <span class="new-channel-btn navbar-brand" onclick="toggleNewChannel()">+</span>
                 </div>
                 <div id="channel-select">
                     <div class="channel">
@@ -39,6 +48,18 @@
                     </div>
                     <div class="channel">
                         <span class="channel-name">Channel 2</span>
+                    </div>
+                </div>
+                <div class="header users">
+                    <span class="navbar-brand">Users</span>
+                    <span class="new-channel-btn navbar-brand" onclick="toggleNewUser()">+</span>
+                </div>
+                <div id="users-select">
+                    <div class="user">
+                        <span class="user-name">User 1</span>
+                    </div>
+                    <div class="user">
+                        <span class="user-name">User 2</span>
                     </div>
                 </div>
             </div>
@@ -58,8 +79,8 @@
 
             </div>
         </div>
-
     </div>
+    
     <script>
         // test function to add messages to the discussion
         function sendMessage() {
@@ -73,7 +94,7 @@
                 newMessage.className = "message";
                 //creating the user html element
                 var user = document.createElement("div");
-                user.className = "user";
+                user.className = "username";
                 user.innerHTML = "<strong>User 1</strong>";
                 //creating the datetime html element
                 var time = document.createElement("div");
@@ -116,8 +137,27 @@
             return !(empty);
         };
 
+        function toggleNewChannel(){
+            var new_channel_window = document.getElementById("create-new-window");
+            new_channel_window.style.display = "flex";
+            new_channel_window.style.display = "flex";
+            var new_channel_header = document.getElementById("create-new-header");
+            new_channel_header.innerHTML = "Create New Channel";
+            var enter_below = document.getElementById("enter-below");
+            enter_below.innerHTML = "Enter the name of the new channel below:";
+            var name = document.getElementById("name");
+            name.value = "";
+            name.placeholder = "Channel Name";
+            var create_btn = document.getElementById("create-btn");
+            create_btn.innerHTML = "Create Channel";
+            create_btn.onclick = function() {newChannel()};
+            var disable_content = document.getElementById("disable");
+            disable_content.style.opacity = "0.5";
+            disable_content.style.pointerEvents = "none";
+        }
+
         function newChannel(){
-            var channelName = prompt("Please enter the name of the new channel");
+            var channelName = document.getElementById("name").value;
             if (channelName != null && channelName != "" && isAlphaNumeric(channelName)) {
                 // Check if channel name already exists
 
@@ -127,11 +167,57 @@
                 newChannel.className = "channel";
                 newChannel.innerHTML = "<span class=\"channel-name\">" + channelName + "</span>";
                 channels.appendChild(newChannel);
-
+                closeWindow();
             }
             else{
                 alert("Invalid channel name");
             }
+        }
+
+        function toggleNewUser(){
+            var new_channel_window = document.getElementById("create-new-window");
+            new_channel_window.style.display = "flex";
+            var new_channel_header = document.getElementById("create-new-header");
+            new_channel_header.innerHTML = "Add New User";
+            var enter_below = document.getElementById("enter-below");
+            enter_below.innerHTML = "Enter the username of the new user below:";
+            var name = document.getElementById("name");
+            name.value = "";
+            name.placeholder = "username";
+            var create_btn = document.getElementById("create-btn");
+            create_btn.innerHTML = "Add User";
+            create_btn.onclick = function() {newUser()};
+            var disable_content = document.getElementById("disable");
+            disable_content.style.opacity = "0.5";
+            disable_content.style.pointerEvents = "none";
+        }
+
+        function newUser(){
+            var userName = document.getElementById("name").value;
+            if (userName != null && userName != "" && isAlphaNumeric(userName)) {
+                // Check if user name already exists
+
+                // If user name does not exist, add user
+                var users = document.getElementById("users-select");
+                var newUser = document.createElement("div");
+                newUser.className = "user";
+                newUser.innerHTML = "<span>" + userName + "</span>";
+                console.log(newUser);
+                console.log(users);
+                users.appendChild(newUser);
+                closeWindow();
+            }
+            else{
+                alert("Invalid username");
+            }
+        }
+
+        function closeWindow(){
+            var new_channel_window = document.getElementById("create-new-window");
+            new_channel_window.style.display = "none";
+            var disable_content = document.getElementById("disable");
+            disable_content.style.opacity = "1";
+            disable_content.style.pointerEvents = "auto";
         }
 
         function getChannels() {
