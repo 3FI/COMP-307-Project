@@ -36,12 +36,16 @@
                 $max = 99999999; 
                 $ticket = rand($min, $max);
  
+                //store ticket in the DB
                 $updateSql = "UPDATE users SET ticket = ? WHERE user_id = ?";
                 $updateStmt = mysqli_prepare($conn, $updateSql);
                 mysqli_stmt_bind_param($updateStmt, 'ii', $ticket, $user['user_id']);
                 mysqli_stmt_execute($updateStmt);
+
+                //store ticket in $_SESSION
+                $_SESSION["SESSION_ticket"] = $ticket;
  
-                header('Location: /select-discussion?ticket=' . $ticket);
+                header('Location: /select-discussion');
 
             }
             else{ $errors["invalid_password"] = "Invalid Password"; }
