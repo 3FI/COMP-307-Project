@@ -53,18 +53,32 @@
     };
 
     function colorRed(element) {
-        element.style.color = "red";
+        element.style.color = "#dc3545";
+    };
+
+    function colorDefault(helpMsg) {
+        helpMsg.style.color = "#a6a6a6";
     };
 
     function createBoard() {
+        boardNameInput = document.getElementById("boardName");
         emptyDashboard = document.getElementById("empty-dashboard");
         form = document.getElementById("form");
         createButton = document.getElementById("dashboard-top");
         dashboard = document.getElementById("dashboard");
+        helpMsg = document.getElementById("boardNameHelp");
+        validMsg = document.getElementById("validBoardName");
+        errorMsg = document.getElementById("invalidBoardName");
+        boardNameInput.classList.remove("is-valid")
+        form.reset();
         hide(emptyDashboard);
         hide(createButton)
         hide(dashboard)
+        hide(validMsg);
+        hide(errorMsg);
         show(form);
+        colorDefault(helpMsg);
+        show(helpMsg);
         return true;
     };
 
@@ -148,6 +162,33 @@
         }
     };
 
+    function validateBoardName() {
+        inputField = document.getElementById("boardName");
+        boardName = document.forms["board form"]["board name"].value;
+        boardName = capitalize(boardName);
+        helpMsg = document.getElementById("boardNameHelp");
+        validMsg = document.getElementById("validBoardName");
+        errorMsg = document.getElementById("invalidBoardName");
+
+        if (!isAlphaNumeric(boardName)) {
+            hide(errorMsg);
+            colorRed(helpMsg);
+            show(helpMsg);
+            return false;
+        } else if (getBoardNames().includes(boardName)) {
+            hide(helpMsg);
+            colorDefault(helpMsg);
+            show(errorMsg);
+            return false;
+        } else {
+            hide(errorMsg);
+            hide(helpMsg);
+            inputField.classList.add("is-valid");
+            show(validMsg);
+            return true;
+        }
+    };
+
     function renderBoards(data) {
         const container = document.getElementById('dashboard');
         for (var i = 0; i < data.length; i++) {
@@ -198,7 +239,7 @@
     function loadBoards() {
 
         if (ticketCheck()){
-
+            
             alert("ticket check worked!");
 
             var xhr_fetch = new XMLHttpRequest();
@@ -206,6 +247,7 @@
                 if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
                     // DO/CALL YOUR RENDER FROM IN HERE
                     console.log(this.responseText);
+                    document.getElementById("demo").innerHTML = this.responseText; // test
                     renderBoards(this.responseText);
                 }
             }
@@ -252,25 +294,21 @@
         form = document.getElementById("form");
         createButton = document.getElementById("dashboard-top");
         dashboard = document.getElementById("dashboard");
+        helpMsg = document.getElementById("boardNameHelp");
+        validMsg = document.getElementById("validBoardName");
+        errorMsg = document.getElementById("invalidBoardName");
         boardName = document.forms["board form"]["board name"].value;
-        boardName = capitalize(boardName);
 
-        boardDescription = document.forms["board form"]["board description"].value;
-        if (isEmpty(boardDescription)) {
-            boardDescription = "None";
-        } else {
-            boardDescription = capitalize(boardDescription);
-        }
+        if (validateBoardName()) {
+            boardName = capitalize(boardName);
 
-        if (!isAlphaNumeric(boardName)) {
-            help = document.getElementById('boardNameHelp');
-            colorRed(help);
-            return false;
-        } else if (getBoardNames().includes(boardName)) {
-            alert("A discussion board with this name already exists");
-            return false;
-        } else {
-
+            boardDescription = document.forms["board form"]["board description"].value;
+            if (isEmpty(boardDescription)) {
+                boardDescription = "None";
+            } else {
+                boardDescription = capitalize(boardDescription);
+            }
+            
             var xhr_create = new XMLHttpRequest();
             xhr_create.onreadystatechange = function() {
                 if(xhr_create.readyState == 4 && xhr_create.status == 200) {
@@ -353,8 +391,14 @@
                     <label for="boardName">Give it a name...</label>
                 </div>
                 <div class="col">
-                    <input type="text" name="board name" class="form-control" id="boardName" placeholder="COMP 307">
-                    <small id="boardNameHelp" class="form-text" color="#d9d9d9">Only letters, digits, and spaces allowed</small>
+                    <input type="text" name="board name" class="form-control" id="boardName" placeholder="COMP 307" onfocusout="validateBoardName()">
+                    <small id="boardNameHelp" class="form-text" color="#d9d9d9" style="display:block">Only letters, digits, and spaces allowed</small>
+                    <div id="validBoardName" class="valid-feedback" style="display:none">
+                        Looks good!
+                    </div>
+                    <div id="invalidBoardName" class="invalid-feedback" style="display:none">
+                        A discussion board with this name already exists
+                    </div>
                 </div>
                 <div class="col"></div>
             </div>
@@ -373,9 +417,10 @@
         </form>
         <div id="dashboard-top" class="container-fluid" style="display:none">
             <a href="#" class="btn btn-primary create-board welcome float-end" onclick="return createBoard()">Create board</a>
-            <a href="#" class="btn subscribe-btn top-padding welcome float-end" style="margin-right:10px">Subscribe</a>
+            <a href="#" class="btn subscribe-btn top-padding welcome float-end" style="margin-right:10px" disabled>&#128276; Subscribe</a>
         </div>
         <div id="dashboard" class="container-fluid" style="display:none">
+            <p id="demo"></p> <!-- test -->
             <div class="row welcome">
                 <div class="col">
                     <div class="card board-widget">
