@@ -77,56 +77,111 @@
         return !(empty);
     };
 
+    function isEmpty(str) {
+        var code, i, len;
+        for (i = 0, len = str.length; i < len; i++) {
+            code = str.charCodeAt(i);
+            if (!(code == 32)) { // space
+                    return false;
+            }
+        }
+        return true;
+    };
+
+    function getBoards() {
+        boardNames = [];
+        boardDescriptions = [];
+        return true;
+    }
+
     function generateBoard() {
+        // //THIS IS THE AJAX TO CREATE A BOARD
+
+        // // SET THESE TO YOUR VALUES
+        // var name_input = 'TESTNAME';
+        // var xhr_create = new XMLHttpRequest();
+        // xhr_create.onreadystatechange = function() {
+        //     if(xhr_create.readyState == 4 && xhr_create.status == 200) {
+        //         if(this.responseText == "TRUE") {
+        //             // FETCH/RELOAD THE DASHBOARD
+        //         }
+        //     }
+        // }
+        // xhr_create.open('POST', '/create-board', false);  // Set the third parameter to false for a synchronous request
+        // xhr_create.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        // xhr_create.send('name='+name_input);
+
+
         
-        //THIS IS THE AJAX TO CREATE A BOARD
+        // //THIS IS THE AJAX TO FETCH THE VALID BOARDS
 
-        // SET THESE TO YOUR VALUES
-        var name_input = 'TESTNAME';
-        var xhr_create = new XMLHttpRequest();
-        xhr_create.onreadystatechange = function() {
-            if(xhr_create.readyState == 4 && xhr_create.status == 200) {
-                if(this.responseText == "TRUE") {
-                    // FETCH/RELOAD THE DASHBOARD
-                }
-            }
-        }
-        xhr_create.open('POST', '/create-board', false);  // Set the third parameter to false for a synchronous request
-        xhr_create.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-        xhr_create.send('name='+name_input);
-
-
+        // var xhr_fetch = new XMLHttpRequest();
+        // xhr_fetch.onreadystatechange = function() {
+        //     if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
+        //         // DO/CALL YOUR RENDER FROM IN HERE
+        //         console.log(this.responseText);
+        //     }
+        // }
+        // xhr_fetch.open('GET', '/fetch-board-list', false);  // Set the third parameter to false for a synchronous request
+        // xhr_fetch.send();
         
-        //THIS IS THE AJAX TO FETCH THE VALID BOARDS
-
-        var xhr_fetch = new XMLHttpRequest();
-        xhr_fetch.onreadystatechange = function() {
-            if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
-                // DO/CALL YOUR RENDER FROM IN HERE
-                console.log(this.responseText);
-            }
-        }
-        xhr_fetch.open('GET', '/fetch-board-list', false);  // Set the third parameter to false for a synchronous request
-        xhr_fetch.send();
-
-
-
         emptyDashboard = document.getElementById("empty-dashboard");
         form = document.getElementById("form");
         createButton = document.getElementById("dashboard-top");
         dashboard = document.getElementById("dashboard");
         boardName = document.forms["board form"]["board name"].value;
+
+        boardDescription = document.forms["board form"]["board description"].value;
+        if (isEmpty(boardDescription)) {
+            boardDescription = "No Description";
+        }
+
         if (!isAlphaNumeric(boardName)) {
             help = document.getElementById('boardNameHelp');
             colorRed(help);
             return false;
         } else {
-            hide(form);
-            hide(emptyDashboard);
-            show(createButton);
-            show(dashboard)
+            //THIS IS THE AJAX TO CREATE A BOARD
+
+            // SET THESE TO YOUR VALUES
+            var name_input = 'TESTNAME';
+            var xhr_create = new XMLHttpRequest();
+            xhr_create.onreadystatechange = function() {
+                if(xhr_create.readyState == 4 && xhr_create.status == 200) {
+                    if(this.responseText == "TRUE") {
+                        // FETCH/RELOAD THE DASHBOARD
+                        hide(form);
+                        hide(emptyDashboard);
+                        show(createButton);
+                        show(dashboard)
+                    }
+                }
+            }
+            xhr_create.open('POST', '/create-board', false);  // Set the third parameter to false for a synchronous request
+            xhr_create.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            var params = "name="+boardName+"&description="+boardDescription
+            xhr_create.send(params);
+
+            
+            //THIS IS THE AJAX TO FETCH THE VALID BOARDS
+
+            var xhr_fetch = new XMLHttpRequest();
+            xhr_fetch.onreadystatechange = function() {
+                if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
+                    // DO/CALL YOUR RENDER FROM IN HERE
+                    console.log(this.responseText);
+                    document.getElementById("demo2").innerHTML = this.responseText;
+                }
+            }
+            xhr_fetch.open('GET', '/fetch-board-list', false);  // Set the third parameter to false for a synchronous request
+            xhr_fetch.send();
+        
             return true;
         }
+    };
+
+    function load() {
+        return true;
     };
 </script>
 <body>
@@ -192,8 +247,8 @@
                 <div class="col">
                     <div class="card board-widget">
                         <div class="card-body">
-                            <h5 class="card-title">COMP 307</h5>
-                            <p class="card-text">Description</p>
+                            <h5 id="demo1" class="card-title">COMP 307</h5>
+                            <p id="demo2" class="card-text">Description</p>
                             <a href="discussion.html" class="stretched-link"></a>
                         </div>
                     </div>

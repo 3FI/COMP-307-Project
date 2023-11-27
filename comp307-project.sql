@@ -39,14 +39,7 @@ CREATE TABLE `boards` (
 --
 
 INSERT INTO `boards` (`id`, `name`, `description`, `admin_id`) VALUES
-(69, 'TESTNAME', 'No Description', 8),
-(70, 'TESTNAME', 'No Description', 8),
-(71, 'TESTNAME', 'No Description', 8),
-(72, 'TESTNAME', 'No Description', 8),
-(73, 'TESTNAME', 'No Description', 8),
-(74, 'TESTNAME', 'No Description', 8),
-(75, 'TESTNAME', 'No Description', 8),
-(76, 'TESTNAME', 'No Description', 8);
+(69, 'TESTNAME', 'No Description', 8);
 
 -- --------------------------------------------------------
 
