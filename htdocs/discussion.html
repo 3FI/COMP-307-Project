@@ -33,7 +33,7 @@
         <div id="enter-below"></div>
         <input type="text" id="name" placeholder="">
         <div class="buttons">
-            <button type="button" class="btn btn-secondary" onclick="closeWindow()">Cancel</button>
+            <button type="button" class="btn btn-secondary" id="close-btn" onclick="closeWindow()">Cancel</button>
             <button type="button" class="btn btn-primary" id="create-btn"></button>
         </div>
     </div>
@@ -155,7 +155,10 @@
             name.value = "";
             name.placeholder = "Channel Name";
             var create_btn = document.getElementById("create-btn");
+            create_btn.style.display = "inline-block";
             create_btn.innerHTML = "Create Channel";
+            var close_btn = document.getElementById("close-btn");
+            close_btn.innerHTML = "Cancel";
             create_btn.onclick = function() {newChannel()};
             var disable_content = document.getElementById("disable");
             disable_content.style.opacity = "0.5";
@@ -173,7 +176,10 @@
             var name = document.getElementById("name");
             name.style.display = "none";
             var create_btn = document.getElementById("create-btn");
+            create_btn.style.display = "inline-block";
             create_btn.innerHTML = "Delete Channel";
+            var close_btn = document.getElementById("close-btn");
+            close_btn.innerHTML = "Cancel";
             create_btn.onclick = function() {deleteChannel(channelName)};
             var disable_content = document.getElementById("disable");
             disable_content.style.opacity = "0.5";
@@ -192,11 +198,37 @@
             name.value = "";
             name.placeholder = "username";
             var create_btn = document.getElementById("create-btn");
+            create_btn.style.display = "inline-block";
             create_btn.innerHTML = "Add User";
+            var close_btn = document.getElementById("close-btn");
+            close_btn.innerHTML = "Cancel";
             create_btn.onclick = function() {newUser()};
             var disable_content = document.getElementById("disable");
             disable_content.style.opacity = "0.5";
             disable_content.style.pointerEvents = "none";
+        }
+
+        function closeWindow(){
+            var new_channel_window = document.getElementById("create-new-window");
+            new_channel_window.style.display = "none";
+            var disable_content = document.getElementById("disable");
+            disable_content.style.opacity = "1";
+            disable_content.style.pointerEvents = "auto";
+        }
+
+        function accessDenied(){
+            var new_channel_window = document.getElementById("create-new-window");
+            new_channel_window.style.display = "flex";
+            var new_channel_header = document.getElementById("create-new-header");
+            new_channel_header.innerHTML = "Access Denied";
+            var enter_below = document.getElementById("enter-below");
+            enter_below.innerHTML = "Only admins of the board can perform this action.";
+            var name = document.getElementById("name");
+            name.style.display = "none";
+            var create_btn = document.getElementById("create-btn");
+            create_btn.style.display = "none";
+            var close_btn = document.getElementById("close-btn");
+            close_btn.innerHTML = "Close";
         }
 
         function newUser(){
@@ -219,14 +251,6 @@
             }
         }
 
-        function closeWindow(){
-            var new_channel_window = document.getElementById("create-new-window");
-            new_channel_window.style.display = "none";
-            var disable_content = document.getElementById("disable");
-            disable_content.style.opacity = "1";
-            disable_content.style.pointerEvents = "auto";
-        }
-
         //THIS IS THE AJAX TO CREATE A CHANNEL
         var board_id = '77';
         function newChannel(){
@@ -240,13 +264,18 @@
                             renderChannels();   
                             closeWindow();
                         }
+                        else if (this.responseText == "Access Denied"){
+                            // alert("You do not have permission to create a channel");
+                            accessDenied();
+                        }
+                        else{
+                            alert("Error creating channel");
+                        }
                     }
                 }
                 xhr_create.open('POST', '/create-channel', false);
                 xhr_create.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
                 xhr_create.send('boardId='+board_id+'&name='+channelName);
-                
-                
             }
             else{
                 alert("Invalid channel name");
@@ -261,12 +290,19 @@
                         renderChannels();   
                         closeWindow();
                     }
+                    else if(this.responseText == "Access Denied"){
+                        // alert("You do not have permission to delete this channel");
+                        accessDenied();
+                    }
+                    else{
+                        alert("Error deleting channel");
+                    }
                 }
             }
             xhr_delete.open('POST', '/delete-channel', false);
             xhr_delete.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-            // this will need to be fixed for deleting channels, don't have access to channel id
             channel_id = channel_data.find(x => x.name === channelName).id;
+            // channel_id = '5';
             xhr_delete.send('channel_id='+channel_id);
         }
         
