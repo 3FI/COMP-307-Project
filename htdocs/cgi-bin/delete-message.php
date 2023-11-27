@@ -6,8 +6,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     die();
 }
 
-#TODO : VERIFY TICKET
-
 if(!isset($_POST['message_id']) || !isset($_SESSION['user_id'])) {die("Invalid Request");}
 
 $messageId = $_POST['message_id'];

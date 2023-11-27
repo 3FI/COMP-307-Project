@@ -11,28 +11,38 @@
     <title>Discussions</title>
 </head>
 <script>
-    // Synchronous request
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/validate-ticket', false); 
-    xhr.send();
 
-    if (xhr.status === 200) {
-        var response = JSON.parse(xhr.responseText);
-        validate_tickets(response);
-    } else {
-        console.error('Failed to fetch ticket:', xhr.status, xhr.statusText);
-    }
 
-    function validate_tickets(response) {
-        if (response.error) {
-            console.error('Error:', response.error);
+    function ticketCheck(){
+
+        // Synchronous request
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/validate-ticket', false); 
+        xhr.send();
+
+        if (xhr.status === 200) {
+            var response = JSON.parse(xhr.responseText);
+            validate_tickets(response);
         } else {
-            // If isValid is false (tickets are not equal) -> lougout
-            if (!response.isValid){
-                window.location.href = '/logout';
-            }
+            console.error('Failed to fetch ticket:', xhr.status, xhr.statusText);
+            window.location.href = '/logout';
         }
-    };
+
+        function validate_tickets(response) {
+            if (response.error) {
+                console.error('Error:', response.error);
+                window.location.href = '/logout';
+            } else {
+                // If isValid is false (tickets are not equal) -> lougout
+                if (!response.isValid){
+                    window.location.href = '/logout';
+                }
+            }
+        };
+
+        return true;
+
+    }
 
     function hide(element) {
         element.style.display = "none";
@@ -96,37 +106,46 @@
     };
 
     function getNumBoards() {
-        numBoards = -1;
-        var xhr_fetch = new XMLHttpRequest();
-        xhr_fetch.onreadystatechange = function() {
-            if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
-                // DO/CALL YOUR RENDER FROM IN HERE
-                console.log(this.responseText);
-                data = JSON.parse(this.responseText);
-                numBoards = data.length;
+
+        if (ticketCheck()){
+
+            numBoards = -1;
+            var xhr_fetch = new XMLHttpRequest();
+            xhr_fetch.onreadystatechange = function() {
+                if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
+                    // DO/CALL YOUR RENDER FROM IN HERE
+                    console.log(this.responseText);
+                    data = JSON.parse(this.responseText);
+                    numBoards = data.length;
+                }
             }
+            xhr_fetch.open('GET', '/fetch-board-list', false);  // Set the third parameter to false for a synchronous request
+            xhr_fetch.send();
+            return numBoards;
+
         }
-        xhr_fetch.open('GET', '/fetch-board-list', false);  // Set the third parameter to false for a synchronous request
-        xhr_fetch.send();
-        return numBoards;
     };
 
     function getBoardNames() {
-        boardNames = [];
-        var xhr_fetch = new XMLHttpRequest();
-        xhr_fetch.onreadystatechange = function() {
-            if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
-                // DO/CALL YOUR RENDER FROM IN HERE
-                console.log(this.responseText);
-                data = JSON.parse(this.responseText);
-                for (var i = 0; i < data.length; i++) {
-                    boardNames.push(data[i].name);
+
+        if (ticketCheck()){
+
+            boardNames = [];
+            var xhr_fetch = new XMLHttpRequest();
+            xhr_fetch.onreadystatechange = function() {
+                if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
+                    // DO/CALL YOUR RENDER FROM IN HERE
+                    console.log(this.responseText);
+                    data = JSON.parse(this.responseText);
+                    for (var i = 0; i < data.length; i++) {
+                        boardNames.push(data[i].name);
+                    }
                 }
             }
+            xhr_fetch.open('GET', '/fetch-board-list', false);  // Set the third parameter to false for a synchronous request
+            xhr_fetch.send();
+            return boardNames;
         }
-        xhr_fetch.open('GET', '/fetch-board-list', false);  // Set the third parameter to false for a synchronous request
-        xhr_fetch.send();
-        return boardNames;
     };
 
     function renderBoards(data) {
@@ -177,16 +196,25 @@
     };
 
     function loadBoards() {
-        var xhr_fetch = new XMLHttpRequest();
-        xhr_fetch.onreadystatechange = function() {
-            if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
-                // DO/CALL YOUR RENDER FROM IN HERE
-                console.log(this.responseText);
-                renderBoards(this.responseText);
+
+        if (ticketCheck()){
+
+            alert("ticket check worked!");
+
+            var xhr_fetch = new XMLHttpRequest();
+            xhr_fetch.onreadystatechange = function() {
+                if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
+                    // DO/CALL YOUR RENDER FROM IN HERE
+                    console.log(this.responseText);
+                    renderBoards(this.responseText);
+                }
             }
+            xhr_fetch.open('GET', '/fetch-board-list', false);  // Set the third parameter to false for a synchronous request
+            xhr_fetch.send();
+
+        } else {
+            alert("ticket check didn't work");
         }
-        xhr_fetch.open('GET', '/fetch-board-list', false);  // Set the third parameter to false for a synchronous request
-        xhr_fetch.send();
     }
 
     function generateBoard() {
@@ -242,6 +270,7 @@
             alert("A discussion board with this name already exists");
             return false;
         } else {
+
             var xhr_create = new XMLHttpRequest();
             xhr_create.onreadystatechange = function() {
                 if(xhr_create.readyState == 4 && xhr_create.status == 200) {
@@ -266,6 +295,10 @@
     };
 
     function load() {
+
+        ticketCheck();  //onload -> initial ticket check
+
+        // If tickets are valid, load the page
         emptyDashboard = document.getElementById("empty-dashboard");
         form = document.getElementById("form");
         createButton = document.getElementById("dashboard-top");
