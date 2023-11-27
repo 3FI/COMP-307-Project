@@ -3,9 +3,9 @@ session_start();
 
 #TODO : VERIFY TICKET
 
-if(!isset($_POST['boardId']) || !isset($_POST['old_member_email']) || !isset($_SESSION['user_id'])) {die("Invalid Request");}
+if(!isset($_POST['board_id']) || !isset($_POST['old_member_email']) || !isset($_SESSION['user_id'])) {die("Invalid Request");}
 
-$boardId = $_POST['boardId']
+$boardId = $_POST['board_id'];
 $email = $_POST['old_member_email'];
 $oldMemberId = -1;
 $userId = $_SESSION['user_id'];
@@ -39,13 +39,13 @@ if (mysqli_stmt_execute($stmt)){
         $row = mysqli_fetch_array($result);
         $oldMemberId = $row['user_id'];
     }
-    else if ($result->num_rows >== 1){
+    else if ($result->num_rows >= 1){
         die("Multiple Account with Email");
     }
 }
 
 
-$sql = "DELETE FROM board_access WHERE user_id=?,board_id=?";
+$sql = "DELETE FROM board_access WHERE user_id=? and board_id=?";
 $stmt = mysqli_prepare($conn, $sql);
 mysqli_stmt_bind_param($stmt, 'ii' ,$oldMemberId ,$boardId);
 

@@ -5,8 +5,8 @@ session_start();
 
 if(!isset($_POST['board_id']) || !isset($_POST['new_member_email']) || !isset($_SESSION['user_id'])) {die("Invalid Request");}
 
-$boardId = $_POST['board_id']
-$email = $_POST['new_member_email'];
+$boardId = $_POST['board_id'];
+$email = urldecode($_POST['new_member_email']);
 $newMemberId = -1;
 $userId = $_SESSION['user_id'];
 
@@ -39,7 +39,7 @@ if (mysqli_stmt_execute($stmt)){
         $row = mysqli_fetch_array($result);
         $newMemberId = $row['user_id'];
     }
-    else if ($result->num_rows >== 1){
+    else if ($result->num_rows >= 1){
         die("Multiple Account with Email");
     }
 }
