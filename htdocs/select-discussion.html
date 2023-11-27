@@ -61,7 +61,7 @@
     };
 
     function createBoard() {
-        boardNameInput = document.getElementById("boardName");
+        inputField = document.getElementById("boardName");
         emptyDashboard = document.getElementById("empty-dashboard");
         form = document.getElementById("form");
         createButton = document.getElementById("dashboard-top");
@@ -69,7 +69,7 @@
         helpMsg = document.getElementById("boardNameHelp");
         validMsg = document.getElementById("validBoardName");
         errorMsg = document.getElementById("invalidBoardName");
-        boardNameInput.classList.remove("is-valid")
+        inputField.classList.remove("is-valid")
         form.reset();
         hide(emptyDashboard);
         hide(createButton)
@@ -171,13 +171,17 @@
         errorMsg = document.getElementById("invalidBoardName");
 
         if (!isAlphaNumeric(boardName)) {
+            inputField.classList.remove("is-valid");
             hide(errorMsg);
+            hide(validMsg);
             colorRed(helpMsg);
             show(helpMsg);
             return false;
         } else if (getBoardNames().includes(boardName)) {
+            inputField.classList.remove("is-valid");
             hide(helpMsg);
             colorDefault(helpMsg);
+            hide(validMsg);
             show(errorMsg);
             return false;
         } else {
@@ -191,6 +195,7 @@
 
     function renderBoards(data) {
         const container = document.getElementById('dashboard');
+        test = document.getElementById('demo');
         for (var i = 0; i < data.length; i++) {
             const newCard = document.createElement('div');
             newCard.classList.add('row welcome');
@@ -234,6 +239,7 @@
         //     content += '</div>';
         // }
         // container.innerHTML = content;
+        test.innerHTML = data;
     };
 
     function loadBoards() {
@@ -247,7 +253,6 @@
                 if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
                     // DO/CALL YOUR RENDER FROM IN HERE
                     console.log(this.responseText);
-                    document.getElementById("demo").innerHTML = this.responseText; // test
                     renderBoards(this.responseText);
                 }
             }
@@ -259,6 +264,28 @@
         }
     }
 
+    function load() {
+
+        ticketCheck();  //onload -> initial ticket check
+
+        // If tickets are valid, load the page
+        emptyDashboard = document.getElementById("empty-dashboard");
+        form = document.getElementById("form");
+        createButton = document.getElementById("dashboard-top");
+        dashboard = document.getElementById("dashboard");
+        if (getNumBoards() > 0) {
+            hide(emptyDashboard);
+            hide(form);
+            show(createButton);
+            show(dashboard);
+        } else {
+            hide(form);
+            hide(createButton);
+            hide(dashboard);
+            show(emptyDashboard);
+        }
+    };
+    
     function generateBoard() {
         // //THIS IS THE AJAX TO CREATE A BOARD
 
@@ -308,16 +335,13 @@
             } else {
                 boardDescription = capitalize(boardDescription);
             }
-            
+
             var xhr_create = new XMLHttpRequest();
             xhr_create.onreadystatechange = function() {
                 if(xhr_create.readyState == 4 && xhr_create.status == 200) {
                     if(this.responseText == "TRUE") {
                         // FETCH/RELOAD THE DASHBOARD
-                        hide(form);
-                        hide(emptyDashboard);
-                        show(createButton);
-                        show(dashboard);
+                        load();
                     }
                 }
             }
@@ -329,28 +353,6 @@
             loadBoards();
 
             return true;
-        }
-    };
-
-    function load() {
-
-        ticketCheck();  //onload -> initial ticket check
-
-        // If tickets are valid, load the page
-        emptyDashboard = document.getElementById("empty-dashboard");
-        form = document.getElementById("form");
-        createButton = document.getElementById("dashboard-top");
-        dashboard = document.getElementById("dashboard");
-        if (getNumBoards() > 0) {
-            hide(emptyDashboard);
-            hide(form);
-            show(createButton);
-            show(dashboard);
-        } else {
-            hide(form);
-            hide(createButton);
-            hide(dashboard);
-            show(emptyDashboard);
         }
     };
 </script>
