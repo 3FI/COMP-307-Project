@@ -1,6 +1,11 @@
 <?php
 session_start();
 
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') { 
+    header('Location: /404'); 
+    die();
+}
+
 #TODO : VERIFY TICKET
 
 if(!isset($_POST['name']) || !isset($_SESSION['user_id'])) {die("Invalid Request");}

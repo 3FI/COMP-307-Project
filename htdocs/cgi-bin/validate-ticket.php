@@ -1,9 +1,9 @@
 <?php
 session_start();
 
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    echo json_encode(['error' => 'Invalid request method.']);
-    exit();
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') { 
+    header('Location: /404'); 
+    die();
 }
 
 if (!isset($_SESSION['user_id'])) {

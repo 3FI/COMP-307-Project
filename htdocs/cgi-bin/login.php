@@ -1,6 +1,11 @@
 <?php
     session_start();
 
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') { 
+        header('Location: /404'); 
+        die();
+    }
+
     # TODO : DOUBLE CHECK IF INVALID INPUT
     if(!isset($_POST['email'])) {$errors["invalid_password"] = "Invalid Password";}
     if(!isset($_POST['password'])) {$errors["invalid_password"] = "Invalid Password";}

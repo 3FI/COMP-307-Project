@@ -1,4 +1,10 @@
 <?php
+
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') { 
+    header('Location: /404'); 
+    die();
+}
+
 session_start();
 
 #TODO : VERIFY TICKET
