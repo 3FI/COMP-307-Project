@@ -11,8 +11,7 @@
     <title>Discussions</title>
 </head>
 <script>
-
-    //Syncronous request
+    // Synchronous request
     var xhr = new XMLHttpRequest();
     xhr.open('POST', '/validate-ticket', false); 
     xhr.send();
@@ -33,7 +32,7 @@
                 window.location.href = '/logout';
             }
         }
-    }
+    };
 
     function hide(element) {
         element.style.display = "none";
@@ -88,10 +87,73 @@
         return true;
     };
 
-    function getBoards() {
-        boardNames = [];
-        boardDescriptions = [];
-        return true;
+    function capitalize(str) {
+        var arr = str.split(' ');
+        for (var i = 0; i < arr.length; i++) {
+            arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].substring(1);     
+        }
+        return arr.join(' '); 
+    };
+
+    function getNumBoards() {
+        numBoards = -1;
+        var xhr_fetch = new XMLHttpRequest();
+        xhr_fetch.onreadystatechange = function() {
+            if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
+                // DO/CALL YOUR RENDER FROM IN HERE
+                console.log(this.responseText);
+                data = JSON.parse(this.responseText);
+                numBoards = data.length;
+            }
+        }
+        xhr_fetch.open('GET', '/fetch-board-list', false);  // Set the third parameter to false for a synchronous request
+        xhr_fetch.send();
+        return numBoards;
+    };
+
+    function display(data) {
+        const container = document.getElementById('dashboard');
+        let content = ''
+        let count = 0;
+        data.forEach((result, idx) => {
+            if (count == 0) {
+                content += `<div class="row welcome">`;
+            }
+            content += `
+                <div class="col">
+                    <div class="card board-widget">
+                        <div class="card-body">
+                            <h5 class="card-title">${result.name}</h5>
+                            <p class="card-text">${result.description}</p>
+                            <a href="discussion.html" class="stretched-link"></a>
+                        </div>
+                    </div>
+                </div>
+            `;
+            count += 1;
+            if (count == 5) {
+                content += '</div>';
+                count = 0;
+            }
+        })
+        if (!(count == 0)) {
+            content += '</div>';
+        }
+        container.innerHTML = content;
+        document.getElementById("demo").innerHTML = content; // test
+    };
+
+    function loadBoards() {
+        var xhr_fetch = new XMLHttpRequest();
+        xhr_fetch.onreadystatechange = function() {
+            if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
+                // DO/CALL YOUR RENDER FROM IN HERE
+                console.log(this.responseText);
+                display(this.responseText);
+            }
+        }
+        xhr_fetch.open('GET', '/fetch-board-list', false);  // Set the third parameter to false for a synchronous request
+        xhr_fetch.send();
     }
 
     function generateBoard() {
@@ -130,10 +192,13 @@
         createButton = document.getElementById("dashboard-top");
         dashboard = document.getElementById("dashboard");
         boardName = document.forms["board form"]["board name"].value;
+        boardName = capitalize(boardName);
 
         boardDescription = document.forms["board form"]["board description"].value;
         if (isEmpty(boardDescription)) {
-            boardDescription = "No Description";
+            boardDescription = "None";
+        } else {
+            boardDescription = capitalize(boardDescription);
         }
 
         if (!isAlphaNumeric(boardName)) {
@@ -141,10 +206,6 @@
             colorRed(help);
             return false;
         } else {
-            //THIS IS THE AJAX TO CREATE A BOARD
-
-            // SET THESE TO YOUR VALUES
-            var name_input = 'TESTNAME';
             var xhr_create = new XMLHttpRequest();
             xhr_create.onreadystatechange = function() {
                 if(xhr_create.readyState == 4 && xhr_create.status == 200) {
@@ -153,7 +214,7 @@
                         hide(form);
                         hide(emptyDashboard);
                         show(createButton);
-                        show(dashboard)
+                        show(dashboard);
                     }
                 }
             }
@@ -162,29 +223,31 @@
             var params = "name="+boardName+"&description="+boardDescription
             xhr_create.send(params);
 
-            
-            //THIS IS THE AJAX TO FETCH THE VALID BOARDS
+            loadBoards();
 
-            var xhr_fetch = new XMLHttpRequest();
-            xhr_fetch.onreadystatechange = function() {
-                if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
-                    // DO/CALL YOUR RENDER FROM IN HERE
-                    console.log(this.responseText);
-                    document.getElementById("demo2").innerHTML = this.responseText;
-                }
-            }
-            xhr_fetch.open('GET', '/fetch-board-list', false);  // Set the third parameter to false for a synchronous request
-            xhr_fetch.send();
-        
             return true;
         }
     };
 
     function load() {
-        return true;
+        emptyDashboard = document.getElementById("empty-dashboard");
+        form = document.getElementById("form");
+        createButton = document.getElementById("dashboard-top");
+        dashboard = document.getElementById("dashboard");
+        if (getNumBoards() > 0) {
+            hide(emptyDashboard);
+            hide(form);
+            show(createButton);
+            show(dashboard);
+        } else {
+            hide(form);
+            hide(createButton);
+            hide(dashboard);
+            show(emptyDashboard);
+        }
     };
 </script>
-<body>
+<body onload="load()">
     <nav class="navbar navbar-expand-lg navbar-light bg-white">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -242,73 +305,23 @@
         <div id="dashboard-top" class="container-fluid" style="display:none">
             <a href="#" class="btn btn-primary create-board welcome float-end" onclick="return createBoard()">Create board</a>
         </div>
+        <p id="demo"></p> <!-- test -->
         <div id="dashboard" class="container-fluid" style="display:none">
-            <div class="row welcome">
+            <!-- <div class="row welcome">
                 <div class="col">
                     <div class="card board-widget">
                         <div class="card-body">
-                            <h5 id="demo1" class="card-title">COMP 307</h5>
-                            <p id="demo2" class="card-text">Description</p>
-                            <a href="discussion.html" class="stretched-link"></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card board-widget">
-                        <div class="card-body">
-                            <h5 class="card-title">Example</h5>
+                            <h5 class="card-title">Name</h5>
                             <p class="card-text">Description</p>
                             <a href="discussion.html" class="stretched-link"></a>
                         </div>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="card board-widget">
-                        <div class="card-body">
-                            <h5 class="card-title">Example</h5>
-                            <p class="card-text">Description</p>
-                            <a href="discussion.html" class="stretched-link"></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card board-widget">
-                        <div class="card-body">
-                            <h5 class="card-title">Example</h5>
-                            <p class="card-text">Description</p>
-                            <a href="discussion.html" class="stretched-link"></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card board-widget">
-                        <div class="card-body">
-                            <h5 class="card-title">Example</h5>
-                            <p class="card-text">Description</p>
-                            <a href="discussion.html" class="stretched-link"></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row welcome">
-                <div class="col">
-                    <div class="card board-widget">
-                        <div class="card-body">
-                            <h5 class="card-title">Example</h5>
-                            <p class="card-text">Description</p>
-                            <a href="discussion.html" class="stretched-link"></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                </div>
-                <div class="col">
-                </div>
-                <div class="col">
-                </div>
-                <div class="col">
-                </div>
-            </div>
+                <div class="col"></div>
+                <div class="col"></div>
+                <div class="col"></div>
+                <div class="col"></div>
+            </div> -->
         </div>
     </div>
 </body>

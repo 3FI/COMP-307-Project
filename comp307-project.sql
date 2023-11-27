@@ -39,7 +39,7 @@ CREATE TABLE `boards` (
 --
 
 INSERT INTO `boards` (`id`, `name`, `description`, `admin_id`) VALUES
-(69, 'TESTNAME', 'No Description', 8);
+(69, 'COMP 307', 'Principles Of Web Development', 8);
 
 -- --------------------------------------------------------
 
