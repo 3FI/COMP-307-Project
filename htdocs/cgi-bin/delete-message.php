@@ -27,7 +27,7 @@ if (mysqli_stmt_execute($stmt)) {
     }
 }
 
-$sql = "SELECT * FROM messages WHERE user_id=?,id=?";
+$sql = "SELECT * FROM messages WHERE user_id=? and id=?";
 $stmt = mysqli_prepare($conn, $sql);
 mysqli_stmt_bind_param($stmt, 'ii', $userId, $messageId);
 if (mysqli_stmt_execute($stmt)) {
