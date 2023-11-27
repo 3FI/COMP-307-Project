@@ -11,7 +11,7 @@
     <title>Discussions</title>
 </head>
 <script>
-
+    numPerRow = 4;
 
     function ticketCheck(){
 
@@ -53,7 +53,7 @@
     };
 
     function colorRed(element) {
-        element.style.color = "#dc3545";
+        element.style.color = "#d9d9d9";
     };
 
     function colorDefault(helpMsg) {
@@ -162,6 +162,28 @@
         }
     };
 
+    function getBoardDescriptions() {
+
+        if (ticketCheck()){
+
+            boardDescriptions = [];
+            var xhr_fetch = new XMLHttpRequest();
+            xhr_fetch.onreadystatechange = function() {
+                if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
+                    // DO/CALL YOUR RENDER FROM IN HERE
+                    console.log(this.responseText);
+                    data = JSON.parse(this.responseText);
+                    for (var i = 0; i < data.length; i++) {
+                        boardDescriptions.push(data[i].description);
+                    }
+                }
+            }
+            xhr_fetch.open('GET', '/fetch-board-list', false);  // Set the third parameter to false for a synchronous request
+            xhr_fetch.send();
+            return boardDescriptions;
+        }
+    };
+
     function validateBoardName() {
         inputField = document.getElementById("boardName");
         boardName = document.forms["board form"]["board name"].value;
@@ -193,56 +215,49 @@
         }
     };
 
-    function renderBoards(data) {
-        const container = document.getElementById('dashboard');
-        test = document.getElementById('demo');
-        for (var i = 0; i < data.length; i++) {
-            const newCard = document.createElement('div');
-            newCard.classList.add('row welcome');
-            newCard.innerHTML = `
-                <div class="card board-widget">
-                    <div class="card-body">
-                        <h5 class="card-title">${data[i].name}</h5>
-                        <p class="card-text">${data[i].description}</p>
-                        <a href="discussion.html" class="stretched-link"></a>
-                    </div>
-                </div>
-            `
-            container.append(newCard);
-        }
-
-        // const container = document.getElementById('dashboard');
-        // let content = ''
-        // let count = 0;
-        // data.rows.forEach((result, idx) => {
-        //     if (count == 0) {
-        //         content += `<div class="row welcome">`;
-        //     }
-        //     content += `
-        //         <div class="col">
-        //             <div class="card board-widget">
-        //                 <div class="card-body">
-        //                     <h5 class="card-title">${result.name}</h5>
-        //                     <p class="card-text">${result.description}</p>
-        //                     <a href="discussion.html" class="stretched-link"></a>
-        //                 </div>
-        //             </div>
-        //         </div>
-        //     `;
-        //     count += 1;
-        //     if (count == 5) {
-        //         content += '</div>';
-        //         count = 0;
-        //     }
-        // })
-        // if (!(count == 0)) {
-        //     content += '</div>';
-        // }
-        // container.innerHTML = content;
-        test.innerHTML = data;
+    function isNone(boardDescription) {
+        return boardDescription == "None";
     };
 
-    function loadBoards() {
+    function renderBoards(data, numPerRow) {
+        const container = document.getElementById("dashboard");
+        contents = ``;
+        n = getNumBoards();
+        names = getBoardNames();
+        descriptions = getBoardDescriptions();
+
+        count = 0;
+
+        for (var i = 0; i < n; i++) {
+            name = boardNames[i];
+            description = boardDescriptions[i];
+            if (count == 0) {
+                contents += `<div class="row welcome">`;
+            }
+            if (!isNone(description)) {
+                contents += `<div class="col"><div class="card board-widget"><div class="card-body">
+                    <h5 class="card-title">`+name+`</h5><p class="card-text">`+description+`</p>
+                    <a href="discussion.html" class="stretched-link"></a></div></div></div>`;
+            } else {
+                contents += `<div class="col"><div class="card board-widget"><div class="card-body">
+                    <h5 class="card-title">`+name+`</h5><p class="card-text" style="color:#ffffff">`+description+`</p>
+                    <a href="discussion.html" class="stretched-link"></a></div></div></div>`;
+            }
+            count += 1;
+            if (count == numPerRow) {
+                contents += `</div>`;
+                count = 0;
+            } else if (i == n-1) {
+                for (var j = numPerRow-count; j > 0; j--) {
+                    contents += `<div class="col"></div>`;
+                }
+            }
+         }
+
+        container.innerHTML = contents;
+    };
+
+    function loadBoards(numPerRow) {
 
         if (ticketCheck()){
             
@@ -253,7 +268,7 @@
                 if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
                     // DO/CALL YOUR RENDER FROM IN HERE
                     console.log(this.responseText);
-                    renderBoards(this.responseText);
+                    renderBoards(this.responseText, numPerRow);
                 }
             }
             xhr_fetch.open('GET', '/fetch-board-list', false);  // Set the third parameter to false for a synchronous request
@@ -264,7 +279,7 @@
         }
     }
 
-    function load() {
+    function loadPage() {
 
         ticketCheck();  //onload -> initial ticket check
 
@@ -278,6 +293,7 @@
             hide(form);
             show(createButton);
             show(dashboard);
+            loadBoards(numPerRow);
         } else {
             hide(form);
             hide(createButton);
@@ -341,7 +357,7 @@
                 if(xhr_create.readyState == 4 && xhr_create.status == 200) {
                     if(this.responseText == "TRUE") {
                         // FETCH/RELOAD THE DASHBOARD
-                        load();
+                        loadPage();
                     }
                 }
             }
@@ -350,13 +366,13 @@
             var params = "name="+boardName+"&description="+boardDescription
             xhr_create.send(params);
 
-            loadBoards();
+            loadBoards(numPerRow);
 
             return true;
         }
     };
 </script>
-<body onload="load()">
+<body onload="loadPage()">
     <nav class="navbar navbar-expand-lg navbar-light bg-white">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -394,7 +410,7 @@
                 </div>
                 <div class="col">
                     <input type="text" name="board name" class="form-control" id="boardName" placeholder="COMP 307" onfocusout="validateBoardName()">
-                    <small id="boardNameHelp" class="form-text" color="#d9d9d9" style="display:block">Only letters, digits, and spaces allowed</small>
+                    <small id="boardNameHelp" class="form-text" style="color:#d9d9d9;display:block">Only letters, digits, and spaces allowed</small>
                     <div id="validBoardName" class="valid-feedback" style="display:none">
                         Looks good!
                     </div>
@@ -421,31 +437,6 @@
             <a href="#" class="btn btn-primary create-board welcome float-end" onclick="return createBoard()">Create board</a>
             <a href="#" class="btn subscribe-btn top-padding welcome float-end" style="margin-right:10px" disabled>&#128276; Subscribe</a>
         </div>
-        <div id="dashboard" class="container-fluid" style="display:none">
-            <p id="demo"></p> <!-- test -->
-            <div class="row welcome">
-                <div class="col">
-                    <div class="card board-widget">
-                        <div class="card-body">
-                            <h5 class="card-title">COMP 307</h5>
-                            <p class="card-text">Principles Of Web Development</p>
-                            <a href="discussion.html" class="stretched-link"></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card board-widget">
-                        <div class="card-body">
-                            <h5 class="card-title">COMP 421</h5>
-                            <p class="card-text">Database Systems</p>
-                            <a href="discussion.html" class="stretched-link"></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col"></div>
-                <div class="col"></div>
-                <div class="col"></div>
-            </div>
-        </div>
+        <div id="dashboard" class="container-fluid" style="display:none"></div>
     </div>
 </body>
