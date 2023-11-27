@@ -9,3 +9,15 @@
     background-color: #cc0000;
     border-color: #cc0000;
 }
+
+.subscribe-btn {
+    color: #ffffff;
+    background-color: #2eb82e;
+    border-color: #2eb82e;
+}
+
+.subscribe-btn:hover {
+    color: #ffffff;
+    background-color: #29a329;
+    border-color: #29a329;
+}
