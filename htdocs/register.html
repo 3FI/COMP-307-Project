@@ -34,6 +34,9 @@
 
     function errorMessage() {
 
+        //On submit -> hide random error text
+        document.getElementById('random-error').style.display = 'none';
+
         var email_input = document.getElementById("exampleInputEmail1").value;
         var password_input = document.getElementById("exampleInputPassword1").value;
 
@@ -107,6 +110,7 @@
             <img class="error-icon" src="../img/error_icon.svg" width="30" height="30">
             <p id="invalid-email">Invalid Email</p>
             <p id="invalid-password">Invalid Password</p>
+            <p id="random-error"> Oops... Something unexpected happened</p>
         </div>
         <form class="text-center" action="/register" method="post" onsubmit="return errorMessage()">
             <div class="form-group col-4 mx-auto">

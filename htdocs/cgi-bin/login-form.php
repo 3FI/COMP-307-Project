@@ -23,15 +23,8 @@ if (isset($errors["invalid_password"])){
         document.getElementById('invalid_password').style.display = 'block';
      } </script>"; 
 }
-if (isset($errors["unknown"])){
-    #TODO
-    echo "<script> window.onload = function () { 
-        document.getElementById('registration-error').style.display = 'block';
-        document.getElementById('random_error').style.display = 'block';
-    } </script>"; 
-}
+
 if (isset($inputs["register_success"])){
-    #TODO
     echo "<script> window.onload = function () {
         document.getElementById('successMessage').style.display = 'block';
     } </script>"; 
