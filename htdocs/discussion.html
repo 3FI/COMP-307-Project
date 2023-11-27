@@ -6,12 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-        <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="main.css">
     <link rel="stylesheet" href="discussion.css">
     <title>Discussion Page</title>
 </head>
 
-<body onload="getChannels()">
+<body onload="renderContent()">
+<!-- <body> -->
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
             <span class="navbar-brand" href="#">Current Discussion Name</span>
@@ -46,9 +47,7 @@
                 <div id="channel-select">
                     <div class="channel">
                         <span class="channel-name">Channel 1</span>
-                    </div>
-                    <div class="channel">
-                        <span class="channel-name">Channel 2</span>
+                        <img class="settings-icon" src="./img/settings_icon.svg" onclick="toggleDeleteChannel(this.parent)">
                     </div>
                 </div>
                 <div class="header users">
@@ -120,6 +119,11 @@
             }
         }
 
+        function renderContent(){
+            renderChannels();
+            // renderMessages();    
+        }
+
         function isAlphaNumeric(str) {
             var code, i, len;
             let empty = true;
@@ -147,6 +151,7 @@
             var enter_below = document.getElementById("enter-below");
             enter_below.innerHTML = "Enter the name of the new channel below:";
             var name = document.getElementById("name");
+            name.style.display = "inline-block";
             name.value = "";
             name.placeholder = "Channel Name";
             var create_btn = document.getElementById("create-btn");
@@ -157,22 +162,22 @@
             disable_content.style.pointerEvents = "none";
         }
 
-        function newChannel(){
-            var channelName = document.getElementById("name").value;
-            if (channelName != null && channelName != "" && isAlphaNumeric(channelName)) {
-                // Check if channel name already exists
-
-                // If channel name does not exist, create channel
-                var channels = document.getElementById("channel-select");
-                var newChannel = document.createElement("div");
-                newChannel.className = "channel";
-                newChannel.innerHTML = "<span class=\"channel-name\">" + channelName + "</span>";
-                channels.appendChild(newChannel);
-                closeWindow();
-            }
-            else{
-                alert("Invalid channel name");
-            }
+        function toggleDeleteChannel(button){
+            var new_channel_window = document.getElementById("create-new-window");
+            new_channel_window.style.display = "flex";
+            var new_channel_header = document.getElementById("create-new-header");
+            new_channel_header.innerHTML = "Delete Channel";
+            var enter_below = document.getElementById("enter-below");
+            channelName = button.parentNode.childNodes[0].innerHTML;
+            enter_below.innerHTML = "Are you sure you want to delete the channel " + channelName + "?";
+            var name = document.getElementById("name");
+            name.style.display = "none";
+            var create_btn = document.getElementById("create-btn");
+            create_btn.innerHTML = "Delete Channel";
+            create_btn.onclick = function() {deleteChannel(channelName)};
+            var disable_content = document.getElementById("disable");
+            disable_content.style.opacity = "0.5";
+            disable_content.style.pointerEvents = "none";
         }
 
         function toggleNewUser(){
@@ -183,6 +188,7 @@
             var enter_below = document.getElementById("enter-below");
             enter_below.innerHTML = "Enter the username of the new user below:";
             var name = document.getElementById("name");
+            name.style.display = "inline-block";
             name.value = "";
             name.placeholder = "username";
             var create_btn = document.getElementById("create-btn");
@@ -221,64 +227,78 @@
             disable_content.style.pointerEvents = "auto";
         }
 
-        function getChannels() {
-            console.log("getChannels called");
-            var xmlhttp = new XMLHttpRequest();
-            xmlhttp.onreadystatechange = function () {
-                if (this.readyState == 4 && this.status == 200) {
-                    document.getElementById("channel-select").innerHTML = this.responseText;
-                }
-            };
-            // TODO: Set str to query discussion id
-            // str = 
-            xmlhttp.open("GET", "getChannels.php?q=" + str, true);
-            xmlhttp.send();
-        }
-
-
-
-
-
-        
         //THIS IS THE AJAX TO CREATE A CHANNEL
+        var board_id = '77';
+        function newChannel(){
+            var channelName = document.getElementById("name").value;
+            if (channelName != null && channelName != "" && isAlphaNumeric(channelName)) {
 
-        // SET THESE TO YOUR VALUES
-        var name_input = 'TESTNAME';
-        var board_id = '70';
+                var xhr_create = new XMLHttpRequest();
+                xhr_create.onreadystatechange = function() {
+                    if(xhr_create.readyState == 4 && xhr_create.status == 200) {
+                        if(this.responseText == "TRUE") {
+                            renderChannels();   
+                            closeWindow();
+                        }
+                    }
+                }
+                xhr_create.open('POST', '/create-channel', false);
+                xhr_create.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                xhr_create.send('boardId='+board_id+'&name='+channelName);
+                
+                
+            }
+            else{
+                alert("Invalid channel name");
+            }
+        }
 
-        var xhr_create = new XMLHttpRequest();
-        xhr_create.onreadystatechange = function() {
-            if(xhr_create.readyState == 4 && xhr_create.status == 200) {
-                if(this.responseText == "TRUE") {
-                    // FETCH/RELOAD THE CHANNEL LIST HERE
+        function deleteChannel(channelName){
+            var xhr_delete = new XMLHttpRequest();
+            xhr_delete.onreadystatechange = function() {
+                if(xhr_delete.readyState == 4 && xhr_delete.status == 200) {
+                    if(this.responseText == "TRUE") {
+                        renderChannels();   
+                        closeWindow();
+                    }
                 }
             }
+            xhr_delete.open('POST', '/delete-channel', false);
+            xhr_delete.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            // this will need to be fixed for deleting channels, don't have access to channel id
+            channel_id = channel_data.find(x => x.name === channelName).id;
+            xhr_delete.send('channel_id='+channel_id);
         }
-        xhr_create.open('POST', '/create-channel', false);
-        xhr_create.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-        xhr_create.send('boardId='+board_id+'&name='+name_input);
-
-
         
-        //THIS IS THE AJAX TO FETCH THE CHANNELS
-        
-        // SET THESE TO YOUR VALUES
-        var board_id = '70';
 
-        var xhr_fetch = new XMLHttpRequest();
-        xhr_fetch.onreadystatechange = function() {
-            if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
-                // DO/CALL YOUR RENDER FROM IN HERE
-                console.log(this.responseText);
+        var channel_data = {}; 
+        
+        function renderChannels(){
+            // To be changed to the board id (should not be static)
+            var board_id = '77';
+
+            var xhr_fetch = new XMLHttpRequest();
+            xhr_fetch.onreadystatechange = function() {
+                if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
+                    // DO/CALL YOUR RENDER FROM IN HERE
+                    data = this.responseText;
+                    parsed_data = JSON.parse(data);
+                    channel_data = parsed_data;
+                    var channels = document.getElementById("channel-select");
+                    channels.innerHTML = "";
+                    for (var i = 0; i < parsed_data.length; i++) {
+                        var newChannel = document.createElement("div");
+                        newChannel.className = "channel";
+                        newChannel.innerHTML = "<span class=\"channel-name\">" + parsed_data[i].name + "</span> <img class=\"settings-icon\" src=\"./img/settings_icon.svg\" onclick=\"toggleDeleteChannel(this)\">";
+                        channels.appendChild(newChannel);
+                    }
+                }
             }
+            xhr_fetch.open('POST', '/fetch-channels-list', false);
+            xhr_fetch.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhr_fetch.send('boardId='+board_id);
         }
-        xhr_fetch.open('POST', '/fetch-channels-list', false);
-        xhr_fetch.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhr_fetch.send('boardId='+board_id);
-
         
-
-
 
         //THIS IS THE AJAX TO CREATE A MESSAGE
 
@@ -309,7 +329,7 @@
         xhr_fetch.onreadystatechange = function() {
             if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
                 // DO/CALL YOUR RENDER FROM IN HERE
-                console.log(this.responseText);
+                //console.log(this.responseText);
             }
         }
         xhr_fetch.open('POST', '/fetch-messages-list', false);

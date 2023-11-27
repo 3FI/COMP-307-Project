@@ -49,24 +49,44 @@ nav {
     }
 }
 
-    #channel-select, #users-select {
-        padding: 6px;
-        height: 50vh;
-        overflow-y: scroll;
-    }
+#channel-select, #users-select {
+    padding: 6px;
+    height: 50vh;
+    overflow-y: scroll;
+}
 
-    .channel, .user{
-        display: block;
-        font-size: 16px;
-        border-radius: 10px;
-        padding: 5px; 
-        margin-bottom: 5px;
-        transition: font-size 0.1s ease-in-out, background-color 0.1s ease-in-out;
-    }
-    .channel:hover, .user:hover{
-        background-color: #777575;
-        font-size: 18px;
-    }
+.channel, .user{
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+    border-radius: 10px;
+    padding: 5px; 
+    margin-bottom: 5px;
+    transition: font-size 0.1s ease-in-out, background-color 0.1s ease-in-out;
+}
+.channel:hover, .user:hover{
+    background-color: #777575;
+    font-size: 18px;
+}
+.channel .settings-icon{
+    visibility: hidden;
+    transition: visibility 0.1s ease-in-out;
+}
+.channel:hover .settings-icon{
+    visibility: visible;
+}
+.settings-icon{
+    padding-right: 6px;
+    padding-left: 6px;
+
+    border-radius: 2px;
+}
+.settings-icon:hover{
+    background-color: red;
+}
+.delete-channel-window{
+    
+}
     
 
 .discussion{
