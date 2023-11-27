@@ -3,19 +3,18 @@ session_start();
 
 #TODO : VERIFY TICKET
 
-if(!isset($_POST['boardId']) || !isset($_SESSION['user_id'])) {die("Invalid Request");}
+if(!isset($_POST['board_id']) || !isset($_SESSION['user_id'])) {die("Invalid Request");}
 
+$boardId = $_POST['board_id'];
 $userId = $_SESSION['user_id'];
-
-$boardId = $_POST['boardId'];
 
 $conn = new mysqli("localhost", "root", "", "COMP307-Project");
 if ($conn->connect_error) {
     die("Internal Server Error: " . $conn->connect_error);
 }
 
-#VERIFY BOARD ACCESS
-$sql = "SELECT * FROM board_access WHERE user_id=? and board_id=?";
+#VERIFY ADMIN ACCESS
+$sql = "SELECT * FROM boards WHERE admin_id=? and id=?";
 $stmt = mysqli_prepare($conn, $sql);
 mysqli_stmt_bind_param($stmt, 'ii', $userId, $boardId);
 if (mysqli_stmt_execute($stmt)) {
@@ -26,20 +25,16 @@ if (mysqli_stmt_execute($stmt)) {
     }
 }
 
-#FETCH THE CHANNELS
-$sql = "SELECT name,id FROM channels WHERE board_id=?";
+$sql = "DELETE FROM boards where id=?";
 $stmt = mysqli_prepare($conn, $sql);
-mysqli_stmt_bind_param($stmt, 'i', $boardId);
+mysqli_stmt_bind_param($stmt, 'i',$boardId);
+
 if (mysqli_stmt_execute($stmt)) {
-    $result = mysqli_stmt_get_result($stmt);
-    $rows = array();
-    while($row = mysqli_fetch_array($result)){
-        $rows[] = array('name' => $row['name'],'id' => $row['id']);
-    }
     $conn->close();
-    die(json_encode($rows));
+    die("TRUE");
 } else {
     $conn->close();
-    die('Failed to execute the query.');
+    die("Failed to Execute the Querry");
 }
+
 ?>
