@@ -111,36 +111,69 @@
         return numBoards;
     };
 
-    function display(data) {
-        const container = document.getElementById('dashboard');
-        let content = ''
-        let count = 0;
-        data.forEach((result, idx) => {
-            if (count == 0) {
-                content += `<div class="row welcome">`;
+    function getBoardNames() {
+        boardNames = [];
+        var xhr_fetch = new XMLHttpRequest();
+        xhr_fetch.onreadystatechange = function() {
+            if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
+                // DO/CALL YOUR RENDER FROM IN HERE
+                console.log(this.responseText);
+                data = JSON.parse(this.responseText);
+                for (var i = 0; i < data.length; i++) {
+                    boardNames.push(data[i].name);
+                }
             }
-            content += `
-                <div class="col">
-                    <div class="card board-widget">
-                        <div class="card-body">
-                            <h5 class="card-title">${result.name}</h5>
-                            <p class="card-text">${result.description}</p>
-                            <a href="discussion.html" class="stretched-link"></a>
-                        </div>
+        }
+        xhr_fetch.open('GET', '/fetch-board-list', false);  // Set the third parameter to false for a synchronous request
+        xhr_fetch.send();
+        return boardNames;
+    };
+
+    function renderBoards(data) {
+        const container = document.getElementById('dashboard');
+        for (var i = 0; i < data.length; i++) {
+            const newCard = document.createElement('div');
+            newCard.classList.add('row welcome');
+            newCard.innerHTML = `
+                <div class="card board-widget">
+                    <div class="card-body">
+                        <h5 class="card-title">${data[i].name}</h5>
+                        <p class="card-text">${data[i].description}</p>
+                        <a href="discussion.html" class="stretched-link"></a>
                     </div>
                 </div>
-            `;
-            count += 1;
-            if (count == 5) {
-                content += '</div>';
-                count = 0;
-            }
-        })
-        if (!(count == 0)) {
-            content += '</div>';
+            `
+            container.append(newCard);
         }
-        container.innerHTML = content;
-        document.getElementById("demo").innerHTML = content; // test
+
+        // const container = document.getElementById('dashboard');
+        // let content = ''
+        // let count = 0;
+        // data.rows.forEach((result, idx) => {
+        //     if (count == 0) {
+        //         content += `<div class="row welcome">`;
+        //     }
+        //     content += `
+        //         <div class="col">
+        //             <div class="card board-widget">
+        //                 <div class="card-body">
+        //                     <h5 class="card-title">${result.name}</h5>
+        //                     <p class="card-text">${result.description}</p>
+        //                     <a href="discussion.html" class="stretched-link"></a>
+        //                 </div>
+        //             </div>
+        //         </div>
+        //     `;
+        //     count += 1;
+        //     if (count == 5) {
+        //         content += '</div>';
+        //         count = 0;
+        //     }
+        // })
+        // if (!(count == 0)) {
+        //     content += '</div>';
+        // }
+        // container.innerHTML = content;
     };
 
     function loadBoards() {
@@ -149,7 +182,7 @@
             if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
                 // DO/CALL YOUR RENDER FROM IN HERE
                 console.log(this.responseText);
-                display(this.responseText);
+                renderBoards(this.responseText);
             }
         }
         xhr_fetch.open('GET', '/fetch-board-list', false);  // Set the third parameter to false for a synchronous request
@@ -204,6 +237,9 @@
         if (!isAlphaNumeric(boardName)) {
             help = document.getElementById('boardNameHelp');
             colorRed(help);
+            return false;
+        } else if (getBoardNames().includes(boardName)) {
+            alert("A discussion board with this name already exists");
             return false;
         } else {
             var xhr_create = new XMLHttpRequest();
@@ -304,8 +340,8 @@
         </form>
         <div id="dashboard-top" class="container-fluid" style="display:none">
             <a href="#" class="btn btn-primary create-board welcome float-end" onclick="return createBoard()">Create board</a>
+            <a href="#" class="btn subscribe-btn top-padding welcome float-end" style="margin-right:10px">Subscribe</a>
         </div>
-        <p id="demo"></p> <!-- test -->
         <div id="dashboard" class="container-fluid" style="display:none">
             <div class="row welcome">
                 <div class="col">
