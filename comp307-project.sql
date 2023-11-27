@@ -39,7 +39,8 @@ CREATE TABLE `boards` (
 --
 
 INSERT INTO `boards` (`id`, `name`, `description`, `admin_id`) VALUES
-(69, 'COMP 307', 'Principles Of Web Development', 8);
+(69, 'COMP 307', 'Principles Of Web Development', 8),
+(70, 'COMP 421', 'Database Systems', 8);
 
 -- --------------------------------------------------------
 
@@ -57,13 +58,8 @@ CREATE TABLE `board_access` (
 --
 
 INSERT INTO `board_access` (`user_id`, `board_id`) VALUES
-(8, 70),
-(8, 71),
-(8, 72),
-(8, 73),
-(8, 74),
-(8, 75),
-(8, 76);
+(8, 69),
+(8, 70);
 
 -- --------------------------------------------------------
 
