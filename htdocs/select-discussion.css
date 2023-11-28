@@ -1,23 +1,23 @@
-.btn-primary.create-board {
-    margin-top: 10px;
-}
-
-.top-padding {
-    margin-top: 10px;
-}
-
-.home {
+.box {
     margin-top: 30px;
     margin-bottom: 30px;
 }
 
-.welcome {
-    margin-top: 10px;
-    margin-bottom: 10px;
+.padding {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.top-padding {
+    margin-top: 15px;
+}
+
+.bottom-padding {
+    margin-bottom: 15px;
 }
 
 p.empty-dashboard {
-    color: #a6a6a6;
+    color: #d9d9d9;
     text-align: center;
     margin-bottom: 5px;
 }

@@ -53,7 +53,7 @@
     };
 
     function colorRed(element) {
-        element.style.color = "#d9d9d9";
+        element.style.color = "#dc3545";
     };
 
     function colorDefault(helpMsg) {
@@ -263,10 +263,10 @@
             name = names[i];
             description = descriptions[i];
             color = colors[i];
-            color = '#9966ff';
+            color = generateRandomColor(); // remove this line once colors are correctly fetched from database
 
             if (count == 0) {
-                contents += `<div class="row welcome">`;
+                contents += `<div class="row bottom-padding">`;
             }
             if (!isNone(description)) {
                 contents += `<div class="col"><div class="card board-widget" style="background: linear-gradient(to right, #ffffff 98%, `+color+` 2%);">
@@ -430,15 +430,15 @@
                 </li>
             </ul>
         </div>
-        <div id="empty-dashboard" class="card-body text-center home">
-            <div class="welcome">
+        <div id="empty-dashboard" class="card-body text-center box">
+            <div class="bottom-padding">
                 <p class="empty-dashboard">Your dashboard is looking a little empty...</p>
                 <p class="empty-dashboard">Let's start a discussion board!</p>
             </div>
-            <a class="btn btn-primary create-board" onclick="return createBoard()">Create board</a>
+            <a class="btn btn-primary top-padding" onclick="return createBoard()">Create board</a>
         </div>
-        <form id="form" name="board form" class="container home" style="display:none">
-            <div class="row welcome">
+        <form id="form" name="board form" class="container box" style="display:none">
+            <div class="row top-padding bottom-padding">
                 <div class="col">
                     <label for="boardName">Give it a name...</label>
                 </div>
@@ -454,7 +454,7 @@
                 </div>
                 <div class="col"></div>
             </div>
-            <div class="row welcome">
+            <div class="row bottom-padding">
                 <div class="col">
                     <label for="boardName">...and a description if you'd like:</label>
                 </div>
@@ -464,17 +464,13 @@
                 <div class="col"></div>
             </div>
             <div class="card-body text-center">
-                <p>
-                    <button type="button" class="btn btn-primary" onclick="return generateBoard()">Create</button>
-                </p>
-                <p>
-                    <a href="select-discussion.html" type="button" class="btn cancel-btn">Nevermind</a>
-                </p>
+                <p><button type="button" class="btn btn-primary" onclick="return generateBoard()">Create</button></p>
+                <p><a href="select-discussion.html" type="button" class="btn cancel-btn">Nevermind</a></p>
             </div>
         </form>
-        <div id="dashboard-top" class="container-fluid" style="display:none">
-            <a href="#" class="btn btn-primary create-board welcome float-end" onclick="return createBoard()">Create board</a>
-            <a href="#" class="btn subscribe-btn top-padding welcome float-end" style="margin-right:10px" disabled>&#128276; Subscribe</a>
+        <div id="dashboard-top" class="container-fluid padding" style="display:none">
+            <a href="#" class="btn btn-primary float-end" onclick="return createBoard()">Create board</a>
+            <a href="#" class="btn subscribe-btn float-end" style="margin-right:10px" disabled>&#128276; Subscribe</a>
         </div>
         <div id="dashboard" class="container-fluid" style="display:none"></div>
     </div>
