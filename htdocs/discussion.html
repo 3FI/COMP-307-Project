@@ -46,8 +46,8 @@
                 </div>
                 <div id="channel-select">
                     <div class="channel" onclick="chooseChannel(this)">
-                        <span class="channel-name">Channel 1</span>
-                        <img class="settings-icon" src="./img/settings_icon.svg" onclick="toggleDeleteChannel(this.parent)">
+                        <!-- <span class="channel-name">Channel 1</span> -->
+                        <!--    <img class="settings-icon" src="./img/settings_icon.svg" onclick="toggleDeleteChannel(this.parent)"> -->
                     </div>
                 </div>
                 <div class="header users">
@@ -69,11 +69,19 @@
     
     <script>
         var channel_data = {}; 
-        var active_channel = 0;
+        var active_channel = null;
+        //TODO: Change this to the board id from the URL
+        var board_id = '79';
+
         
         function renderContent(){
             renderChannels();
+            if (channel_data.length == 0){
+                newChannel("General");
+            }
             active_channel = channel_data[0].id;
+            channels = document.getElementsByClassName("channel");
+            channels[0].style.backgroundColor = "#777575";
             renderMessages();    
         }
 
@@ -95,124 +103,198 @@
             return !(empty);
         };
 
+        //Open a window allowing to create a new channel
         function toggleNewChannel(){
+            // Get channel window element and display it
             var new_channel_window = document.getElementById("create-new-window");
             new_channel_window.style.display = "flex";
-            new_channel_window.style.display = "flex";
+            // Get channel window elements and change their content
             var new_channel_header = document.getElementById("create-new-header");
             new_channel_header.innerHTML = "Create New Channel";
             var enter_below = document.getElementById("enter-below");
             enter_below.innerHTML = "Enter the name of the new channel below:";
+            // Clear the input box and set its placeholder
             var name = document.getElementById("name");
             name.style.display = "inline-block";
             name.value = "";
             name.placeholder = "Channel Name";
+            // Change the create button to say "Create Channel" and set its onclick function
             var create_btn = document.getElementById("create-btn");
             create_btn.style.display = "inline-block";
             create_btn.innerHTML = "Create Channel";
+            create_btn.onclick = function() {newChannel(name.value)};
+            // Change the close button to say "Cancel"
             var close_btn = document.getElementById("close-btn");
             close_btn.innerHTML = "Cancel";
-            create_btn.onclick = function() {newChannel()};
+            // Disable the rest of the page
             var disable_content = document.getElementById("disable");
             disable_content.style.opacity = "0.5";
             disable_content.style.pointerEvents = "none";
         }
 
+        //Open a window allowing to delete a channel
         function toggleDeleteChannel(button){
+            // Get channel window element and display it
             var new_channel_window = document.getElementById("create-new-window");
             new_channel_window.style.display = "flex";
+            // Get channel window elements and change their content
             var new_channel_header = document.getElementById("create-new-header");
             new_channel_header.innerHTML = "Delete Channel";
+            // Get the channel name from the button and display confirmation message
             var enter_below = document.getElementById("enter-below");
             channelName = button.parentNode.childNodes[0].innerHTML;
             enter_below.innerHTML = "Are you sure you want to delete the channel " + channelName + "?";
+            // Hide the input box
             var name = document.getElementById("name");
             name.style.display = "none";
+            // Change the create button to say "Delete Channel" and set its onclick function
             var create_btn = document.getElementById("create-btn");
             create_btn.style.display = "inline-block";
             create_btn.innerHTML = "Delete Channel";
+            create_btn.onclick = function() {deleteChannel(channelName)};
+            // Change the close button to say "Cancel"
             var close_btn = document.getElementById("close-btn");
             close_btn.innerHTML = "Cancel";
-            create_btn.onclick = function() {deleteChannel(channelName)};
+            // Disable the rest of the page
             var disable_content = document.getElementById("disable");
             disable_content.style.opacity = "0.5";
             disable_content.style.pointerEvents = "none";
         }
 
+        //Open a window allowing to add a new user
         function toggleNewUser(){
+            // Get channel window element and display it
             var new_channel_window = document.getElementById("create-new-window");
             new_channel_window.style.display = "flex";
+            // Get channel window elements and change their content
             var new_channel_header = document.getElementById("create-new-header");
             new_channel_header.innerHTML = "Add New User";
             var enter_below = document.getElementById("enter-below");
             enter_below.innerHTML = "Enter the email of the new user below:";
+            // Clear the input box and set its placeholder
             var name = document.getElementById("name");
             name.style.display = "inline-block";
             name.value = "";
             name.placeholder = "email";
+            // Change the create button to say "Add User" and set its onclick function
             var create_btn = document.getElementById("create-btn");
             create_btn.style.display = "inline-block";
             create_btn.innerHTML = "Add User";
+            create_btn.onclick = function() {newUser()};
+            // Change the close button to say "Cancel"
             var close_btn = document.getElementById("close-btn");
             close_btn.innerHTML = "Cancel";
-            create_btn.onclick = function() {newUser()};
+            // Disable the rest of the page
             var disable_content = document.getElementById("disable");
             disable_content.style.opacity = "0.5";
             disable_content.style.pointerEvents = "none";
         }
 
+        //Open a window allowing to delete a user
+        function toggleDeleteUser(button){
+            // Get channel window element and display it
+            var new_channel_window = document.getElementById("create-new-window");
+            new_channel_window.style.display = "flex";
+            // Get channel window elements and change their content
+            var new_channel_header = document.getElementById("create-new-header");
+            new_channel_header.innerHTML = "Remove User From Board";
+            // Get the user name from the button and display confirmation message
+            var enter_below = document.getElementById("enter-below");
+            userName = button.parentNode.childNodes[0].innerHTML;
+            enter_below.innerHTML = "Are you sure you want to remove the user " + userName + "?";
+            // Hide the input box
+            var name = document.getElementById("name");
+            name.style.display = "none";
+            // Change the create button to say "Remove User" and set its onclick function
+            var create_btn = document.getElementById("create-btn");
+            create_btn.style.display = "inline-block";
+            create_btn.innerHTML = "Remove User";
+            create_btn.onclick = function() {deleteUser(userName)};
+            // Change the close button to say "Cancel"
+            var close_btn = document.getElementById("close-btn");
+            close_btn.innerHTML = "Cancel";
+            // Disable the rest of the page
+            var disable_content = document.getElementById("disable");
+            disable_content.style.opacity = "0.5";
+            disable_content.style.pointerEvents = "none";
+        }
+
+        // Multipurpose function to close a popup window
         function closeWindow(){
+            // Get channel window element and hide it
             var new_channel_window = document.getElementById("create-new-window");
             new_channel_window.style.display = "none";
+            // Reenable the rest of the page
             var disable_content = document.getElementById("disable");
             disable_content.style.opacity = "1";
             disable_content.style.pointerEvents = "auto";
         }
 
+        // Multipurpose function to display an access denied message
         function accessDenied(){
+            // Get channel window element and display it
             var new_channel_window = document.getElementById("create-new-window");
             new_channel_window.style.display = "flex";
+            // Get channel window elements and change their content
             var new_channel_header = document.getElementById("create-new-header");
             new_channel_header.innerHTML = "Access Denied";
             var enter_below = document.getElementById("enter-below");
             enter_below.innerHTML = "Only admins of the board can perform this action.";
+            // Hide the input box
             var name = document.getElementById("name");
             name.style.display = "none";
+            // Hide the create button
             var create_btn = document.getElementById("create-btn");
             create_btn.style.display = "none";
+            // Change the close button to say "Close"
             var close_btn = document.getElementById("close-btn");
             close_btn.innerHTML = "Close";
+            // Disable the rest of the page
+            var disable_content = document.getElementById("disable");
+            disable_content.style.opacity = "0.5";
+            disable_content.style.pointerEvents = "none";
         }
 
+        // Multipurpose function to display an error message
         function errorAddingUser(errorString){
+            // Get channel window element and display it
             var new_channel_window = document.getElementById("create-new-window");
             new_channel_window.style.display = "flex";
+            // Get channel window elements and change their content
             var new_channel_header = document.getElementById("create-new-header");
             new_channel_header.innerHTML = "Error Adding User";
+            // Display the error message
             var enter_below = document.getElementById("enter-below");
             enter_below.innerHTML = errorString;
+            // Hide the input box
             var name = document.getElementById("name");
             name.style.display = "none";
+            // Hide the create button
             var create_btn = document.getElementById("create-btn");
             create_btn.style.display = "none";
+            // Change the close button to say "Close"
             var close_btn = document.getElementById("close-btn");
             close_btn.innerHTML = "Close";
+            // Disable the rest of the page
+            var disable_content = document.getElementById("disable");
+            disable_content.style.opacity = "0.5";
+            disable_content.style.pointerEvents = "none";
         }
 
+        // Adding a new user to the board
         function newUser(){
+            // Get the user name from the input box
             var userName = document.getElementById("name").value;
             if (userName != null && userName != "") {
-                // Check if user name already exists
                 var xhr_fetch = new XMLHttpRequest();
                 xhr_fetch.onreadystatechange = function() {
                     if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
-                        console.log(this.responseText);
+                        // If the user was added successfully, render the users column
                         if (this.responseText == "TRUE") {
-                            //add user to board
-                            renderUsers();
+                            renderUsers(userName);
                         }
+                        // If the user was not added successfully, display an error message
                         else if (this.responseText == "Access Denied"){
-                            // alert("You do not have permission to add a user");
                             accessDenied();
                         }
                         else if (this.responseText == "Multiple Account with Email"){
@@ -230,12 +312,39 @@
                 xhr_fetch.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                 xhr_fetch.send('board_id='+board_id+'&new_member_email='+userName);
             }
+            //If the user name is invalid, display an error message, change from alert
             else{
-                alert("Invalid username");
+                errorAddingUser("Invalid email.");
             }
         }
 
-        function renderUsers(){
+        // Deleting a user from the board
+        function deleteUser(userName){
+            var xhr_delete = new XMLHttpRequest();
+            xhr_delete.onreadystatechange = function() {
+                if(xhr_delete.readyState == 4 && xhr_delete.status == 200) {
+                    // If the user was deleted successfully, render the users column and close the window
+                    if(this.responseText == "TRUE") {
+                        renderUsers();
+                        closeWindow();
+                    }
+                    // If the user was not deleted successfully, display an error message
+                    else if(this.responseText == "Access Denied"){
+                        accessDenied();
+                    }
+                    else{
+                        alert("Error deleting user");
+                    }
+                }
+            }
+            xhr_delete.open('POST', '/remove-user', false);
+            xhr_delete.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhr_delete.send('board_id='+board_id+'&user_email='+userName);
+        }
+
+        // Rendering the users column
+        function renderUsers(userName){
+            // Get the users column and add the new user to it
             var users = document.getElementById("users-select");
             var newUser = document.createElement("div");
             newUser.className = "user";
@@ -244,27 +353,37 @@
             closeWindow();
         }
 
+        // Choosing a channel
         function chooseChannel(channel){
+            // Get the chosen channels name
             var channelName = channel.childNodes[0].innerHTML;
+            // Set the active_channel variable to the chosen channel
             active_channel = channel_data.find(x => x.name === channelName).id;
+            // Reset the background colors of all channels
+            var channels = document.getElementsByClassName("channel");
+            for (var i = 0; i < channels.length; i++) {
+                channels[i].style.backgroundColor = "darkgray";
+            }
+            // Set the background color of the chosen channel
+            channel.style.backgroundColor = "#777575";
             renderMessages();
         }
 
-        //THIS IS THE AJAX TO CREATE A CHANNEL
-        var board_id = '77';
-        function newChannel(){
-            var channelName = document.getElementById("name").value;
+        // Creating a new channel
+        function newChannel(channelName){
+            // Check if the channel name is valid
             if (channelName != null && channelName != "" && isAlphaNumeric(channelName)) {
-
                 var xhr_create = new XMLHttpRequest();
                 xhr_create.onreadystatechange = function() {
                     if(xhr_create.readyState == 4 && xhr_create.status == 200) {
+                        // If the channel was created successfully, render the channels column, render messages, and close the window
                         if(this.responseText == "TRUE") {
-                            renderChannels();   
+                            renderChannels();  
+                            renderMessages(); 
                             closeWindow();
                         }
+                        // If the channel was not created successfully, display an error message
                         else if (this.responseText == "Access Denied"){
-                            // alert("You do not have permission to create a channel");
                             accessDenied();
                         }
                         else{
@@ -276,23 +395,26 @@
                 xhr_create.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
                 xhr_create.send('boardId='+board_id+'&name='+channelName);
             }
+            // TODO: Change from alert
             else{
                 alert("Invalid channel name");
             }
         }
 
+        // Deleting a channel
         function deleteChannel(channelName){
             var xhr_delete = new XMLHttpRequest();
             xhr_delete.onreadystatechange = function() {
                 if(xhr_delete.readyState == 4 && xhr_delete.status == 200) {
+                    // If the channel was deleted successfully, render the channels column, render messages, and close the window
                     if(this.responseText == "TRUE") {
                         active_channel = channel_data[0].id;
                         renderChannels();  
                         renderMessages();    
                         closeWindow();
                     }
+                    // If the channel was not deleted successfully, display an error message
                     else if(this.responseText == "Access Denied"){
-                        // alert("You do not have permission to delete this channel");
                         accessDenied();
                     }
                     else{
@@ -303,30 +425,51 @@
             xhr_delete.open('POST', '/delete-channel', false);
             xhr_delete.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
             channel_id = channel_data.find(x => x.name === channelName).id;
-            // channel_id = '5';
             xhr_delete.send('channel_id='+channel_id);
         }
                 
+        // Rendering the channels column
         function renderChannels(){
-            // To be changed to the board id (should not be static)
-            var board_id = '77';
-
             var xhr_fetch = new XMLHttpRequest();
             xhr_fetch.onreadystatechange = function() {
                 if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
-                    // DO/CALL YOUR RENDER FROM IN HERE
+                    // Parse the response data
                     data = this.responseText;
                     parsed_data = JSON.parse(data);
                     channel_data = parsed_data;
+                    // If there is no active channel, set it to the first channel
+                    if (active_channel == null){
+                        active_channel = parsed_data[0].id;
+                    }
+                    // Otherwise, set it to the last active channel, this occurs when a channel is deleted
+                    else{
+                        active_channel = parsed_data[parsed_data.length-1].id;
+                    }
+                    // Get the channels column 
                     var channels = document.getElementById("channel-select");
+                    // Clear the channels column
                     channels.innerHTML = "";
+                    // Find the active channels name
+                    active_channel_name = parsed_data.find(x => x.id === active_channel).name;
+                    // Add each channel to the channels column
                     for (var i = 0; i < parsed_data.length; i++) {
                         var newChannel = document.createElement("div");
                         newChannel.className = "channel";
                         newChannel.onclick = function() {chooseChannel(this)};
-                        newChannel.innerHTML = "<span class=\"channel-name\">" + parsed_data[i].name + "</span> <img class=\"settings-icon\" src=\"./img/settings_icon.svg\" onclick=\"toggleDeleteChannel(this)\">";
+                        // If the channel is the general channel, do not add the settings icon, this channel cannot be deleted
+                        if (parsed_data[i].name == "General"){
+                            newChannel.innerHTML = "<span class=\"channel-name\">" + parsed_data[i].name + "</span>";
+                        }
+                        else {
+                            newChannel.innerHTML = "<span class=\"channel-name\">" + parsed_data[i].name + "</span> <img class=\"settings-icon\" src=\"./img/settings_icon.svg\" onclick=\"toggleDeleteChannel(this)\">";
+                        }
+                        // If the channel is the active channel, set its background color to a darker gray
+                        if (parsed_data[i].name == active_channel_name){
+                            newChannel.style.backgroundColor = "#777575";
+                        }
                         channels.appendChild(newChannel);
                     }
+                    
                 }
             }
             xhr_fetch.open('POST', '/fetch-channels-list', false);
@@ -334,18 +477,18 @@
             xhr_fetch.send('boardId='+board_id);
         }
         
-        // test function to add messages to the discussion
+        // Sending a message
         function sendMessage() {
             var key = window.event.keyCode;
+            // If the user presses enter and the message is not empty, send the message
             if (key === 13 && document.getElementsByClassName("text-box")[0].value != "") {
-                // Getting required elements
+                // Getting the message content
                 var message = document.getElementsByClassName("text-box")[0].value;
-                
                 var xhr_create = new XMLHttpRequest();
                 xhr_create.onreadystatechange = function() {
                     if(xhr_create.readyState == 4 && xhr_create.status == 200) {
+                        // If the message was sent successfully, render the messages column
                         if(this.responseText == "TRUE") {
-                            // FETCH/RELOAD THE MESSAGE LIST HERE
                             renderMessages();
                         }
                     }
@@ -356,16 +499,18 @@
             }
         }
 
+        // Rendering the messages column
         function renderMessages(){
-            //THIS IS THE AJAX TO FETCH THE MESSAGES
-        
             var xhr_fetch = new XMLHttpRequest();
             xhr_fetch.onreadystatechange = function() {
+                // If the messages were fetched successfully, render the messages column
                 if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
-                    // DO/CALL YOUR RENDER FROM IN HERE
+                    // Parse the response data
                     data = this.responseText;
                     parsed_data = JSON.parse(data);
+                    // Get the messages column
                     var messages = document.getElementById("messages");
+                    // Clear the messages column
                     messages.innerHTML = "";
                     for (var i = 0; i < parsed_data.length; i++) {
                         var newMessage = document.createElement("div");
@@ -399,6 +544,5 @@
             xhr_fetch.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             xhr_fetch.send('channelId='+active_channel);
         }
-        
     </script>
 </body>
