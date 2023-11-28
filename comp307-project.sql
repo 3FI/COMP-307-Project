@@ -31,16 +31,17 @@ CREATE TABLE `boards` (
   `id` int(11) NOT NULL,
   `name` varchar(30) NOT NULL,
   `description` varchar(150) NOT NULL,
-  `admin_id` int(11) NOT NULL
+  `admin_id` int(11) NOT NULL,
+  `color` varchar(7) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `boards`
 --
 
-INSERT INTO `boards` (`id`, `name`, `description`, `admin_id`) VALUES
-(69, 'COMP 307', 'Principles Of Web Development', 8),
-(70, 'COMP 421', 'Database Systems', 8);
+INSERT INTO `boards` (`id`, `name`, `description`, `admin_id`, `color`) VALUES
+(69, 'COMP 307', 'Principles Of Web Development', 8, '#000000'),
+(70, 'COMP 421', 'Database Systems', 8, '#000000');
 
 -- --------------------------------------------------------
 

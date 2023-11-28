@@ -11,15 +11,16 @@ if(!isset($_POST['name']) || !isset($_SESSION['user_id'])) {die("Invalid Request
 $name = $_POST['name'];
 $description = $_POST['description'];
 $userId = $_SESSION['user_id'];
+$color = $_POST['color'];
 
 $conn = new mysqli("localhost", "root", "", "COMP307-Project");
 if ($conn->connect_error) {
     die("Internal Server Error: " . $conn->connect_error);
 }
 
-$sql = "INSERT INTO boards (name,description,admin_id) VALUES (?, ?, ?)";
+$sql = "INSERT INTO boards (name,description,admin_id,color) VALUES (?, ?, ?, ?)";
 $stmt = mysqli_prepare($conn, $sql);
-mysqli_stmt_bind_param($stmt, 'ssi',$name ,$description ,$userId);
+mysqli_stmt_bind_param($stmt, 'ssi',$name ,$description ,$userId ,$color);
 
 if (mysqli_stmt_execute($stmt)) {
     $result = mysqli_query($conn, 'SELECT LAST_INSERT_ID()');
