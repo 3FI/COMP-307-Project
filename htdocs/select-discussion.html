@@ -65,6 +65,39 @@
         return '#'+randomColor;
     };
 
+    function toggleSubscribeBtn() {
+        subscribeBtn = document.getElementById("subscribeBtn");
+        var inputs = document.getElementsByTagName("input");
+        atLeastOneChecked = false;
+        for (var i = 0; i < inputs.length; i++) {
+            if (inputs[i].type == "checkbox") {
+                if (inputs[i].checked == true) {
+                    atLeastOneChecked = true;
+                    break;
+                }
+            }  
+        }
+        if (atLeastOneChecked) {
+            show(subscribeBtn);
+        } else {
+            hide(subscribeBtn);
+        }
+    };
+
+    function getCheckedBoards() {
+        checkedBoardNames = [];
+        var inputs = document.getElementsByTagName("input");
+        atLeastOneChecked = false;
+        for (var i = 0; i < inputs.length; i++) {
+            if (inputs[i].type == "checkbox") {
+                if (inputs[i].checked == true) {
+                    checkedBoardNames.push(inputs[i].value);
+                }
+            }  
+        }
+        return checkedBoardNames;
+    };
+
     function createBoard() {
         inputField = document.getElementById("boardName");
         emptyDashboard = document.getElementById("empty-dashboard");
@@ -270,12 +303,12 @@
             }
             if (!isNone(description)) {
                 contents += `<div class="col"><div class="card board-widget" style="border-left:5px solid `+color+`"><div class="card-body">
-                    <h5 class="board-title">`+name+`</h5><input type="checkbox" class="float-end" value="`+name+`">
+                    <h5 class="board-title">`+name+`</h5><input type="checkbox" class="float-end" value="`+name+`" onclick="toggleSubscribeBtn()">
                     <p class="card-text">`+description+`</p>
                     <a href="discussion.html?boardname=`+name+`" class="stretched-link"></a></div></div></div>`;
             } else {
                 contents += `<div class="col"><div class="card board-widget" style="border-left:5px solid `+color+`"><div class="card-body">
-                    <h5 class="board-title">`+name+`</h5><input type="checkbox" class="float-end" value="`+name+`">
+                    <h5 class="board-title">`+name+`</h5><input type="checkbox" class="float-end" value="`+name+`" onclick="toggleSubscribeBtn()">
                     <p class="card-text" style="color:#ffffff">`+description+`</p>
                     <a href="discussion.html?boardname=`+name+`" class="stretched-link"></a></div></div></div>`;
             }
@@ -440,7 +473,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-white">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" style="margin-left: 15px">Discussions</a>
+                <a class="navbar-brand" style="margin-left:15px;cursor:default">Discussions</a>
             </div>
             <div class="nav navbar-right">
                 <form action="/logout" method="post">
@@ -500,8 +533,9 @@
         </form>
         <div id="dashboard-top" class="container-fluid padding" style="display:none">
             <a href="#" class="btn btn-primary float-end" onclick="return createBoard()">Create board</a>
-            <a href="#" type="submit" class="btn subscribe-btn float-end" style="margin-right:10px;display:none">&#128276; Subscribe</a>
+            <a href="#" type="submit" id="subscribeBtn" class="btn subscribe-btn float-end" style="margin-right:10px;display:none">&#128276; Subscribe</a>
         </div>
+        <div id="dashboard" class="container-fluid" style="display:none"></div>
         <!-- FOR TESTING
         <div class="container-fluid">
             <div class="row bottom-padding">
@@ -509,7 +543,7 @@
                     <div class="card board-widget">
                         <div class="card-body">
                             <h5 class="board-title">Test</h5>
-                            <input type="checkbox" class="float-end" value="Test">
+                            <input type="checkbox" class="float-end" value="Test" onclick="toggleSubscribeBtn()">
                             <p class="card-text">None</p>
                             <a href="discussion.html?boardname=Test" class="stretched-link"></a>
                         </div>
@@ -521,6 +555,5 @@
             </div>
         </div>
         -->
-        <div id="dashboard" class="container-fluid" style="display:none"></div>
     </div>
 </body>
