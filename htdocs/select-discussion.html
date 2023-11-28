@@ -260,27 +260,20 @@
             name = names[i];
             description = descriptions[i];
             color = colors[i];
+            color = '#9966ff'
+
             if (count == 0) {
                 contents += `<div class="row welcome">`;
             }
             if (!isNone(description)) {
-                contents += `<div class="col"><div class="card board-widget"><div class="card-body">
-                    <h5 class="card-title">`+name+`</h5><p class="card-text">`+description+`</p>
+                contents += `<div class="col"><div class="card board-widget" style="background: linear-gradient(to right, #ffffff 98%, `+color+` 2%);">
+                    <div class="card-body"><h5 class="card-title">`+name+`</h5><p class="card-text">`+description+`</p>
                     <a href="discussion.html" class="stretched-link"></a></div></div></div>`;
             } else {
-                contents += `<div class="col"><div class="card board-widget"><div class="card-body">
-                    <h5 class="card-title">`+name+`</h5><p class="card-text" style="color:#ffffff">`+description+`</p>
+                contents += `<div class="col"><div class="card board-widget" style="background: linear-gradient(to right, #ffffff 98%, `+color+` 2%);">
+                    <div class="card-body"><h5 class="card-title">`+name+`</h5><p class="card-text" style="color:#ffffff">`+description+`</p>
                     <a href="discussion.html" class="stretched-link"></a></div></div></div>`;
             }
-            // if (!isNone(description)) {
-            //     contents += `<div class="col"><div class="card board-widget" style="background: linear-gradient(to right, #ffffff 96%, `+color+` 4%);">
-            //         <div class="card-body"><h5 class="card-title">`+name+`</h5><p class="card-text">`+description+`</p>
-            //         <a href="discussion.html" class="stretched-link"></a></div></div></div>`;
-            // } else {
-            //     contents += `<div class="col"><div class="card board-widget" style="background: linear-gradient(to right, #ffffff 96%, `+color+` 4%);">
-            //         <div class="card-body"><h5 class="card-title">`+name+`</h5><p class="card-text" style="color:#ffffff">`+description+`</p>
-            //         <a href="discussion.html" class="stretched-link"></a></div></div></div>`;
-            // }
             count += 1;
             if (count == numPerRow) {
                 contents += `</div>`;
