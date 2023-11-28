@@ -23,7 +23,7 @@
                     </li>
                 </ul>
                 <form action="/logout">
-                    <button type="logout" class="btn logout">Logout</button>
+                    <button type="logout" class="btn logout logout-btn">Logout</button>
                 </form>
             </div>
         </div>
@@ -33,7 +33,7 @@
         <div id="enter-below"></div>
         <input type="text" id="name" placeholder="">
         <div class="buttons">
-            <button type="button" class="btn btn-secondary" id="close-btn" onclick="closeWindow()">Cancel</button>
+            <button type="button" class="btn btn-secondary cancel-btn" id="close-btn" onclick="closeWindow()">Cancel</button>
             <button type="button" class="btn btn-primary" id="create-btn"></button>
         </div>
     </div>
@@ -70,6 +70,7 @@
     <script>
         var channel_data = {}; 
         var active_channel = null;
+        //TODO: Change this to the board id from the URL
         var board_id = '';
         const queryParams = new URLSearchParams(window.location.search);
         var board_name = queryParams.get('boardname');
