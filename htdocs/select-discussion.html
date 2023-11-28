@@ -57,7 +57,7 @@
     };
 
     function colorDefault(helpMsg) {
-        helpMsg.style.color = "#a6a6a6";
+        helpMsg.style.color = "#d9d9d9";
     };
 
     function generateRandomColor() {
@@ -219,8 +219,9 @@
         validMsg = document.getElementById("validBoardName");
         errorMsg = document.getElementById("invalidBoardName");
 
-        if (!isAlphaNumeric(boardName)) {
+        if (!isAlphaNumeric(boardName) || isEmpty(boardName)) {
             inputField.classList.remove("is-valid");
+            inputField.classList.add("is-invalid");
             hide(errorMsg);
             hide(validMsg);
             colorRed(helpMsg);
@@ -228,15 +229,17 @@
             return false;
         } else if (getBoardNames().includes(boardName)) {
             inputField.classList.remove("is-valid");
+            inputField.classList.add("is-invalid");
             hide(helpMsg);
             colorDefault(helpMsg);
             hide(validMsg);
             show(errorMsg);
             return false;
         } else {
+            inputField.classList.remove("is-invalid");
+            inputField.classList.add("is-valid");
             hide(errorMsg);
             hide(helpMsg);
-            inputField.classList.add("is-valid");
             show(validMsg);
             return true;
         }
@@ -260,7 +263,7 @@
             name = names[i];
             description = descriptions[i];
             color = colors[i];
-            color = '#9966ff'
+            color = '#9966ff';
 
             if (count == 0) {
                 contents += `<div class="row welcome">`;
@@ -461,7 +464,12 @@
                 <div class="col"></div>
             </div>
             <div class="card-body text-center">
-                <button type="button" class="btn btn-primary" onclick="return generateBoard()">Create</button>
+                <p>
+                    <button type="button" class="btn btn-primary" onclick="return generateBoard()">Create</button>
+                </p>
+                <p>
+                    <a href="select-discussion.html" type="button" class="btn cancel-btn">Nevermind</a>
+                </p>
             </div>
         </form>
         <div id="dashboard-top" class="container-fluid" style="display:none">
