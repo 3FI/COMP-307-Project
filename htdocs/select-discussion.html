@@ -201,7 +201,7 @@
                     console.log(this.responseText);
                     data = JSON.parse(this.responseText);
                     for (var i = 0; i < data.length; i++) {
-                        alert("the color of the " + i + "th board is: " + data[i].color);
+                        //alert("the color of the " + i + "th board is: " + data[i].color);
                         boardColors.push(data[i].color);
                     }
                 }
@@ -264,18 +264,19 @@
             name = names[i];
             description = descriptions[i];
             color = colors[i];
-            color = generateRandomColor(); // remove this line once colors are correctly fetched from database
 
             if (count == 0) {
                 contents += `<div class="row bottom-padding">`;
             }
             if (!isNone(description)) {
-                contents += `<div class="col"><div class="card board-widget" style="background: linear-gradient(to right, #ffffff 98%, `+color+` 2%);">
-                    <div class="card-body"><h5 class="card-title">`+name+`</h5><p class="card-text">`+description+`</p>
+                contents += `<div class="col"><div class="card board-widget" style="border-left:5px solid `+color+`"><div class="card-body">
+                    <h5 class="board-title">`+name+`</h5><input type="checkbox" class="float-end" value="`+name+`">
+                    <p class="card-text">`+description+`</p>
                     <a href="discussion.html?boardname=`+name+`" class="stretched-link"></a></div></div></div>`;
             } else {
-                contents += `<div class="col"><div class="card board-widget" style="background: linear-gradient(to right, #ffffff 98%, `+color+` 2%);">
-                    <div class="card-body"><h5 class="card-title">`+name+`</h5><p class="card-text" style="color:#ffffff">`+description+`</p>
+                contents += `<div class="col"><div class="card board-widget" style="border-left:5px solid `+color+`"><div class="card-body">
+                    <h5 class="board-title">`+name+`</h5><input type="checkbox" class="float-end" value="`+name+`">
+                    <p class="card-text" style="color:#ffffff">`+description+`</p>
                     <a href="discussion.html?boardname=`+name+`" class="stretched-link"></a></div></div></div>`;
             }
             count += 1;
@@ -292,7 +293,7 @@
         container.innerHTML = contents;
     };
 
-    function loadBoards(numPerRow) {
+    function loadAllBoards(numPerRow) {
 
         if (ticketCheck()){
 
@@ -322,13 +323,13 @@
 
                     //for Sissy : replace "element" by "name" or "subscribed" and then you can do anything with it
                     //there is a pop up that will show you exactly what is returned in the foreach
-                    alert(JSON.stringify(element));
+                    //alert(JSON.stringify(element));
 
                     //get the name in the corresponding element of the array
-                    alert("the name of this board is: " + element.name);
+                    //alert("the name of this board is: " + element.name);
 
                     //get the boolean value in the corresponding element of the array
-                    alert("is the user subscribed to this board? -> " + element.subscribed);
+                    //alert("is the user subscribed to this board? -> " + element.subscribed);
                 });
             } else {
                 console.error('Failed to fetch ticket:', xhr_fetch.status, xhxhr_fetchr.statusText);
@@ -356,7 +357,7 @@
             hide(form);
             show(createButton);
             show(dashboard);
-            loadBoards(numPerRow);
+            loadAllBoards(numPerRow);
         } else {
             hide(form);
             hide(createButton);
@@ -429,7 +430,7 @@
             var params = "name="+boardName+"&description="+boardDescription+"&color="+boardColor;
             xhr_create.send(params);
 
-            loadBoards(numPerRow);
+            loadAllBoards(numPerRow);
 
             return true;
         }
@@ -499,8 +500,27 @@
         </form>
         <div id="dashboard-top" class="container-fluid padding" style="display:none">
             <a href="#" class="btn btn-primary float-end" onclick="return createBoard()">Create board</a>
-            <a href="#" class="btn subscribe-btn float-end" style="margin-right:10px" disabled>&#128276; Subscribe</a>
+            <a href="#" type="submit" class="btn subscribe-btn float-end" style="margin-right:10px;display:none">&#128276; Subscribe</a>
         </div>
+        <!-- FOR TESTING
+        <div class="container-fluid">
+            <div class="row bottom-padding">
+                <div class="col">
+                    <div class="card board-widget">
+                        <div class="card-body">
+                            <h5 class="board-title">Test</h5>
+                            <input type="checkbox" class="float-end" value="Test">
+                            <p class="card-text">None</p>
+                            <a href="discussion.html?boardname=Test" class="stretched-link"></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col"></div>
+                <div class="col"></div>
+                <div class="col"></div>
+            </div>
+        </div>
+        -->
         <div id="dashboard" class="container-fluid" style="display:none"></div>
     </div>
 </body>
