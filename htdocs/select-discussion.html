@@ -201,6 +201,7 @@
                     console.log(this.responseText);
                     data = JSON.parse(this.responseText);
                     for (var i = 0; i < data.length; i++) {
+                        alert("the color of the " + i + "th board is: " + data[i].color);
                         boardColors.push(data[i].color);
                     }
                 }
@@ -312,6 +313,9 @@
 
             if (xhr_fetch.status === 200) {
                 var response = JSON.parse(xhr_fetch.responseText);
+
+                //I did a foreach but you can also loop like you did in getboardcolor()
+
                 response.forEach(element => {
 
                     console.log(element);
@@ -321,10 +325,10 @@
                     alert(JSON.stringify(element));
 
                     //get the name in the corresponding element of the array
-                    alert(element.name);
+                    alert("the name of this board is: " + element.name);
 
                     //get the boolean value in the corresponding element of the array
-                    alert(element.subscribed);
+                    alert("is the user subscribed to this board? -> " + element.subscribed);
                 });
             } else {
                 console.error('Failed to fetch ticket:', xhr_fetch.status, xhxhr_fetchr.statusText);

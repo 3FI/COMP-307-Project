@@ -17,7 +17,7 @@ if ($conn->connect_error) {
     die("Internal Server Error: " . $conn->connect_error);
 }
 
-$sql = "SELECT boards.name as pName, boards.description as pDescription, boards.id as pId, board_access.subscribed as pSubscribed
+$sql = "SELECT boards.name as pName, boards.description as pDescription, boards.id as pId, boards.color as pColor, board_access.subscribed as pSubscribed
 FROM boards
 JOIN board_access ON boards.id = board_access.board_id
 WHERE board_access.user_id = ?;";
@@ -28,12 +28,13 @@ if (mysqli_stmt_execute($stmt)) {
     $result = mysqli_stmt_get_result($stmt);
     $rows = array();
     while($row = mysqli_fetch_array($result)){
-        $rows[] = array('name' => $row['pName'], 'description' => $row['pDescription'], 'id' => $row['pId'], 'subscribed' => $row['pSubscribed']);
+        $rows[] = array('name' => $row['pName'], 'description' => $row['pDescription'], 'id' => $row['pId'], 'color' => $row['pColor'], 'subscribed' => $row['pSubscribed']);
     }
     echo json_encode($rows);
 } else {
     echo json_encode(['error' => 'Failed to execute the query.']);
 }
+
 
 
 $conn->close();
