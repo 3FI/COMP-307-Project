@@ -20,7 +20,7 @@ if ($conn->connect_error) {
 
 $sql = "INSERT INTO boards (name,description,admin_id,color) VALUES (?, ?, ?, ?)";
 $stmt = mysqli_prepare($conn, $sql);
-mysqli_stmt_bind_param($stmt, 'ssi',$name ,$description ,$userId ,$color);
+mysqli_stmt_bind_param($stmt, 'ssis',$name ,$description ,$userId ,$color);
 
 if (mysqli_stmt_execute($stmt)) {
     $result = mysqli_query($conn, 'SELECT LAST_INSERT_ID()');
