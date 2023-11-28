@@ -75,6 +75,13 @@ nav {
 .channel:hover .settings-icon{
     visibility: visible;
 }
+.user .settings-icon{
+    visibility: hidden;
+    transition: visibility 0.1s ease-in-out;
+}
+.user:hover .settings-icon{
+    visibility: visible;
+}
 .settings-icon{
     padding-right: 6px;
     padding-left: 6px;

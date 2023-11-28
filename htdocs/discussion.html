@@ -55,12 +55,6 @@
                     <span class="new-channel-btn navbar-brand" onclick="toggleNewUser()">+</span>
                 </div>
                 <div id="users-select">
-                    <div class="user">
-                        <span class="user-name">User 1</span>
-                    </div>
-                    <div class="user">
-                        <span class="user-name">User 2</span>
-                    </div>
                 </div>
             </div>
             <div class="discussion col-lg-10 col-md-9 col-sm-8 col-8">
@@ -151,11 +145,11 @@
             var new_channel_header = document.getElementById("create-new-header");
             new_channel_header.innerHTML = "Add New User";
             var enter_below = document.getElementById("enter-below");
-            enter_below.innerHTML = "Enter the username of the new user below:";
+            enter_below.innerHTML = "Enter the email of the new user below:";
             var name = document.getElementById("name");
             name.style.display = "inline-block";
             name.value = "";
-            name.placeholder = "username";
+            name.placeholder = "email";
             var create_btn = document.getElementById("create-btn");
             create_btn.style.display = "inline-block";
             create_btn.innerHTML = "Add User";
@@ -190,24 +184,64 @@
             close_btn.innerHTML = "Close";
         }
 
+        function errorAddingUser(errorString){
+            var new_channel_window = document.getElementById("create-new-window");
+            new_channel_window.style.display = "flex";
+            var new_channel_header = document.getElementById("create-new-header");
+            new_channel_header.innerHTML = "Error Adding User";
+            var enter_below = document.getElementById("enter-below");
+            enter_below.innerHTML = errorString;
+            var name = document.getElementById("name");
+            name.style.display = "none";
+            var create_btn = document.getElementById("create-btn");
+            create_btn.style.display = "none";
+            var close_btn = document.getElementById("close-btn");
+            close_btn.innerHTML = "Close";
+        }
+
         function newUser(){
             var userName = document.getElementById("name").value;
-            if (userName != null && userName != "" && isAlphaNumeric(userName)) {
+            if (userName != null && userName != "") {
                 // Check if user name already exists
-
-                // If user name does not exist, add user
-                var users = document.getElementById("users-select");
-                var newUser = document.createElement("div");
-                newUser.className = "user";
-                newUser.innerHTML = "<span>" + userName + "</span>";
-                console.log(newUser);
-                console.log(users);
-                users.appendChild(newUser);
-                closeWindow();
+                var xhr_fetch = new XMLHttpRequest();
+                xhr_fetch.onreadystatechange = function() {
+                    if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
+                        console.log(this.responseText);
+                        if (this.responseText == "TRUE") {
+                            //add user to board
+                            renderUsers();
+                        }
+                        else if (this.responseText == "Access Denied"){
+                            // alert("You do not have permission to add a user");
+                            accessDenied();
+                        }
+                        else if (this.responseText == "Multiple Account with Email"){
+                            errorAddingUser("A user with this email already exists.");
+                        }
+                        else if (this.responseText == "Invalid Email"){
+                            errorAddingUser("Invalid email.");
+                        }
+                        else{
+                            console.log(this.responseText);
+                        }
+                    }
+                }
+                xhr_fetch.open('POST', '/add-member', false);
+                xhr_fetch.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xhr_fetch.send('board_id='+board_id+'&new_member_email='+userName);
             }
             else{
                 alert("Invalid username");
             }
+        }
+
+        function renderUsers(){
+            var users = document.getElementById("users-select");
+            var newUser = document.createElement("div");
+            newUser.className = "user";
+            newUser.innerHTML = "<span>" + userName + "</span><img class=\"settings-icon\" src=\"./img/settings_icon.svg\" onclick=\"toggleDeleteUser(this.parent)\">";
+            users.appendChild(newUser);
+            closeWindow();
         }
 
         function chooseChannel(channel){
@@ -252,7 +286,9 @@
             xhr_delete.onreadystatechange = function() {
                 if(xhr_delete.readyState == 4 && xhr_delete.status == 200) {
                     if(this.responseText == "TRUE") {
-                        renderChannels();   
+                        active_channel = channel_data[0].id;
+                        renderChannels();  
+                        renderMessages();    
                         closeWindow();
                     }
                     else if(this.responseText == "Access Denied"){
