@@ -272,11 +272,11 @@
             if (!isNone(description)) {
                 contents += `<div class="col"><div class="card board-widget" style="background: linear-gradient(to right, #ffffff 98%, `+color+` 2%);">
                     <div class="card-body"><h5 class="card-title">`+name+`</h5><p class="card-text">`+description+`</p>
-                    <a href="discussion.html" class="stretched-link"></a></div></div></div>`;
+                    <a href="discussion.html?boardname=`+name+`" class="stretched-link"></a></div></div></div>`;
             } else {
                 contents += `<div class="col"><div class="card board-widget" style="background: linear-gradient(to right, #ffffff 98%, `+color+` 2%);">
                     <div class="card-body"><h5 class="card-title">`+name+`</h5><p class="card-text" style="color:#ffffff">`+description+`</p>
-                    <a href="discussion.html" class="stretched-link"></a></div></div></div>`;
+                    <a href="discussion.html?boardname=`+name+`" class="stretched-link"></a></div></div></div>`;
             }
             count += 1;
             if (count == numPerRow) {

@@ -15,7 +15,7 @@
 <!-- <body> -->
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
-            <span class="navbar-brand" href="#">Current Discussion Name</span>
+            <span class="navbar-brand" id="board-name" href="#">Current Discussion Name</span>
             <div class="navbar-modified" id="navbarText">
                 <ul class="navbar-nav me-auto mb-lg-0">
                     <li class="nav-item">
@@ -70,9 +70,30 @@
     <script>
         var channel_data = {}; 
         var active_channel = null;
-        //TODO: Change this to the board id from the URL
-        var board_id = '79';
+        var board_id = '';
+        const queryParams = new URLSearchParams(window.location.search);
+        var board_name = queryParams.get('boardname');
+        document.getElementById("board-name").innerHTML = board_name;
+        getBoardId(board_name);
 
+        function getBoardId(board_name){
+            var xhr_fetch = new XMLHttpRequest();
+            xhr_fetch.onreadystatechange = function() {
+                if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
+                    // Parse the response data
+                    data = this.responseText;
+                    parsed_data = JSON.parse(data);
+                    for (var i = 0; i < parsed_data.length; i++) {
+                        if (parsed_data[i].name == board_name){
+                            board_id = parsed_data[i].id;
+                        }
+                    }
+                    console.log(board_id);
+                }
+            }
+            xhr_fetch.open('GET', '/fetch-board-list', false);  // Set the third parameter to false for a synchronous request
+            xhr_fetch.send();
+        }
         
         function renderContent(){
             renderChannels();
