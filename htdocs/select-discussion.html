@@ -306,6 +306,33 @@
             xhr_fetch.open('GET', '/fetch-board-list', false);  // Set the third parameter to false for a synchronous request
             xhr_fetch.send();
 
+            /* !!!!! FOR SISSY !!!! */
+
+            //This can only be called after the AJAX call which calls '/fetch-board-list', this is how you retrieve the data
+
+            if (xhr_fetch.status === 200) {
+                var response = JSON.parse(xhr_fetch.responseText);
+                response.forEach(element => {
+
+                    console.log(element);
+
+                    //for Sissy : replace "element" by "name" or "subscribed" and then you can do anything with it
+                    //there is a pop up that will show you exactly what is returned in the foreach
+                    alert(JSON.stringify(element));
+
+                    //get the name in the corresponding element of the array
+                    alert(element.name);
+
+                    //get the boolean value in the corresponding element of the array
+                    alert(element.subscribed);
+                });
+            } else {
+                console.error('Failed to fetch ticket:', xhr_fetch.status, xhxhr_fetchr.statusText);
+                window.location.href = '/logout';
+            }
+
+            /* !!!!! FOR SISSY !!!! */
+
         } else {
             alert("ticket check didn't work");
         }

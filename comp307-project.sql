@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Hôte : 127.0.0.1
--- Généré le : dim. 26 nov. 2023 à 18:34
--- Version du serveur : 10.4.28-MariaDB
--- Version de PHP : 8.2.4
+-- Host: localhost
+-- Generation Time: Nov 28, 2023 at 07:06 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données : `comp307-project`
+-- Database: `comp307-project`
 --
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `boards`
+-- Table structure for table `boards`
 --
 
 CREATE TABLE `boards` (
@@ -36,36 +36,41 @@ CREATE TABLE `boards` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Déchargement des données de la table `boards`
+-- Dumping data for table `boards`
 --
 
 INSERT INTO `boards` (`id`, `name`, `description`, `admin_id`, `color`) VALUES
 (69, 'COMP 307', 'Principles Of Web Development', 8, '#000000'),
-(70, 'COMP 421', 'Database Systems', 8, '#000000');
+(70, 'COMP 421', 'Database Systems', 8, '#000000'),
+(77, 'Hockey Fantasy', 'Trades, Matchups And More!', 21, '#9d9933'),
+(78, 'Ligue Des Anciens', 'None', 21, '#91bc56');
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `board_access`
+-- Table structure for table `board_access`
 --
 
 CREATE TABLE `board_access` (
   `user_id` int(11) NOT NULL,
-  `board_id` int(11) NOT NULL
+  `board_id` int(11) NOT NULL,
+  `subscribed` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Déchargement des données de la table `board_access`
+-- Dumping data for table `board_access`
 --
 
-INSERT INTO `board_access` (`user_id`, `board_id`) VALUES
-(8, 69),
-(8, 70);
+INSERT INTO `board_access` (`user_id`, `board_id`, `subscribed`) VALUES
+(8, 69, 0),
+(8, 70, 0),
+(21, 77, 0),
+(21, 78, 0);
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `channels`
+-- Table structure for table `channels`
 --
 
 CREATE TABLE `channels` (
@@ -75,7 +80,7 @@ CREATE TABLE `channels` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Déchargement des données de la table `channels`
+-- Dumping data for table `channels`
 --
 
 INSERT INTO `channels` (`id`, `board_id`, `name`) VALUES
@@ -92,12 +97,15 @@ INSERT INTO `channels` (`id`, `board_id`, `name`) VALUES
 (11, 70, 'TESTNAME'),
 (12, 70, 'TESTNAME'),
 (13, 70, 'TESTNAME'),
-(14, 70, 'TESTNAME');
+(14, 70, 'TESTNAME'),
+(15, 77, 'trades'),
+(16, 77, 'players'),
+(18, 77, 'teams');
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `messages`
+-- Table structure for table `messages`
 --
 
 CREATE TABLE `messages` (
@@ -109,7 +117,7 @@ CREATE TABLE `messages` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Déchargement des données de la table `messages`
+-- Dumping data for table `messages`
 --
 
 INSERT INTO `messages` (`id`, `channel_id`, `user_id`, `message`, `date`) VALUES
@@ -123,7 +131,7 @@ INSERT INTO `messages` (`id`, `channel_id`, `user_id`, `message`, `date`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `users`
+-- Table structure for table `users`
 --
 
 CREATE TABLE `users` (
@@ -135,40 +143,41 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Déchargement des données de la table `users`
+-- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`user_id`, `email`, `password`, `username`, `ticket`) VALUES
 (8, 'test@test', '$2y$10$GpzPGuMXcp/8pxTCBeibgeqitsYLujLM8O6tjyLqeZMqQmeQbiE0O', 'test@test', 41355254),
-(9, 'abc@abc', '$2y$10$Dwict0UMqLFmObpmGKoHpOHtE8Pq4HWL6OxG0dQ2GBbfF91heVpf.', 'abc@abc', NULL);
+(9, 'abc@abc', '$2y$10$Dwict0UMqLFmObpmGKoHpOHtE8Pq4HWL6OxG0dQ2GBbfF91heVpf.', 'abc@abc', NULL),
+(21, 'louisantoine.habre@gmail.com', '$2y$10$fo0iQfoq57Ed/ctx5xJuM.Va0THKWQiF.0FEofwEKt.yrIliPhe82', 'louisantoine.habre@gmail.com', 58162943);
 
 --
--- Index pour les tables déchargées
+-- Indexes for dumped tables
 --
 
 --
--- Index pour la table `boards`
+-- Indexes for table `boards`
 --
 ALTER TABLE `boards`
   ADD PRIMARY KEY (`id`),
   ADD KEY `admin_id` (`admin_id`);
 
 --
--- Index pour la table `board_access`
+-- Indexes for table `board_access`
 --
 ALTER TABLE `board_access`
   ADD PRIMARY KEY (`user_id`,`board_id`),
   ADD KEY `board-access_ibfk_1` (`board_id`);
 
 --
--- Index pour la table `channels`
+-- Indexes for table `channels`
 --
 ALTER TABLE `channels`
   ADD PRIMARY KEY (`id`,`board_id`),
   ADD KEY `board` (`board_id`);
 
 --
--- Index pour la table `messages`
+-- Indexes for table `messages`
 --
 ALTER TABLE `messages`
   ADD PRIMARY KEY (`id`,`channel_id`) USING BTREE,
@@ -176,64 +185,64 @@ ALTER TABLE `messages`
   ADD KEY `user_id` (`user_id`);
 
 --
--- Index pour la table `users`
+-- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`user_id`);
 
 --
--- AUTO_INCREMENT pour les tables déchargées
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT pour la table `boards`
+-- AUTO_INCREMENT for table `boards`
 --
 ALTER TABLE `boards`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
 
 --
--- AUTO_INCREMENT pour la table `channels`
+-- AUTO_INCREMENT for table `channels`
 --
 ALTER TABLE `channels`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
--- AUTO_INCREMENT pour la table `messages`
+-- AUTO_INCREMENT for table `messages`
 --
 ALTER TABLE `messages`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT pour la table `users`
+-- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
--- Contraintes pour les tables déchargées
+-- Constraints for dumped tables
 --
 
 --
--- Contraintes pour la table `boards`
+-- Constraints for table `boards`
 --
 ALTER TABLE `boards`
   ADD CONSTRAINT `boards_ibfk_1` FOREIGN KEY (`admin_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Contraintes pour la table `board_access`
+-- Constraints for table `board_access`
 --
 ALTER TABLE `board_access`
   ADD CONSTRAINT `board_access_ibfk_1` FOREIGN KEY (`board_id`) REFERENCES `boards` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `board_access_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Contraintes pour la table `channels`
+-- Constraints for table `channels`
 --
 ALTER TABLE `channels`
   ADD CONSTRAINT `channels_ibfk_1` FOREIGN KEY (`board_id`) REFERENCES `boards` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Contraintes pour la table `messages`
+-- Constraints for table `messages`
 --
 ALTER TABLE `messages`
   ADD CONSTRAINT `messages_ibfk_1` FOREIGN KEY (`channel_id`) REFERENCES `channels` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,

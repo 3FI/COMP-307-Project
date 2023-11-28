@@ -17,7 +17,10 @@ if ($conn->connect_error) {
     die("Internal Server Error: " . $conn->connect_error);
 }
 
-$sql = "SELECT name,description,id FROM boards WHERE id in (SELECT board_id FROM board_access WHERE user_id = ?)";
+$sql = "SELECT boards.name as pName, boards.description as pDescription, boards.id as pId, board_access.subscribed as pSubscribed
+FROM boards
+JOIN board_access ON boards.id = board_access.board_id
+WHERE board_access.user_id = ?;";
 $stmt = mysqli_prepare($conn, $sql);
 mysqli_stmt_bind_param($stmt, 'i', $userId);
 
@@ -25,7 +28,7 @@ if (mysqli_stmt_execute($stmt)) {
     $result = mysqli_stmt_get_result($stmt);
     $rows = array();
     while($row = mysqli_fetch_array($result)){
-        $rows[] = array('name' => $row['name'], 'description' => $row['description'], 'id' => $row['id']);
+        $rows[] = array('name' => $row['pName'], 'description' => $row['pDescription'], 'id' => $row['pId'], 'subscribed' => $row['pSubscribed']);
     }
     echo json_encode($rows);
 } else {
