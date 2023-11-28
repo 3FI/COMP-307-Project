@@ -42,7 +42,7 @@
 
         return true;
 
-    }
+    };
 
     function hide(element) {
         element.style.display = "none";
@@ -58,6 +58,11 @@
 
     function colorDefault(helpMsg) {
         helpMsg.style.color = "#a6a6a6";
+    };
+
+    function generateRandomColor() {
+        var randomColor = Math.floor(Math.random()*16777215).toString(16);
+        return '#'+randomColor;
     };
 
     function createBoard() {
@@ -184,6 +189,28 @@
         }
     };
 
+    function getBoardColors() {
+
+        if (ticketCheck()){
+
+            boardColors = [];
+            var xhr_fetch = new XMLHttpRequest();
+            xhr_fetch.onreadystatechange = function() {
+                if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
+                    // DO/CALL YOUR RENDER FROM IN HERE
+                    console.log(this.responseText);
+                    data = JSON.parse(this.responseText);
+                    for (var i = 0; i < data.length; i++) {
+                        boardColors.push(data[i].color);
+                    }
+                }
+            }
+            xhr_fetch.open('GET', '/fetch-board-list', false);  // Set the third parameter to false for a synchronous request
+            xhr_fetch.send();
+            return boardColors;
+        }
+    };
+
     function validateBoardName() {
         inputField = document.getElementById("boardName");
         boardName = document.forms["board form"]["board name"].value;
@@ -225,12 +252,14 @@
         n = getNumBoards();
         names = getBoardNames();
         descriptions = getBoardDescriptions();
+        colors = getBoardColors();
 
         count = 0;
 
         for (var i = 0; i < n; i++) {
-            name = boardNames[i];
-            description = boardDescriptions[i];
+            name = names[i];
+            description = descriptions[i];
+            color = colors[i];
             if (count == 0) {
                 contents += `<div class="row welcome">`;
             }
@@ -243,6 +272,15 @@
                     <h5 class="card-title">`+name+`</h5><p class="card-text" style="color:#ffffff">`+description+`</p>
                     <a href="discussion.html" class="stretched-link"></a></div></div></div>`;
             }
+            // if (!isNone(description)) {
+            //     contents += `<div class="col"><div class="card board-widget" style="background: linear-gradient(to right, #ffffff 96%, `+color+` 4%);">
+            //         <div class="card-body"><h5 class="card-title">`+name+`</h5><p class="card-text">`+description+`</p>
+            //         <a href="discussion.html" class="stretched-link"></a></div></div></div>`;
+            // } else {
+            //     contents += `<div class="col"><div class="card board-widget" style="background: linear-gradient(to right, #ffffff 96%, `+color+` 4%);">
+            //         <div class="card-body"><h5 class="card-title">`+name+`</h5><p class="card-text" style="color:#ffffff">`+description+`</p>
+            //         <a href="discussion.html" class="stretched-link"></a></div></div></div>`;
+            // }
             count += 1;
             if (count == numPerRow) {
                 contents += `</div>`;
@@ -277,7 +315,7 @@
         } else {
             alert("ticket check didn't work");
         }
-    }
+    };
 
     function loadPage() {
 
@@ -319,8 +357,6 @@
         // xhr_create.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
         // xhr_create.send('name='+name_input);
 
-
-        
         // //THIS IS THE AJAX TO FETCH THE VALID BOARDS
 
         // var xhr_fetch = new XMLHttpRequest();
@@ -352,6 +388,8 @@
                 boardDescription = capitalize(boardDescription);
             }
 
+            boardColor = generateRandomColor();
+
             var xhr_create = new XMLHttpRequest();
             xhr_create.onreadystatechange = function() {
                 if(xhr_create.readyState == 4 && xhr_create.status == 200) {
@@ -363,7 +401,7 @@
             }
             xhr_create.open('POST', '/create-board', false);  // Set the third parameter to false for a synchronous request
             xhr_create.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-            var params = "name="+boardName+"&description="+boardDescription
+            var params = "name="+boardName+"&description="+boardDescription+"&color="+boardColor;
             xhr_create.send(params);
 
             loadBoards(numPerRow);
