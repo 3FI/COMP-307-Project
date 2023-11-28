@@ -57,11 +57,14 @@
     };
 
     function colorDefault(helpMsg) {
-        helpMsg.style.color = "#d9d9d9";
+        helpMsg.style.color = "#b3b3b3";
     };
 
     function generateRandomColor() {
         var randomColor = Math.floor(Math.random()*16777215).toString(16);
+        while (randomColor = 'ffffff') {
+            randomColor = Math.floor(Math.random()*16777215).toString(16);
+        }
         return '#'+randomColor;
     };
 
@@ -444,7 +447,7 @@
                 </div>
                 <div class="col">
                     <input type="text" name="board name" class="form-control" id="boardName" placeholder="COMP 307" onfocusout="validateBoardName()">
-                    <small id="boardNameHelp" class="form-text" style="color:#d9d9d9;display:block">Only letters, digits, and spaces allowed</small>
+                    <small id="boardNameHelp" class="form-text" style="color:#b3b3b3;display:block">Only letters, digits, and spaces allowed</small>
                     <div id="validBoardName" class="valid-feedback" style="display:none">
                         Looks good!
                     </div>
