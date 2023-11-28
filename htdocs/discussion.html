@@ -45,7 +45,7 @@
                     <span class="new-channel-btn navbar-brand" onclick="toggleNewChannel()">+</span>
                 </div>
                 <div id="channel-select">
-                    <div class="channel">
+                    <div class="channel" onclick="chooseChannel(this)">
                         <span class="channel-name">Channel 1</span>
                         <img class="settings-icon" src="./img/settings_icon.svg" onclick="toggleDeleteChannel(this.parent)">
                     </div>
@@ -67,14 +67,6 @@
                 <input class="text-box" type="text" onkeypress="sendMessage();" placeholder="Type your message here...">
                 <div class="text-box-background"></div>
                 <div id="messages">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia eligendi autem maxime. Maxime nisi ea accusantium quaerat iure exercitationem non aliquid, optio tempora mollitia neque, unde sed vitae magni sequi.
-                   sicing elit. Quia eligendi autem maxime. Maxime nisi ea accusantium quaerat iure exercitationem non aliquid, optio tempora mollitia neque, unde sed vitae magni sequi.
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia eligendi autem maxime. Maxime nisi ea accusantium quaerat iure exercitationem non aliquid, optio tempora mollitia neque, unde sed vitae magni sequi.
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia eligendi autem maxime. Maxime nisi ea accusantium quaerat iure exercitationem non aliquid, optio tempora mollitia neque, unde sed vitae magni sequi.
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia eligendi autem maxime. Maxime nisi ea accusantium quaerat iure exercitationem non aliquid, optio tempora mollitia neque, unde sed vitae magni sequi.
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia eligendi autem maxime. Maxime nisi ea accusantium quaerat iure exercitationem non aliquid, optio tempora mollitia neque, unde sed vitae magni sequi.
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia eligendi autem maxime. Maxime nisi ea accusantium quaerat iure exercitationem non aliquid, optio tempora mollitia neque, unde sed vitae magni sequi.
-                    aowidjawiodj
                 </div>
 
             </div>
@@ -82,46 +74,13 @@
     </div>
     
     <script>
-        // test function to add messages to the discussion
-        function sendMessage() {
-            var key = window.event.keyCode;
-            if (key === 13 && document.getElementsByClassName("text-box")[0].value != "") {
-                // Getting required elements
-                var message = document.getElementsByClassName("text-box")[0].value;
-                var messages = document.getElementById("messages");
-                //creating new message html element
-                var newMessage = document.createElement("div");
-                newMessage.className = "message";
-                //creating the user html element
-                var user = document.createElement("div");
-                user.className = "username";
-                user.innerHTML = "<strong>User 1</strong>";
-                //creating the datetime html element
-                var time = document.createElement("div");
-                time.className = "datetime";
-                const date = new Date();
-                time.innerHTML = date.getMonth() + "/" + date.getDate() + "/" + date.getFullYear()  + " "  + date.getHours() + ":" + date.getMinutes();
-                console.log(time.innerHTML);
-                //creating the text html element
-                var text = document.createElement("div");
-                text.className = "text";
-                text.innerHTML = message;
-                //adding user and text as children of newMessage
-                newMessage.appendChild(user);
-                newMessage.appendChild(time);
-                newMessage.appendChild(text);
-                //adding newMessage to messages
-                messages.appendChild(newMessage);
-                //clearing the text box
-                document.getElementsByClassName("text-box")[0].value = "";
-                //scrolling to bottom of messages
-                messages.scrollTo(0, 1000);
-            }
-        }
-
+        var channel_data = {}; 
+        var active_channel = 0;
+        
         function renderContent(){
             renderChannels();
-            // renderMessages();    
+            active_channel = channel_data[0].id;
+            renderMessages();    
         }
 
         function isAlphaNumeric(str) {
@@ -251,6 +210,12 @@
             }
         }
 
+        function chooseChannel(channel){
+            var channelName = channel.childNodes[0].innerHTML;
+            active_channel = channel_data.find(x => x.name === channelName).id;
+            renderMessages();
+        }
+
         //THIS IS THE AJAX TO CREATE A CHANNEL
         var board_id = '77';
         function newChannel(){
@@ -305,10 +270,7 @@
             // channel_id = '5';
             xhr_delete.send('channel_id='+channel_id);
         }
-        
-
-        var channel_data = {}; 
-        
+                
         function renderChannels(){
             // To be changed to the board id (should not be static)
             var board_id = '77';
@@ -325,6 +287,7 @@
                     for (var i = 0; i < parsed_data.length; i++) {
                         var newChannel = document.createElement("div");
                         newChannel.className = "channel";
+                        newChannel.onclick = function() {chooseChannel(this)};
                         newChannel.innerHTML = "<span class=\"channel-name\">" + parsed_data[i].name + "</span> <img class=\"settings-icon\" src=\"./img/settings_icon.svg\" onclick=\"toggleDeleteChannel(this)\">";
                         channels.appendChild(newChannel);
                     }
@@ -335,41 +298,71 @@
             xhr_fetch.send('boardId='+board_id);
         }
         
+        // test function to add messages to the discussion
+        function sendMessage() {
+            var key = window.event.keyCode;
+            if (key === 13 && document.getElementsByClassName("text-box")[0].value != "") {
+                // Getting required elements
+                var message = document.getElementsByClassName("text-box")[0].value;
+                
+                var xhr_create = new XMLHttpRequest();
+                xhr_create.onreadystatechange = function() {
+                    if(xhr_create.readyState == 4 && xhr_create.status == 200) {
+                        if(this.responseText == "TRUE") {
+                            // FETCH/RELOAD THE MESSAGE LIST HERE
+                            renderMessages();
+                        }
+                    }
+                }
+                xhr_create.open('POST', '/create-message', false);
+                xhr_create.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                xhr_create.send('channelId='+active_channel+'&message='+message);
+            }
+        }
 
-        //THIS IS THE AJAX TO CREATE A MESSAGE
-
-        // SET THESE TO YOUR VALUES
-        var message = 'TESTMESSAGE';
-        var channel_id = '5';
-
-        var xhr_create = new XMLHttpRequest();
-        xhr_create.onreadystatechange = function() {
-            if(xhr_create.readyState == 4 && xhr_create.status == 200) {
-                if(this.responseText == "TRUE") {
-                    // FETCH/RELOAD THE MESSAGE LIST HERE
+        function renderMessages(){
+            //THIS IS THE AJAX TO FETCH THE MESSAGES
+        
+            var xhr_fetch = new XMLHttpRequest();
+            xhr_fetch.onreadystatechange = function() {
+                if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
+                    // DO/CALL YOUR RENDER FROM IN HERE
+                    data = this.responseText;
+                    parsed_data = JSON.parse(data);
+                    var messages = document.getElementById("messages");
+                    messages.innerHTML = "";
+                    for (var i = 0; i < parsed_data.length; i++) {
+                        var newMessage = document.createElement("div");
+                        newMessage.className = "message";
+                        //creating the user html element
+                        var user = document.createElement("div");
+                        user.className = "username";
+                        user.innerHTML = "<strong>" + parsed_data[i].username + "</strong>";
+                        //creating the datetime html element
+                        var time = document.createElement("div");
+                        time.className = "datetime";
+                        time.innerHTML = parsed_data[i].date;
+                        //creating the text html element
+                        var text = document.createElement("div");
+                        text.className = "text";
+                        text.innerHTML = parsed_data[i].message;
+                        //adding user and text as children of newMessage
+                        newMessage.appendChild(user);
+                        newMessage.appendChild(time);
+                        newMessage.appendChild(text);
+                        //adding newMessage to messages
+                        messages.appendChild(newMessage);
+                    }
+                    //clearing the text box
+                    document.getElementsByClassName("text-box")[0].value = "";
+                    //scrolling to bottom of messages
+                    messages.scrollTo(0, 1000);
                 }
             }
+            xhr_fetch.open('POST', '/fetch-messages-list', false);
+            xhr_fetch.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhr_fetch.send('channelId='+active_channel);
         }
-        xhr_create.open('POST', '/create-message', false);
-        xhr_create.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-        xhr_create.send('channelId='+channel_id+'&message='+message);
-
-
         
-        //THIS IS THE AJAX TO FETCH THE MESSAGES
-        
-        // SET THESE TO YOUR VALUES
-        var channel_id = '5';
-
-        var xhr_fetch = new XMLHttpRequest();
-        xhr_fetch.onreadystatechange = function() {
-            if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
-                // DO/CALL YOUR RENDER FROM IN HERE
-                //console.log(this.responseText);
-            }
-        }
-        xhr_fetch.open('POST', '/fetch-messages-list', false);
-        xhr_fetch.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhr_fetch.send('channelId='+channel_id);
     </script>
 </body>
