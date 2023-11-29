@@ -16,7 +16,11 @@ if ($conn->connect_error) {
 }
 
 #SELECT ALL USER_ID FROM SPECIFIC BOARD_ID
-$sql = "SELECT user_id FROM board_access WHERE board_id=?";
+// $sql = "SELECT user_id FROM board_access WHERE board_id=?";
+$sql = "SELECT u.username
+FROM board_access ba
+JOIN users u ON ba.user_id = u.user_id
+WHERE ba.board_id = ?";
 $stmt = mysqli_prepare($conn, $sql);
 mysqli_stmt_bind_param($stmt, 'i', $boardId);
 
@@ -24,15 +28,15 @@ if (mysqli_stmt_execute($stmt)) {
 
     $result = mysqli_stmt_get_result($stmt);
 
-    $userIds = array();  // Initialize an array to store user_ids
+    $usernames = array();  // Initialize an array to store user_ids
 
     while($row = mysqli_fetch_array($result)){
-        $userIds[] = $row['user_id'];
+        $usernames[] = $row['username'];
     }
 
     $conn->close();
 
-    die(json_encode(array('users' => $userIds)));
+    die(json_encode(array('users' => $usernames)));
 } else {
     $conn->close();
     die('Failed to execute the query.');
