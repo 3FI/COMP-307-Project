@@ -48,4 +48,14 @@ input[type=checkbox] {
     display: inline-block;
     z-index: 2;
     position: relative;
+    width: 20px;
+    height: 20px;
+    background: white;
+    border-radius: 5px;
+    border: 2px solid #555;
+	cursor: pointer;
+}
+
+input[type=checkbox]:checked {
+    accent-color: #29a329;
 }
