@@ -41,6 +41,7 @@
         <div class="header" id="create-new-header"></div>
         <div id="enter-below"></div>
         <input type="text" id="name" placeholder="">
+        <small id="valid-input"></small>
         <div class="buttons">
             <button type="button" class="btn btn-secondary cancel-btn" id="close-btn" onclick="closeWindow()">Cancel</button>
             <button type="button" class="btn btn-primary" id="create-btn"></button>
@@ -79,6 +80,7 @@
     
     <script>
         var channel_data = {}; 
+        var user_data = {};
         var active_channel = null;
         var board_id = '';
         //TODO: change to actual username
@@ -87,15 +89,17 @@
         var board_name = queryParams.get('boardname');
         document.getElementById("board-name").innerHTML = board_name;
         getBoardId(board_name);
+
+        //getMyUsername();
         
-        // function getMyUserId(){
+        // function getMyUsername(){
         //     var xhr_fetch = new XMLHttpRequest();
         //     xhr_fetch.onreadystatechange = function() {
         //         if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
         //             console.log(this.responseText);
         //         }
         //     }
-        //     xhr_fetch.open('GET', '/fetch-userid', false);  // Set the third parameter to false for a synchronous request
+        //     xhr_fetch.open('GET', '/fetch-username', false); 
         //     xhr_fetch.send();
         // }
         
@@ -154,7 +158,6 @@
                             board_id = parsed_data[i].id;
                         }
                     }
-                    console.log(board_id);
                 }
             }
             xhr_fetch.open('GET', '/fetch-board-list', false);  // Set the third parameter to false for a synchronous request
@@ -201,20 +204,40 @@
             }
         }
 
-        //Open a window allowing to pin a message
+        //Call the server to update the message as pinned
         function pinMessage(pinButton){
             message = pinButton.parentNode;
-            pinned_messages = document.getElementById("dropdown-menu");
-            var pinned_id = document.createElement("p");
-            pinned_id.setAttribute("hidden", true);
-            pinned_id.innerHTML = message.id;
-            pinned_messages.appendChild(pinned_id);
-            var pinned_message = document.createElement("div");
-            pinned_message.className = "message mx-1";
-            pinned_message.onclick = function() {scrollToElm(document.getElementById("messages"), pinned_id.innerHTML, .5)};
-            pinned_message.innerHTML = "<div class=\"pinned-user\">" + message.childNodes[0].innerHTML + "</div><div class=\"text pinned-text\">" + message.childNodes[3].innerHTML + "</div>";
-            pinned_messages.appendChild(pinned_message);
+            // pinned_messages = document.getElementById("dropdown-menu");
+            // var pinned_id = document.createElement("p");
+            // pinned_id.setAttribute("hidden", true);
+            // pinned_id.innerHTML = message.id;
+            // pinned_messages.appendChild(pinned_id);
+            // var pinned_message = document.createElement("div");
+            // pinned_message.className = "message mx-1";
+            // pinned_message.onclick = function() {scrollToElm(document.getElementById("messages"), pinned_id.innerHTML, .5)};
+            // pinned_message.innerHTML = "<div class=\"pinned-user\">" + message.childNodes[0].innerHTML + "</div><div class=\"text pinned-text\">" + message.childNodes[3].innerHTML + "</div>";
+            // pinned_messages.appendChild(pinned_message);
         }
+
+        // function renderPinnedMessages(){
+        //     var xhr_fetch = new XMLHttpRequest();
+        //     xhr_fetch.onreadystatechange = function() {
+        //         // If the messages were fetched successfully, render the messages column
+        //         if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
+        //             // Parse the response data
+        //             data = this.responseText;
+        //             parsed_data = JSON.parse(data);
+        //             // Get the pinned messages dropdown column
+        //             pinned_messages = document.getElementById("dropdown-menu");
+        //             // Clear the pinned messages dropdown column
+        //             pinned_messages.innerHTML = "";
+        //             console.log(parsed_data);
+        //         }
+        //     }
+        //     xhr_fetch.open('POST', '/fetch-messages-list', false);
+        //     xhr_fetch.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        //     xhr_fetch.send('channelId='+active_channel);
+        // }
 
         //Open a window allowing to create a new channel
         function toggleNewChannel(){
@@ -231,6 +254,18 @@
             name.style.display = "inline-block";
             name.value = "";
             name.placeholder = "Channel Name";
+            valid = document.getElementById("valid-input")
+            valid.innerHTML = "";
+            name.onchange = function() {
+                if (channelNameExists(name.value)){
+                    valid.innerHTML = "Channel name already exists";
+                    document.getElementById("create-btn").disabled = true;
+                }
+                else{
+                    valid.innerHTML = "";
+                    document.getElementById("create-btn").disabled = false;
+                }
+            };
             // Change the create button to say "Create Channel" and set its onclick function
             var create_btn = document.getElementById("create-btn");
             create_btn.style.display = "inline-block";
@@ -243,6 +278,15 @@
             var disable_content = document.getElementById("disable");
             disable_content.style.opacity = "0.5";
             disable_content.style.pointerEvents = "none";
+        }
+
+        function channelNameExists(channelName){
+            for (var i = 0; i < channel_data.length; i++) {
+                if (channel_data[i].name == channelName){
+                    return true;
+                }
+            }
+            return false;
         }
 
         //Open a window allowing to delete a channel
@@ -260,6 +304,9 @@
             // Hide the input box
             var name = document.getElementById("name");
             name.style.display = "none";
+            // Clear the message for duplicate additions
+            valid = document.getElementById("valid-input")
+            valid.innerHTML = "";
             // Change the create button to say "Delete Channel" and set its onclick function
             var create_btn = document.getElementById("create-btn");
             create_btn.style.display = "inline-block";
@@ -289,6 +336,18 @@
             name.style.display = "inline-block";
             name.value = "";
             name.placeholder = "email";
+            valid = document.getElementById("valid-input")
+            valid.innerHTML = "";
+            name.onchange = function() {
+                if (userExists(name.value)){
+                    valid.innerHTML = "User already exists";
+                    document.getElementById("create-btn").disabled = true;
+                }
+                else{
+                    valid.innerHTML = "";
+                    document.getElementById("create-btn").disabled = false;
+                }
+            };
             // Change the create button to say "Add User" and set its onclick function
             var create_btn = document.getElementById("create-btn");
             create_btn.style.display = "inline-block";
@@ -301,6 +360,15 @@
             var disable_content = document.getElementById("disable");
             disable_content.style.opacity = "0.5";
             disable_content.style.pointerEvents = "none";
+        }
+
+        function userExists(userName){
+            for (var i = 0; i < user_data.length; i++) {
+                if (user_data[i] == userName){
+                    return true;
+                }
+            }
+            return false;
         }
 
         //Open a window allowing to delete a user
@@ -318,6 +386,9 @@
             // Hide the input box
             var name = document.getElementById("name");
             name.style.display = "none";
+            // Clear the message for duplicate additions
+            valid = document.getElementById("valid-input")
+            valid.innerHTML = "";
             // Change the create button to say "Remove User" and set its onclick function
             var create_btn = document.getElementById("create-btn");
             create_btn.style.display = "inline-block";
@@ -457,22 +528,12 @@
         }
 
         // Rendering the users column
-        function renderUsers(userName){
-            // Get the users column and add the new user to it
-            var users = document.getElementById("users-select");
-            var newUser = document.createElement("div");
-            newUser.className = "user";
-            newUser.innerHTML = "<span>" + userName + "</span><img class=\"settings-icon\" src=\"./img/settings_icon.svg\" onclick=\"toggleDeleteUser(this.parent)\">";
-            users.appendChild(newUser);
-            closeWindow();
-        }
-
         function renderUsers(){
             var xhr_fetch = new XMLHttpRequest();
             xhr_fetch.onreadystatechange = function() {
                 if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
                     var response = JSON.parse(xhr_fetch.responseText);
-                    console.log(response);
+                    user_data = response.users;
                     var users = response.users;
                     var users_select = document.getElementById("users-select");
                     users_select.innerHTML = "";
@@ -657,6 +718,11 @@
                     var messages = document.getElementById("messages");
                     // Clear the messages column
                     messages.innerHTML = "";
+
+                    // Get the pinned messages dropdown column
+                    pinned_messages = document.getElementById("dropdown-menu");
+                    // Clear the pinned messages dropdown column
+                    pinned_messages.innerHTML = "";
                     for (var i = 0; i < parsed_data.length; i++) {
                         var newMessage = document.createElement("div");
                         newMessage.className = "message";
@@ -686,6 +752,18 @@
                         newMessage.appendChild(text);
                         //adding newMessage to messages
                         messages.appendChild(newMessage);
+                        //adding pinned messages to dropdown
+                        if (parsed_data[i].pinned == 1){
+                            var pinned_id = document.createElement("p");
+                            pinned_id.setAttribute("hidden", true);
+                            pinned_id.innerHTML = "message"+i;
+                            pinned_messages.appendChild(pinned_id);
+                            var pinned_message = document.createElement("div");
+                            pinned_message.className = "message mx-1";
+                            pinned_message.onclick = function() {scrollToElm(document.getElementById("messages"), pinned_id.innerHTML, .5)};
+                            pinned_message.innerHTML = "<div class=\"pinned-user\">" + parsed_data[i].username + "</div><div class=\"text pinned-text\">" + parsed_data[i].message + "</div>";
+                            pinned_messages.appendChild(pinned_message);
+                        }
                     }
                     //clearing the text box
                     document.getElementsByClassName("text-box")[0].value = "";

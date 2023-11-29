@@ -19,6 +19,12 @@ nav {
 .dropdown-toggle{
     margin-right: 200px;
 }
+@media screen and (max-width: 768px) {
+    .dropdown-toggle{
+        margin-right: 100px;
+    }
+    
+}
 .dropdown-menu{
     margin-top: 10px;
     width: 350px;
@@ -77,7 +83,7 @@ nav {
     transition: font-size 0.1s ease-in-out, background-color 0.1s ease-in-out;
 }
 .channel:hover, .user:hover{
-    background-color: #777575;
+    background-color: #777575!important;
     font-size: 18px;
 }
 .channel .settings-icon{
