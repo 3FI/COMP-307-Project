@@ -726,7 +726,7 @@
                     for (var i = 0; i < parsed_data.length; i++) {
                         var newMessage = document.createElement("div");
                         newMessage.className = "message";
-                        newMessage.id = "message"+i;
+                        newMessage.id = parsed_data[i].id;
 
                         //creating the user html element
                         var user = document.createElement("div");
@@ -756,7 +756,7 @@
                         if (parsed_data[i].pinned == 1){
                             var pinned_id = document.createElement("p");
                             pinned_id.setAttribute("hidden", true);
-                            pinned_id.innerHTML = "message"+i;
+                            pinned_id.innerHTML = parsed_data[i].id;
                             pinned_messages.appendChild(pinned_id);
                             var pinned_message = document.createElement("div");
                             pinned_message.className = "message mx-1";
