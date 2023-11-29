@@ -44,6 +44,37 @@
 
     };
 
+
+    /* !!! FOR MATAN !!! */
+
+    function fetch_board_users(boardId){
+
+        var xhr_fetch = new XMLHttpRequest();
+        xhr_fetch.onreadystatechange = function() {
+            if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
+
+                var response = JSON.parse(xhr_fetch.responseText);
+
+                var users = response.users;
+
+                //here you will see the users associated with the specified board
+                alert("For matan -> The user IDs associated with the board_ID " + boardId + " are : " + users);
+
+                //you can do whatever after
+                
+            }
+        }
+
+        xhr_fetch.open('POST', '/fetch-board-users', true);  //asynchronous
+        xhr_fetch.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        var params = "boardId="+boardId;
+        xhr_fetch.send(params);
+
+    }
+
+    /* !!! FOR MATAN !!! */
+
+
     function hide(element) {
         element.style.display = "none";
     };
@@ -391,6 +422,7 @@
             show(createButton);
             show(dashboard);
             loadAllBoards(numPerRow);
+            fetch_board_users(69);
         } else {
             hide(form);
             hide(createButton);
