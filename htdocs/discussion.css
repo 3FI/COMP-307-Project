@@ -16,6 +16,18 @@ nav {
     flex-grow: 1;
 }
 
+.dropdown-toggle{
+    margin-right: 200px;
+}
+.dropdown-menu{
+    margin-top: 10px;
+    width: 350px;
+}
+
+.pinned-text{
+    margin-left: 5px;
+}
+
 .container {
     margin: 0;
     width: 100%;
@@ -171,6 +183,7 @@ nav {
 }
 /* #endregion */
 .message{
+    position: relative;
     padding: 5px;
     border-radius: 5px ;
     transition: background-color 0.1s ease-in-out;
@@ -186,6 +199,29 @@ nav {
     display: inline-block;
     font-size: 10px;
     color: gray;
+}
+.message .pin-icon{
+    visibility: hidden;
+    /* transition: visibility 0.1s ease-in-out; */
+}
+.message:hover .pin-icon{
+    visibility: visible;
+}
+.pin-icon{
+    float: inline-end;
+    border-radius: 5px;
+    padding:3px;
+    margin: 3px;
+}
+.pin-icon:hover{
+    background-color: #777575;
+}
+#pin-message-window{
+    display: none;
+    position: absolute;
+    width: 40px;
+    top: 3px;
+    right: 47px;
 }
 #create-new-window{
     display: none;

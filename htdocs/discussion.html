@@ -22,6 +22,15 @@
                         <a class="nav-link active" aria-current="page" href="select-discussion.html">Home</a>
                     </li>
                 </ul>
+                <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle" type="button" onclick="togglePinnedMessages()" data-bs-toggle="dropdown" aria-expanded="false">
+                      <img src="./img/pin_icon.svg" style="padding-right: 6px; padding-bottom: 4px;">
+                        Pinned
+                    </button>
+                    <div class="dropdown-menu" id="dropdown-menu">
+                      
+                    </div>
+                </div>
                 <form action="/logout">
                     <button type="logout" class="btn logout logout-btn">Logout</button>
                 </form>
@@ -46,8 +55,6 @@
                 </div>
                 <div id="channel-select">
                     <div class="channel" onclick="chooseChannel(this)">
-                        <!-- <span class="channel-name">Channel 1</span> -->
-                        <!--    <img class="settings-icon" src="./img/settings_icon.svg" onclick="toggleDeleteChannel(this.parent)"> -->
                     </div>
                 </div>
                 <div class="header users">
@@ -61,6 +68,9 @@
                 <input class="text-box" type="text" onkeypress="sendMessage();" placeholder="Type your message here...">
                 <div class="text-box-background"></div>
                 <div id="messages">
+                    <div class="username"><strong>User 1</strong></div>
+                    <div class="datetime">2023/8/2</div>
+                    <div class="text">Test message</div>
                 </div>
 
             </div>
@@ -70,12 +80,54 @@
     <script>
         var channel_data = {}; 
         var active_channel = null;
-        //TODO: Change this to the board id from the URL
         var board_id = '';
         const queryParams = new URLSearchParams(window.location.search);
         var board_name = queryParams.get('boardname');
         document.getElementById("board-name").innerHTML = board_name;
         getBoardId(board_name);
+        
+        function scrollToElm(container, elm_id, duration){
+            var elm = document.getElementById(elm_id);
+            var pos = getRelativePos(elm);
+            scrollTo( container, pos.top , duration);  // duration in seconds
+            }
+
+            function getRelativePos(elm){
+            var pPos = elm.parentNode.getBoundingClientRect(), // parent pos
+                cPos = elm.getBoundingClientRect(), // target pos
+                pos = {};
+
+            pos.top    = cPos.top    - pPos.top + elm.parentNode.scrollTop,
+            pos.right  = cPos.right  - pPos.right,
+            pos.bottom = cPos.bottom - pPos.bottom,
+            pos.left   = cPos.left   - pPos.left;
+
+            return pos;
+        }
+                
+        function scrollTo(element, to, duration, onDone) {
+            var start = element.scrollTop,
+                change = to - start,
+                startTime = performance.now(),
+                val, now, elapsed, t;
+
+            function animateScroll(){
+                now = performance.now();
+                elapsed = (now - startTime)/1000;
+                t = (elapsed/duration);
+
+                element.scrollTop = start + change * easeInOutQuad(t);
+
+                if( t < 1 )
+                    window.requestAnimationFrame(animateScroll);
+                else
+                    onDone && onDone();
+            };
+
+            animateScroll();
+        };
+
+        function easeInOutQuad(t){ return t<.5 ? 2*t*t : -1+(4-2*t)*t };
 
         function getBoardId(board_name){
             var xhr_fetch = new XMLHttpRequest();
@@ -124,6 +176,31 @@
             }
             return !(empty);
         };
+
+        function togglePinnedMessages(){
+            var dropdown = document.getElementById("dropdown-menu");
+            if (dropdown.style.display != "block"){
+                dropdown.style.display = "block";
+            }
+            else{
+                dropdown.style.display = "none";
+            }
+        }
+
+        //Open a window allowing to pin a message
+        function pinMessage(pinButton){
+            message = pinButton.parentNode;
+            pinned_messages = document.getElementById("dropdown-menu");
+            var pinned_id = document.createElement("p");
+            pinned_id.setAttribute("hidden", true);
+            pinned_id.innerHTML = message.id;
+            pinned_messages.appendChild(pinned_id);
+            var pinned_message = document.createElement("div");
+            pinned_message.className = "message mx-1";
+            pinned_message.onclick = function() {scrollToElm(document.getElementById("messages"), pinned_id.innerHTML, .5)};
+            pinned_message.innerHTML = "<div class=\"pinned-user\">" + message.childNodes[0].innerHTML + "</div><div class=\"text pinned-text\">" + message.childNodes[3].innerHTML + "</div>";
+            pinned_messages.appendChild(pinned_message);
+        }
 
         //Open a window allowing to create a new channel
         function toggleNewChannel(){
@@ -537,6 +614,8 @@
                     for (var i = 0; i < parsed_data.length; i++) {
                         var newMessage = document.createElement("div");
                         newMessage.className = "message";
+                        newMessage.id = "message"+i;
+
                         //creating the user html element
                         var user = document.createElement("div");
                         user.className = "username";
@@ -549,9 +628,15 @@
                         var text = document.createElement("div");
                         text.className = "text";
                         text.innerHTML = parsed_data[i].message;
+                        //create the pin message icon
+                        var pin = document.createElement("img");
+                        pin.className = "pin-icon";
+                        pin.src = "./img/pin_icon.svg";
+                        pin.onclick = function() {pinMessage(this)};
                         //adding user and text as children of newMessage
                         newMessage.appendChild(user);
                         newMessage.appendChild(time);
+                        newMessage.appendChild(pin);
                         newMessage.appendChild(text);
                         //adding newMessage to messages
                         messages.appendChild(newMessage);
