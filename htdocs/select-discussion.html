@@ -148,24 +148,18 @@
         return checkedBoardNames;
     };
 
-    function saveSubscribedBoards() {
-        alert("Board subscription to be implemented");
-        boardsToSubscribeTo = getCheckedBoards();
-        for (var i = 0; i < boardsToSubscribeTo.length; i++) {
-            boardName = boardsToSubscribeTo[i];
-            // UPDATE BOARD_ACCESS TABLE IN DB:
-            // set 'subscribed' boolean value to 1 for each record in BOARD_ACCESS table with board ID associated with above boardName
+    function modifySubscriptions(mode) {
+        if (mode != '0') {
+            mode = '1';
+            alert("Board subscription to be implemented");
+        } else {
+            alert("Board unsubscription to be implemented");
         }
-        return true;
-    };
-
-    function saveUnsubscribedBoards() {
-        alert("Board unsubscription to be implemented");
-        boardsToUnsubscribeFrom = getCheckedBoards();
-        for (var i = 0; i < boardsToUnsubscribeFrom.length; i++) {
-            boardName = boardsToUnsubscribeFrom[i];
+        boards = getCheckedBoards();
+        for (var i = 0; i < boards.length; i++) {
+            boardName = boards[i];
             // UPDATE BOARD_ACCESS TABLE IN DB:
-            // set 'subscribed' boolean value to 0 for each record in BOARD_ACCESS table with board ID associated with above boardName
+            // set 'subscribed' boolean value to int(mode) for each record in BOARD_ACCESS table with board ID associated with above boardName
         }
         return true;
     };
@@ -660,7 +654,7 @@
                 </form>
                 <div id="dashboard-top" class="container-fluid padding" style="display:none">
                     <a href="#" class="btn btn-primary float-end" onclick="return createBoard()">Create board</a>
-                    <a href="#" type="submit" id="subscribeBtn" class="btn subscribe-btn float-end" style="margin-right:10px;display:none" onclick="saveSubscribedBoards()">&#128276; Subscribe</a>
+                    <a href="#" type="submit" id="subscribeBtn" class="btn subscribe-btn float-end" style="margin-right:10px;display:none" onclick="modifySubscriptions('1')">&#128276; Subscribe</a>
                 </div>
                 <div id="dashboard" class="container-fluid" style="display:none"></div>
             </div>
@@ -717,7 +711,7 @@
                     </div>
                 </div>
                 <div id="subscriptions-top" class="container-fluid padding" style="display:none">
-                    <a href="#" type="submit" id="unsubscribeBtn" class="btn cancel-btn" style="display:none;width:150px;margin:auto" onclick="saveUnsubscribedBoards()">&#128277; Unsubscribe</a>
+                    <a href="#" type="submit" id="unsubscribeBtn" class="btn cancel-btn" style="display:none;width:150px;margin:auto" onclick="modifySubscriptions('0')">&#128277; Unsubscribe</a>
                 </div>
             </div>
         </div>
