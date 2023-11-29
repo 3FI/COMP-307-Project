@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 28, 2023 at 07:06 PM
+-- Generation Time: Nov 29, 2023 at 02:21 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -100,7 +100,8 @@ INSERT INTO `channels` (`id`, `board_id`, `name`) VALUES
 (14, 70, 'TESTNAME'),
 (15, 77, 'trades'),
 (16, 77, 'players'),
-(18, 77, 'teams');
+(18, 77, 'teams'),
+(19, 78, 'General');
 
 -- --------------------------------------------------------
 
@@ -113,20 +114,22 @@ CREATE TABLE `messages` (
   `channel_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `message` varchar(2000) NOT NULL,
-  `date` datetime NOT NULL DEFAULT current_timestamp()
+  `date` datetime NOT NULL DEFAULT current_timestamp(),
+  `is_pinned` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `messages`
 --
 
-INSERT INTO `messages` (`id`, `channel_id`, `user_id`, `message`, `date`) VALUES
-(1, 5, 8, 'test message', '2023-11-26 11:40:05'),
-(2, 5, 8, 'test message', '2023-11-26 11:40:10'),
-(3, 1, 9, 'abc', '2023-11-26 11:41:13'),
-(4, 2, 8, 'aaaa', '2023-11-26 11:53:47'),
-(5, 5, 8, 'abcdefghijk', '2023-11-26 12:07:28'),
-(6, 5, 8, 'TESTMESSAGE', '2023-11-26 12:28:41');
+INSERT INTO `messages` (`id`, `channel_id`, `user_id`, `message`, `date`, `is_pinned`) VALUES
+(1, 5, 8, 'test message', '2023-11-26 11:40:05', 0),
+(2, 5, 8, 'test message', '2023-11-26 11:40:10', 0),
+(3, 1, 9, 'abc', '2023-11-26 11:41:13', 0),
+(4, 2, 8, 'aaaa', '2023-11-26 11:53:47', 0),
+(5, 5, 8, 'abcdefghijk', '2023-11-26 12:07:28', 0),
+(6, 5, 8, 'TESTMESSAGE', '2023-11-26 12:28:41', 0),
+(7, 15, 21, 'hey', '2023-11-28 17:50:38', 0);
 
 -- --------------------------------------------------------
 
@@ -149,7 +152,7 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`user_id`, `email`, `password`, `username`, `ticket`) VALUES
 (8, 'test@test', '$2y$10$GpzPGuMXcp/8pxTCBeibgeqitsYLujLM8O6tjyLqeZMqQmeQbiE0O', 'test@test', 41355254),
 (9, 'abc@abc', '$2y$10$Dwict0UMqLFmObpmGKoHpOHtE8Pq4HWL6OxG0dQ2GBbfF91heVpf.', 'abc@abc', NULL),
-(21, 'louisantoine.habre@gmail.com', '$2y$10$fo0iQfoq57Ed/ctx5xJuM.Va0THKWQiF.0FEofwEKt.yrIliPhe82', 'louisantoine.habre@gmail.com', 58162943);
+(21, 'louisantoine.habre@gmail.com', '$2y$10$fo0iQfoq57Ed/ctx5xJuM.Va0THKWQiF.0FEofwEKt.yrIliPhe82', 'louisantoine.habre@gmail.com', 49717012);
 
 --
 -- Indexes for dumped tables
@@ -204,13 +207,13 @@ ALTER TABLE `boards`
 -- AUTO_INCREMENT for table `channels`
 --
 ALTER TABLE `channels`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `users`
