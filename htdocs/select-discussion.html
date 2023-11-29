@@ -115,6 +115,26 @@
         }
     };
 
+    function toggleUnsubscribeBtn() {
+        unsubscribeBtn = document.getElementById("unsubscribeBtn");
+        var inputs = document.getElementsByTagName("input");
+        atLeastOneChecked = false;
+        for (var i = 0; i < inputs.length; i++) {
+            if (inputs[i].type == "checkbox") {
+                if (inputs[i].checked == true) {
+                    atLeastOneChecked = true;
+                    break;
+                }
+            }  
+        }
+        if (atLeastOneChecked) {
+            show(unsubscribeBtn);
+        } else {
+            hide(unsubscribeBtn);
+        }
+    };
+
+
     function getCheckedBoards() {
         checkedBoardNames = [];
         var inputs = document.getElementsByTagName("input");
@@ -127,6 +147,28 @@
             }  
         }
         return checkedBoardNames;
+    };
+
+    function saveSubscribedBoards() {
+        alert("Board subscription to be implemented");
+        boardsToSubscribeTo = getCheckedBoards();
+        for (var i = 0; i < boardsToSubscribeTo.length; i++) {
+            boardName = boardsToSubscribeTo[i];
+            // UPDATE BOARD_ACCESS TABLE IN DB:
+            // set 'subscribed' boolean value to 1 for each record in BOARD_ACCESS table with board ID associated with above boardName
+        }
+        return true;
+    };
+
+    function saveUnsubscribedBoards() {
+        alert("Board unsubscription to be implemented");
+        boardsToUnsubscribeFrom = getCheckedBoards();
+        for (var i = 0; i < boardsToUnsubscribeFrom.length; i++) {
+            boardName = boardsToUnsubscribeFrom[i];
+            // UPDATE BOARD_ACCESS TABLE IN DB:
+            // set 'subscribed' boolean value to 0 for each record in BOARD_ACCESS table with board ID associated with above boardName
+        }
+        return true;
     };
 
     function createBoard() {
@@ -407,11 +449,63 @@
         }
     };
 
+    function showMenuContent(menuID, contentID) {
+
+        // reset all
+        document.getElementById('menu0').className = "nav-link";
+        document.getElementById('menu1').className = "nav-link";
+        document.getElementById('content0').style.display = "none";
+        document.getElementById('content1').style.display = "none";
+
+        // activate menu tab and show its content
+        document.getElementById(menuID).className = "nav-link active";
+        document.getElementById(contentID).style.display = "block";
+
+        if (menuID == "menu0") {
+            emptyDashboard = document.getElementById("empty-dashboard");
+            form = document.getElementById("form");
+            createButton = document.getElementById("dashboard-top");
+            dashboard = document.getElementById("dashboard");
+
+            if (getNumBoards() > 0) {
+                hide(emptyDashboard);
+                hide(form);
+                show(createButton);
+                show(dashboard);
+                loadAllBoards(numPerRow);
+            } else {
+                hide(form);
+                hide(createButton);
+                hide(dashboard);
+                show(emptyDashboard);
+            }
+        } else {
+            emptyDashboard = document.getElementById("no-subscriptions");
+            unsubscribeButton = document.getElementById("subscriptions-top");
+            dashboard = document.getElementById("subscriptions");
+
+            numSubscriptions = 1; // TODO: fetch number of subscribed boards from DB
+
+            if (numSubscriptions > 0) {
+                hide(emptyDashboard);
+                show(unsubscribeButton);
+                show(dashboard);
+            } else {
+                show(emptyDashboard);
+                hide(unsubscribeButton);
+                hide(dashboard);
+            }
+        }
+    };
+
     function loadPage() {
 
         ticketCheck();  //onload -> initial ticket check
 
         // If tickets are valid, load the page
+
+        // showMenuContent('menu0', 'content0');
+
         emptyDashboard = document.getElementById("empty-dashboard");
         form = document.getElementById("form");
         createButton = document.getElementById("dashboard-top");
@@ -518,10 +612,10 @@
         <div class="card-header">
             <ul class="nav nav-tabs card-header-tabs">
                 <li class="nav-item">
-                    <a class="nav-link active" href="#">All boards</a>
+                    <a id="menu0" class="nav-link active" href="#">All boards</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link disabled" tabindex="-1" aria-disabled="true">Subscribed</a>
+                    <a id="menu1" class="nav-link disabled" tabindex="-1" aria-disabled="true">Subscribed</a>
                 </li>
             </ul>
         </div>
