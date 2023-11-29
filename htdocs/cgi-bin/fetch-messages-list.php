@@ -30,14 +30,14 @@ if (mysqli_stmt_execute($stmt)) {
 }
 
 #FETCH THE MESSAGES
-$sql = "SELECT a.message,a.date, b.username,a.id FROM messages AS a INNER JOIN users as b ON a.user_id=b.user_id WHERE a.channel_id=?";
+$sql = "SELECT a.message,a.date, b.username,a.id,a.is_pinned FROM messages AS a INNER JOIN users as b ON a.user_id=b.user_id WHERE a.channel_id=?";
 $stmt = mysqli_prepare($conn, $sql);
 mysqli_stmt_bind_param($stmt, 'i',$channelId);
 if (mysqli_stmt_execute($stmt)) {
     $result = mysqli_stmt_get_result($stmt);
     $rows = array();
     while($row = mysqli_fetch_array($result)){
-        $rows[] = array('username' => $row['username'], 'message' => $row['message'], 'date' => $row['date'], 'id' => $row['id']);
+        $rows[] = array('username' => $row['username'], 'message' => $row['message'], 'date' => $row['date'], 'id' => $row['id'], 'is_pinned' => $row['is_pinned']);
     }
     $conn->close();
     die(json_encode($rows));
