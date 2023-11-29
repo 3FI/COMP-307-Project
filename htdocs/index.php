@@ -53,7 +53,8 @@
 			require __DIR__ . $viewDir . 'add-member.php';
 		case '/remove-member':
 			require __DIR__ . $viewDir . 'remove-member.php';
-
+		case '/fetch-board-users':
+			require __DIR__ . $viewDir . 'fetch-board-users.php';
 
 
 	    default:
