@@ -55,6 +55,8 @@
 			require __DIR__ . $viewDir . 'remove-member.php';
 		case '/fetch-board-users':
 			require __DIR__ . $viewDir . 'fetch-board-users.php';
+		case '/update-subscriptions':
+			require __DIR__ . $viewDir . 'update-subscriptions.php';
 
 
 	    default:
