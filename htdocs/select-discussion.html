@@ -134,7 +134,6 @@
         }
     };
 
-
     function getCheckedBoards() {
         checkedBoardNames = [];
         var inputs = document.getElementsByTagName("input");
@@ -484,15 +483,15 @@
             unsubscribeButton = document.getElementById("subscriptions-top");
             dashboard = document.getElementById("subscriptions");
 
+            show(unsubscribeButton);
+
             numSubscriptions = 1; // TODO: fetch number of subscribed boards from DB
 
             if (numSubscriptions > 0) {
                 hide(emptyDashboard);
-                show(unsubscribeButton);
                 show(dashboard);
             } else {
                 show(emptyDashboard);
-                hide(unsubscribeButton);
                 hide(dashboard);
             }
         }
@@ -504,25 +503,25 @@
 
         // If tickets are valid, load the page
 
-        // showMenuContent('menu0', 'content0');
+        showMenuContent('menu0', 'content0');
 
-        emptyDashboard = document.getElementById("empty-dashboard");
-        form = document.getElementById("form");
-        createButton = document.getElementById("dashboard-top");
-        dashboard = document.getElementById("dashboard");
-        if (getNumBoards() > 0) {
-            hide(emptyDashboard);
-            hide(form);
-            show(createButton);
-            show(dashboard);
-            loadAllBoards(numPerRow);
-            fetch_board_users(69);
-        } else {
-            hide(form);
-            hide(createButton);
-            hide(dashboard);
-            show(emptyDashboard);
-        }
+        // emptyDashboard = document.getElementById("empty-dashboard");
+        // form = document.getElementById("form");
+        // createButton = document.getElementById("dashboard-top");
+        // dashboard = document.getElementById("dashboard");
+        // if (getNumBoards() > 0) {
+        //     hide(emptyDashboard);
+        //     hide(form);
+        //     show(createButton);
+        //     show(dashboard);
+        //     loadAllBoards(numPerRow);
+        //     fetch_board_users(69);
+        // } else {
+        //     hide(form);
+        //     hide(createButton);
+        //     hide(dashboard);
+        //     show(emptyDashboard);
+        // }
     };
     
     function generateBoard() {
@@ -612,74 +611,115 @@
         <div class="card-header">
             <ul class="nav nav-tabs card-header-tabs">
                 <li class="nav-item">
-                    <a id="menu0" class="nav-link active" href="#">All boards</a>
+                    <a id="menu0" href="#" class="nav-link active" onclick="showMenuContent('menu0', 'content0')">All boards</a>
                 </li>
                 <li class="nav-item">
-                    <a id="menu1" class="nav-link disabled" tabindex="-1" aria-disabled="true">Subscribed</a>
+                    <a id="menu1" href="#" class="nav-link" onclick="showMenuContent('menu1', 'content1')">Subscribed</a>
                 </li>
             </ul>
         </div>
-        <div id="empty-dashboard" class="card-body text-center box">
-            <div class="bottom-padding">
-                <p class="empty-dashboard">Your dashboard is looking a little empty...</p>
-                <p class="empty-dashboard">Let's start a discussion board!</p>
-            </div>
-            <a class="btn btn-primary top-padding" onclick="return createBoard()">Create board</a>
-        </div>
-        <form id="form" name="board form" class="container box" style="display:none">
-            <div class="row top-padding bottom-padding">
-                <div class="col">
-                    <label for="boardName">Give it a name...</label>
-                </div>
-                <div class="col">
-                    <input type="text" name="board name" class="form-control" id="boardName" placeholder="COMP 307" onfocusout="validateBoardName()">
-                    <small id="boardNameHelp" class="form-text" style="color:#a6a6a6;display:block">Only letters, digits, and spaces allowed</small>
-                    <div id="validBoardName" class="valid-feedback" style="display:none">
-                        Looks good!
+        <div id="content0" style="display:none">
+            <div class="card">
+                <div id="empty-dashboard" class="card-body text-center box">
+                    <div class="bottom-padding">
+                        <p class="empty-dashboard">Your dashboard is looking a little empty...</p>
+                        <p class="empty-dashboard">Let's start a discussion board!</p>
                     </div>
-                    <div id="invalidBoardName" class="invalid-feedback" style="display:none">
-                        A discussion board with this name already exists
+                    <a class="btn btn-primary top-padding" onclick="return createBoard()">Create board</a>
+                </div>
+                <form id="form" name="board form" class="container box" style="display:none">
+                    <div class="row padding">
+                        <div class="col">
+                            <label for="boardName">Give it a name...</label>
+                        </div>
+                        <div class="col">
+                            <input type="text" name="board name" class="form-control" id="boardName" placeholder="COMP 307" onfocusout="validateBoardName()">
+                            <small id="boardNameHelp" class="form-text" style="color:#a6a6a6;display:block">Only letters, digits, and spaces allowed</small>
+                            <div id="validBoardName" class="valid-feedback" style="display:none">
+                                Looks good!
+                            </div>
+                            <div id="invalidBoardName" class="invalid-feedback" style="display:none">
+                                A discussion board with this name already exists
+                            </div>
+                        </div>
+                        <div class="col"></div>
+                    </div>
+                    <div class="row bottom-padding">
+                        <div class="col">
+                            <label for="boardName">...and a description if you'd like:</label>
+                        </div>
+                        <div class="col">
+                            <input type="text" name="board description" class="form-control" id="boardDescription" placeholder="The best course ever">
+                        </div>
+                        <div class="col"></div>
+                    </div>
+                    <div class="card-body text-center">
+                        <p><button type="button" class="btn btn-primary" onclick="return generateBoard()">Create</button></p>
+                        <p><a href="select-discussion.html" type="button" class="btn cancel-btn">Nevermind</a></p>
+                    </div>
+                </form>
+                <div id="dashboard-top" class="container-fluid padding" style="display:none">
+                    <a href="#" class="btn btn-primary float-end" onclick="return createBoard()">Create board</a>
+                    <a href="#" type="submit" id="subscribeBtn" class="btn subscribe-btn float-end" style="margin-right:10px;display:none" onclick="saveSubscribedBoards()">&#128276; Subscribe</a>
+                </div>
+                <div id="dashboard" class="container-fluid" style="display:none"></div>
+            </div>
+        </div>
+        <div id="content1" style="display:none">
+            <div class="card">
+                <div id="no-subscriptions" class="card-body text-center box">
+                    <div class="bottom-padding">
+                        <p class="empty-dashboard">No boards to show.</p>
                     </div>
                 </div>
-                <div class="col"></div>
-            </div>
-            <div class="row bottom-padding">
-                <div class="col">
-                    <label for="boardName">...and a description if you'd like:</label>
-                </div>
-                <div class="col">
-                    <input type="text" name="board description" class="form-control" id="boardDescription" placeholder="The best course ever">
-                </div>
-                <div class="col"></div>
-            </div>
-            <div class="card-body text-center">
-                <p><button type="button" class="btn btn-primary" onclick="return generateBoard()">Create</button></p>
-                <p><a href="select-discussion.html" type="button" class="btn cancel-btn">Nevermind</a></p>
-            </div>
-        </form>
-        <div id="dashboard-top" class="container-fluid padding" style="display:none">
-            <a href="#" class="btn btn-primary float-end" onclick="return createBoard()">Create board</a>
-            <a href="#" type="submit" id="subscribeBtn" class="btn subscribe-btn float-end" style="margin-right:10px;display:none">&#128276; Subscribe</a>
-        </div>
-        <div id="dashboard" class="container-fluid" style="display:none"></div>
-        <!-- FOR TESTING
-        <div class="container-fluid">
-            <div class="row bottom-padding">
-                <div class="col">
-                    <div class="card board-widget">
-                        <div class="card-body">
-                            <h5 class="board-title">Test</h5>
-                            <input type="checkbox" class="float-end" value="Test" onclick="toggleSubscribeBtn()">
-                            <p class="card-text">None</p>
-                            <a href="discussion.html?boardname=Test" class="stretched-link"></a>
+                <div id="subscriptions" class="container-fluid top-padding" style="display:none">
+                    <div class="row top-padding">
+                        <div class="col">
+                            <div class="card board-widget">
+                                <div class="card-body">
+                                    <h5 class="board-title">Test</h5>
+                                    <input type="checkbox" class="float-end" value="Test" onclick="toggleUnsubscribeBtn()">
+                                    <p class="card-text">None</p>
+                                    <a href="discussion.html?boardname=Test" class="stretched-link"></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card board-widget">
+                                <div class="card-body">
+                                    <h5 class="board-title">Test</h5>
+                                    <input type="checkbox" class="float-end" value="Test" onclick="toggleUnsubscribeBtn()">
+                                    <p class="card-text">None</p>
+                                    <a href="discussion.html?boardname=Test" class="stretched-link"></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card board-widget">
+                                <div class="card-body">
+                                    <h5 class="board-title">Test</h5>
+                                    <input type="checkbox" class="float-end" value="Test" onclick="toggleUnsubscribeBtn()">
+                                    <p class="card-text">None</p>
+                                    <a href="discussion.html?boardname=Test" class="stretched-link"></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card board-widget">
+                                <div class="card-body">
+                                    <h5 class="board-title">Test</h5>
+                                    <input type="checkbox" class="float-end" value="Test" onclick="toggleUnsubscribeBtn()">
+                                    <p class="card-text">None</p>
+                                    <a href="discussion.html?boardname=Test" class="stretched-link"></a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col"></div>
-                <div class="col"></div>
-                <div class="col"></div>
+                <div id="subscriptions-top" class="container-fluid padding" style="display:none">
+                    <a href="#" type="submit" id="unsubscribeBtn" class="btn cancel-btn" style="display:none;width:150px;margin:auto" onclick="saveUnsubscribedBoards()">&#128277; Unsubscribe</a>
+                </div>
             </div>
         </div>
-        -->
     </div>
 </body>
