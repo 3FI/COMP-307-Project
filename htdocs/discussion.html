@@ -206,11 +206,29 @@
 
         //Call the server to update the message as pinned
         function pinMessage(pinButton){
+            
             message = pinButton.parentNode;
 
-            // PLACE AJAX CALL HERE
+            message_id = message.id;
 
+            is_pinned = message.is_pinned;
 
+            //alert("is pinned value for message id " + message_id + " is " + is_pinned);
+
+            var xhr_update = new XMLHttpRequest();
+            xhr_update.onreadystatechange = function() {
+                if(xhr_update.readyState == 4 && xhr_update.status == 200) {
+
+                    var response = JSON.parse(xhr_update.responseText);
+
+                    alert(response.message);
+                }
+            }
+
+            xhr_update.open('POST', '/update-pinned-message', true);  //asynchronous
+            xhr_update.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            var params = "message_id="+message_id+"&pinned_status="+is_pinned;
+            xhr_update.send(params);
 
 
             // pinned_messages = document.getElementById("dropdown-menu");
@@ -733,6 +751,7 @@
                         var newMessage = document.createElement("div");
                         newMessage.className = "message";
                         newMessage.id = parsed_data[i].id;
+                        newMessage.is_pinned = parsed_data[i].is_pinned;
 
                         //creating the user html element
                         var user = document.createElement("div");
