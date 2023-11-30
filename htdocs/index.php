@@ -59,6 +59,8 @@
 			require __DIR__ . $viewDir . 'update-subscriptions.php';
 		case '/update-pinned-message':
 			require __DIR__ . $viewDir . 'update-pinned-message.php';
+		case '/leave-board':
+			require __DIR__ . $viewDir . 'leave-board.php';
 
 
 	    default:
