@@ -40,8 +40,8 @@ CREATE TABLE `boards` (
 --
 
 INSERT INTO `boards` (`id`, `name`, `description`, `admin_id`, `color`) VALUES
-(69, 'COMP 307', 'Principles Of Web Development', 8, '#000000'),
-(70, 'COMP 421', 'Database Systems', 8, '#000000'),
+(69, 'COMP 307', 'Principles Of Web Development', 8, '#5c2dfd'),
+(70, 'COMP 421', 'Database Systems', 8, '#9b30d3'),
 (77, 'Hockey Fantasy', 'Trades, Matchups And More!', 21, '#9d9933'),
 (78, 'Ligue Des Anciens', 'None', 21, '#91bc56');
 
