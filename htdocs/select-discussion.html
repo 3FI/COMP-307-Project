@@ -183,6 +183,8 @@
                 inputs[i].checked = true;
             }  
         }
+        enableSubscribe();
+        enableUnsubscribe();
     };
 
     function uncheckAll() {
@@ -194,6 +196,8 @@
                 }
             }  
         }
+        disableSubscribe();
+        disableUnsubscribe();
     };
 
     function modifySubscriptions(mode) {
