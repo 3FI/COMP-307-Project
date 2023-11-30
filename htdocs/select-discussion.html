@@ -12,6 +12,8 @@
 </head>
 <script>
     numPerRow = 4;
+    selectAllCount = 0
+    selectAllSubscribedCount = 0
 
     function ticketCheck(){
 
@@ -91,12 +93,28 @@
         helpMsg.style.color = "#a6a6a6";
     };
 
-    function disable(element) {
-        element.disabled = true;
+    function disableSubscribe() {
+        button = document.getElementById('subscribeBtn');
+        button.className = "btn subscribe-btn float-end";
+        button.disabled = true;
     };
 
-    function enable(element) {
-        element.disabled = false;
+    function enableSubscribe() {
+        button = document.getElementById('subscribeBtn');
+        button.className = "btn subscribe-btn on float-end";
+        button.disabled = false;
+    };
+
+    function disableUnsubscribe() {
+        button = document.getElementById('unsubscribeBtn');
+        button.className = "btn cancel-btn";
+        button.disabled = true;
+    };
+
+    function enableUnsubscribe() {
+        button = document.getElementById('unsubscribeBtn');
+        button.className = "btn cancel-btn on";
+        button.disabled = false;
     };
 
     function generateRandomColor() {
@@ -109,7 +127,6 @@
     };
 
     function toggleSubscribeBtn() {
-        subscribeBtn = document.getElementById("subscribeBtn");
         var inputs = document.getElementsByTagName("input");
         atLeastOneChecked = false;
         for (var i = 0; i < inputs.length; i++) {
@@ -121,14 +138,13 @@
             }  
         }
         if (atLeastOneChecked) {
-            enable(subscribeBtn);
+            enableSubscribe();
         } else {
-            disable(subscribeBtn);
+            disableSubscribe();
         }
     };
 
     function toggleUnsubscribeBtn() {
-        unsubscribeBtn = document.getElementById("unsubscribeBtn");
         var inputs = document.getElementsByTagName("input");
         atLeastOneChecked = false;
         for (var i = 0; i < inputs.length; i++) {
@@ -140,9 +156,9 @@
             }  
         }
         if (atLeastOneChecked) {
-            enable(unsubscribeBtn);
+            enableUnsubscribe();
         } else {
-            disable(unsubscribeBtn);
+            disableUnsubscribe();
         }
     };
 
@@ -167,10 +183,6 @@
                 inputs[i].checked = true;
             }  
         }
-        button1 = document.getElementById("cancelSelectAllBtn");
-        button2 = document.getElementById("cancelSelectAllSubscriptionsBtn");
-        show(button1);
-        show(button2);
     };
 
     function uncheckAll() {
@@ -182,10 +194,6 @@
                 }
             }  
         }
-        button1 = document.getElementById("cancelSelectAllBtn");
-        button2 = document.getElementById("cancelSelectAllSubscriptionsBtn");
-        hide(button1);
-        hide(button2);
     };
 
     function modifySubscriptions(mode) {
@@ -198,6 +206,13 @@
                 if(xhr_update.readyState == 4 && xhr_update.status == 200) {
                     if (mode == '0') {
                         loadBoards(numPerRow, '1');
+                        button = document.getElementById('selectAllSubscribedBoards');
+                        selectAllSubscribedCount = 0;
+                        button.className = "btn btn-primary float-start";
+                    } else {
+                        button = document.getElementById('selectAllBoards');
+                        selectAllCount = 0;
+                        button.className = "btn btn-primary float-start";
                     }
                 }
             }
@@ -611,6 +626,30 @@
         }
     };
 
+    function toggleSelectAll(buttonNumber) {
+        if (buttonNumber == '0') {
+            selectAllCount += 1;
+            button = document.getElementById('selectAllBoards')
+            if (selectAllCount%2==0) {
+                button.className = "btn btn-primary float-start";
+                uncheckAll();
+            } else {
+                button.className = "btn cancel-btn float-start";
+                checkAll();
+            }
+        } else {
+            selectAllSubscribedCount += 1;
+            button = document.getElementById('selectAllSubscribedBoards');
+            if (selectAllSubscribedCount%2==0) {
+                button.className = "btn btn-primary float-start";
+                uncheckAll();
+            } else {
+                button.className = "btn cancel-btn float-start";
+                checkAll();
+            }
+        }
+    };
+
     function showMenuContent(menuID, contentID) {
 
         // reset all
@@ -806,8 +845,7 @@
                 <div id="dashboard-header" class="container-fluid padding" style="display:block">
                     <a href="#" class="btn btn-primary float-end" onclick="return displayForm()">Create board</a>
                     <a href="#" type="submit" id="subscribeBtn" class="btn subscribe-btn float-end" style="margin-right:15px;display:block" onclick="modifySubscriptions('1')" disabled>&#128276; Subscribe</a>
-                    <a href="#" class="btn btn-primary float-start" style="margin-right:15px" onclick="checkAll()">Select All</a>
-                    <a href="#" id="cancelSelectAllBtn" class="btn cancel-btn float-start" style="display:none" onclick="uncheckAll()">Cancel</a>
+                    <a href="#" id="selectAllBoards" class="btn btn-primary float-start" style="margin-right:15px" onclick="toggleSelectAll('0')">Select All</a>
                 </div>
                 <div id="dashboard" class="container-fluid" style="display:none"></div>
             </div>
@@ -818,8 +856,7 @@
                     <p class="empty-dashboard">No boards to show.</p>
                 </div>
                 <div id="subscriptions-header" class="container-fluid padding" style="display:block">
-                    <a href="#" class="btn btn-primary float-start" style="margin-right:15px" onclick="checkAll()">Select All</a>
-                    <a href="#" id="cancelSelectAllSubscriptionsBtn" class="btn cancel-btn float-start" style="display:none" onclick="uncheckAll()">Cancel</a>
+                    <a href="#" id="selectAllSubscribedBoards" class="btn btn-primary float-start" style="margin-right:15px" onclick="toggleSelectAll('1')">Select All</a>
                 </div>
                 <div id="subscriptions" class="container-fluid" style="display:none"></div>
                 <div id="subscriptions-footer" class="container-fluid padding" style="display:block">

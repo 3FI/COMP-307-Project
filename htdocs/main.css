@@ -11,6 +11,12 @@
 }
 
 .subscribe-btn {
+    color: #2eb82e;
+    background-color: #ffffff;
+    border-color: #2eb82e;
+}
+
+.subscribe-btn.on {
     color: #ffffff;
     background-color: #2eb82e;
     border-color: #2eb82e;
@@ -28,8 +34,14 @@
     border-color: #cc0000;
 }
 
-.cancel-btn:hover {
+.cancel-btn.on {
     color: #ffffff;
     background-color: #cc0000;
     border-color: #cc0000;
+}
+
+.cancel-btn:hover {
+    color: #ffffff;
+    background-color: #b30000;
+    border-color: #b30000;
 }
