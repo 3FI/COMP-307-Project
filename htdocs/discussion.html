@@ -81,6 +81,7 @@
     <script>
         var channel_data = {}; 
         var user_data = {};
+        var message_data = {};
         var active_channel = null;
         var board_id = '';
         //TODO: change to actual username
@@ -89,6 +90,77 @@
         var board_name = queryParams.get('boardname');
         document.getElementById("board-name").innerHTML = board_name;
         getBoardId(board_name);
+
+        
+        // Set interval to execute the function every second (1000 milliseconds)
+        setInterval(checkForUpdates, 1000);
+
+        function checkForUpdates(){
+
+            function checkForChannelsUpdates(){
+                var xhr_fetch = new XMLHttpRequest();
+                xhr_fetch.onreadystatechange = function() {
+                    if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
+                        var response = JSON.parse(xhr_fetch.responseText);
+                        if (!areJSONObjectsEqual(response, channel_data)){
+                            renderChannels();
+                        }
+                    }
+                }
+                xhr_fetch.open('POST', '/fetch-channels-list', true);  //asynchronous
+                xhr_fetch.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                xhr_fetch.send('boardId='+board_id);
+            }
+            function checkForUsersUpdates() {
+                var xhr_fetch = new XMLHttpRequest();
+                xhr_fetch.onreadystatechange = function() {
+                    if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
+                        var response = JSON.parse(xhr_fetch.responseText);
+                        if (!areJSONObjectsEqual(response, user_data)){
+                            renderUsers();
+                        }
+                    }
+                }
+                xhr_fetch.open('POST', '/fetch-board-users', true);  //asynchronous
+                xhr_fetch.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                var params = "boardId="+board_id;
+                xhr_fetch.send(params);
+            }
+            function checkForMessagesUpdates(){
+                var xhr_fetch = new XMLHttpRequest();
+                xhr_fetch.onreadystatechange = function() {
+                    if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
+                        var response = JSON.parse(xhr_fetch.responseText);
+                        if (!areJSONObjectsEqual(response, message_data)){
+                            renderMessages();
+                            renderPinnedMessages();
+                        }
+                    }
+                }
+                xhr_fetch.open('POST', '/fetch-messages-list', true);  //asynchronous
+                xhr_fetch.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                xhr_fetch.send('channelId='+active_channel);
+            }
+            function areJSONObjectsEqual(obj1, obj2) {
+                const jsonString1 = JSON.stringify(obj1);
+                const jsonString2 = JSON.stringify(obj2);
+
+                return jsonString1 === jsonString2;
+            }
+
+            checkForChannelsUpdates();
+            checkForUsersUpdates();
+            checkForMessagesUpdates();
+    
+        }
+
+        // function refreshContent(){
+        //     renderChannels();
+        //     renderUsers();
+        //     renderMessages();
+        //     renderPinnedMessages();
+        // }
+
 
         //getMyUsername();
         
@@ -721,7 +793,7 @@
                         active_channel = channel_data[0].id;
                     }
                     // Otherwise, set it to the last active channel, this occurs when a channel is deleted
-                    else{
+                    else if (parsed_data.find(x => x.id === active_channel) == null){
                         active_channel = parsed_data[parsed_data.length-1].id;
                     }
                     // Get the channels column 
@@ -769,6 +841,10 @@
                         // If the message was sent successfully, render the messages column
                         if(this.responseText == "TRUE") {
                             renderMessages();
+                            //clearing the text box
+                            document.getElementsByClassName("text-box")[0].value = "";
+                            //scrolling to bottom of messages
+                            messages.scrollTo(0, 1000);
                         }
                     }
                 }
@@ -787,6 +863,7 @@
                     // Parse the response data
                     data = this.responseText;
                     parsed_data = JSON.parse(data);
+                    message_data = parsed_data;
                     // Get the messages column
                     var messages = document.getElementById("messages");
                     // Clear the messages column
@@ -827,10 +904,6 @@
                         //adding newMessage to messages
                         messages.appendChild(newMessage);
                     }
-                    //clearing the text box
-                    document.getElementsByClassName("text-box")[0].value = "";
-                    //scrolling to bottom of messages
-                    messages.scrollTo(0, 1000);
                 }
             }
             xhr_fetch.open('POST', '/fetch-messages-list', false);
