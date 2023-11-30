@@ -223,12 +223,12 @@ nav {
 .pin-icon:hover{
     background-color: #777575;
 }
-#pin-message-window{
+#pinned-mark{
     display: none;
-    position: absolute;
-    width: 40px;
-    top: 3px;
-    right: 47px;
+    float:inline-end;
+    padding: 2px 5px;
+    background: lightgray;
+    border-radius: 5px;
 }
 #create-new-window{
     display: none;

@@ -70,9 +70,14 @@
                 <input class="text-box" type="text" onkeypress="sendMessage();" placeholder="Type your message here...">
                 <div class="text-box-background"></div>
                 <div id="messages">
-                    <!-- <div class="username"><strong>User 1</strong></div>
-                    <div class="datetime">2023/8/2</div>
-                    <div class="text">Test message</div> -->
+                    <!-- <div class="message">
+                        <div class="username"><strong>User 1</strong></div>
+                        <div class="datetime">2023/8/2</div>
+                        <img src="./img/pin_icon.svg" alt="" class="pin-icon" onclick="pinMessage(this)">
+                        <div id="pinned-mark">Pinned</div>
+                        <div class="text">Test message</div>
+
+                    </div> -->
                 </div>
 
             </div>
@@ -132,8 +137,26 @@
                 xhr_fetch.onreadystatechange = function() {
                     if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
                         var response = JSON.parse(xhr_fetch.responseText);
-                        if (!areJSONObjectsEqual(response, message_data)){
+                        response.forEach(elm=> delete elm['is_pinned']);
+                        var msg_data_without_pinned = message_data;
+                        msg_data_without_pinned.forEach(elm=> delete elm['is_pinned']);
+                        if (!areJSONObjectsEqual(response, msg_data_without_pinned)){
                             renderMessages();
+                            //scrolling to bottom of messages
+                            messages.scrollTo(0, 1000);
+                        }
+                    }
+                }
+                xhr_fetch.open('POST', '/fetch-messages-list', true);  //asynchronous
+                xhr_fetch.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                xhr_fetch.send('channelId='+active_channel);
+            }
+            function checkForPinnedMessagesUpdates(){
+                var xhr_fetch = new XMLHttpRequest();
+                xhr_fetch.onreadystatechange = function() {
+                    if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
+                        var response = JSON.parse(xhr_fetch.responseText);
+                        if (!areJSONObjectsEqual(response, message_data)){
                             renderPinnedMessages();
                         }
                     }
@@ -152,7 +175,7 @@
             checkForChannelsUpdates();
             checkForUsersUpdates();
             checkForMessagesUpdates();
-    
+            checkForPinnedMessagesUpdates();
         }
 
         // function refreshContent(){
@@ -294,9 +317,11 @@
                     var response = JSON.parse(xhr_update.responseText);
                     if (message.is_pinned == 1){
                         message.is_pinned = 0;
+                        message.childNodes[3].style.display = "none";
                     }
                     else{
                         message.is_pinned = 1;
+                        message.childNodes[3].style.display = "inline";
                     }
                     renderPinnedMessages();
                 }
@@ -897,10 +922,21 @@
                         pin.className = "pin-icon";
                         pin.src = "./img/pin_icon.svg";
                         pin.onclick = function() {pinMessage(this)};
+                        //create the pinned message mark
+                        var pinned_mark = document.createElement("div");
+                        pinned_mark.id = "pinned-mark";
+                        pinned_mark.innerHTML = "Pinned";
                         //adding user and text as children of newMessage
                         newMessage.appendChild(user);
                         newMessage.appendChild(time);
                         newMessage.appendChild(pin);
+                        newMessage.appendChild(pinned_mark);
+                        if (newMessage.is_pinned == 0){
+                            newMessage.childNodes[3].style.display = "none";
+                        }
+                        else{
+                            newMessage.childNodes[3].style.display = "inline";
+                        }
                         newMessage.appendChild(text);
                         //adding newMessage to messages
                         messages.appendChild(newMessage);
@@ -911,7 +947,6 @@
             xhr_fetch.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             xhr_fetch.send('channelId='+active_channel);
         }
-
         function leaveBoard(){
             
             if (confirm("Do you really want to leave the discussion board ?") == true) {
@@ -930,6 +965,5 @@
             } 
 
         }
-
     </script>
 </body>
