@@ -172,7 +172,8 @@
             active_channel = channel_data[0].id;
             channels = document.getElementsByClassName("channel");
             channels[0].style.backgroundColor = "#777575";
-            renderMessages();    
+            renderMessages();   
+            renderPinnedMessages();  
             renderUsers();
         }
 
@@ -208,20 +209,23 @@
         function pinMessage(pinButton){
             
             message = pinButton.parentNode;
-
+            
             message_id = message.id;
-
+            
             is_pinned = message.is_pinned;
-
-            //alert("is pinned value for message id " + message_id + " is " + is_pinned);
 
             var xhr_update = new XMLHttpRequest();
             xhr_update.onreadystatechange = function() {
                 if(xhr_update.readyState == 4 && xhr_update.status == 200) {
 
                     var response = JSON.parse(xhr_update.responseText);
-
-                    alert(response.message);
+                    if (message.is_pinned == 1){
+                        message.is_pinned = 0;
+                    }
+                    else{
+                        message.is_pinned = 1;
+                    }
+                    renderPinnedMessages();
                 }
             }
 
@@ -229,39 +233,83 @@
             xhr_update.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
             var params = "message_id="+message_id+"&pinned_status="+is_pinned;
             xhr_update.send(params);
-
-
-            // pinned_messages = document.getElementById("dropdown-menu");
-            // var pinned_id = document.createElement("p");
-            // pinned_id.setAttribute("hidden", true);
-            // pinned_id.innerHTML = message.id;
-            // pinned_messages.appendChild(pinned_id);
-            // var pinned_message = document.createElement("div");
-            // pinned_message.className = "message mx-1";
-            // pinned_message.onclick = function() {scrollToElm(document.getElementById("messages"), pinned_id.innerHTML, .5)};
-            // pinned_message.innerHTML = "<div class=\"pinned-user\">" + message.childNodes[0].innerHTML + "</div><div class=\"text pinned-text\">" + message.childNodes[3].innerHTML + "</div>";
-            // pinned_messages.appendChild(pinned_message);
         }
 
-        // function renderPinnedMessages(){
-        //     var xhr_fetch = new XMLHttpRequest();
-        //     xhr_fetch.onreadystatechange = function() {
-        //         // If the messages were fetched successfully, render the messages column
-        //         if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
-        //             // Parse the response data
-        //             data = this.responseText;
-        //             parsed_data = JSON.parse(data);
-        //             // Get the pinned messages dropdown column
-        //             pinned_messages = document.getElementById("dropdown-menu");
-        //             // Clear the pinned messages dropdown column
-        //             pinned_messages.innerHTML = "";
-        //             console.log(parsed_data);
-        //         }
-        //     }
-        //     xhr_fetch.open('POST', '/fetch-messages-list', false);
-        //     xhr_fetch.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        //     xhr_fetch.send('channelId='+active_channel);
-        // }
+        function renderPinnedMessages(){
+            var xhr_fetch = new XMLHttpRequest();
+            xhr_fetch.onreadystatechange = function() {
+                // If the messages were fetched successfully, render the messages column
+                if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
+                    // Parse the response data
+                    data = this.responseText;
+                    parsed_data = JSON.parse(data);
+                    // Get the pinned messages dropdown column
+                    pinned_messages = document.getElementById("dropdown-menu");
+                    // Clear the pinned messages dropdown column
+                    pinned_messages.innerHTML = "";
+                    num_pinned = 0;
+                    for (var i = 0; i < parsed_data.length; i++) {
+                        if (parsed_data[i].is_pinned == 1){
+                            num_pinned++;
+                            //create the pinned message element
+                            var pinned_message = document.createElement("div");
+                            //set class name
+                            pinned_message.className = "message mx-1";
+                            pinned_message.onclick = function() {scrollToPinnedMessage(this.childNodes[4].innerHTML)};
+
+                            //creating the user html element
+                            var user = document.createElement("div");
+                            user.className = "username";
+                            user.innerHTML = "<strong>" + parsed_data[i].username + "</strong>";
+                            //creating the datetime html element
+                            var time = document.createElement("div");
+                            time.className = "datetime";
+                            time.innerHTML = parsed_data[i].date;
+                            //creating the text html element
+                            var text = document.createElement("div");
+                            text.className = "text";
+                            text.innerHTML = parsed_data[i].message;
+                            var pinned_id = document.createElement("p");
+                            pinned_id.setAttribute("hidden", true);
+                            pinned_id.innerHTML = parsed_data[i].id;
+                            //create the pin message icon
+                            var pin = document.createElement("img");
+                            pin.className = "pin-icon";
+                            pin.src = "./img/pin_icon.svg";
+                            pin.onclick = function() {
+                                this.parentNode.onclick = null;
+                                var pinned_message = document.getElementById(pinned_id.innerHTML);
+                                pinMessage(pinned_message.childNodes[2]);
+                                this.parentNode.onclick = function() {scrollToPinnedMessage(this.parentNode.childNodes[4].innerHTML)};
+                            };
+
+                            // pinned_message.innerHTML = "<div class=\"pinned-user\"><strong>" + parsed_data[i].username + "</strong></div><div class=\"text pinned-text\">" + parsed_data[i].message + "</div>";
+                            pinned_message.appendChild(user);
+                            pinned_message.appendChild(time);
+                            pinned_message.appendChild(pin);
+                            pinned_message.appendChild(text);
+                            pinned_message.appendChild(pinned_id);
+                            pinned_messages.appendChild(pinned_message);
+                        }
+                    }
+                    if (num_pinned == 0){
+                        var pinned_message = document.createElement("div");
+                        pinned_message.className = "mx-1";
+                        pinned_message.innerHTML = "<div class=\"text pinned-text\">No pinned messages</div>";
+                        pinned_messages.appendChild(pinned_message);
+                    }
+                }
+            }
+            xhr_fetch.open('POST', '/fetch-messages-list', false);
+            xhr_fetch.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhr_fetch.send('channelId='+active_channel);
+        }
+
+        function scrollToPinnedMessage(pinned_id){
+            var pinned_message = document.getElementById(pinned_id);
+            var pinned_messages = document.getElementById("messages");
+            scrollToElm(pinned_messages, pinned_id, 0.5);
+        }
 
         //Open a window allowing to create a new channel
         function toggleNewChannel(){
@@ -597,6 +645,7 @@
             // Set the background color of the chosen channel
             channel.style.backgroundColor = "#777575";
             renderMessages();
+            renderPinnedMessages();
         }
 
         // Creating a new channel
@@ -669,7 +718,7 @@
                     channel_data = parsed_data;
                     // If there is no active channel, set it to the first channel
                     if (active_channel == null){
-                        active_channel = parsed_data[0].id;
+                        active_channel = channel_data[0].id;
                     }
                     // Otherwise, set it to the last active channel, this occurs when a channel is deleted
                     else{
@@ -777,18 +826,6 @@
                         newMessage.appendChild(text);
                         //adding newMessage to messages
                         messages.appendChild(newMessage);
-                        //adding pinned messages to dropdown
-                        if (parsed_data[i].pinned == 1){
-                            var pinned_id = document.createElement("p");
-                            pinned_id.setAttribute("hidden", true);
-                            pinned_id.innerHTML = parsed_data[i].id;
-                            pinned_messages.appendChild(pinned_id);
-                            var pinned_message = document.createElement("div");
-                            pinned_message.className = "message mx-1";
-                            pinned_message.onclick = function() {scrollToElm(document.getElementById("messages"), pinned_id.innerHTML, .5)};
-                            pinned_message.innerHTML = "<div class=\"pinned-user\">" + parsed_data[i].username + "</div><div class=\"text pinned-text\">" + parsed_data[i].message + "</div>";
-                            pinned_messages.appendChild(pinned_message);
-                        }
                     }
                     //clearing the text box
                     document.getElementsByClassName("text-box")[0].value = "";
@@ -800,5 +837,6 @@
             xhr_fetch.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             xhr_fetch.send('channelId='+active_channel);
         }
+
     </script>
 </body>

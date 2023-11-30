@@ -218,6 +218,7 @@ nav {
     border-radius: 5px;
     padding:3px;
     margin: 3px;
+    z-index: 100;
 }
 .pin-icon:hover{
     background-color: #777575;
