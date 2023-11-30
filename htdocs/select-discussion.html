@@ -91,6 +91,14 @@
         helpMsg.style.color = "#a6a6a6";
     };
 
+    function disable(element) {
+        element.disabled = true;
+    };
+
+    function enable(element) {
+        element.disabled = false;
+    };
+
     function generateRandomColor() {
         var randomColor = Math.floor(Math.random()*16777215).toString(16);
         return '#'+randomColor;
@@ -109,9 +117,9 @@
             }  
         }
         if (atLeastOneChecked) {
-            show(subscribeBtn);
+            enable(subscribeBtn);
         } else {
-            hide(subscribeBtn);
+            disable(subscribeBtn);
         }
     };
 
@@ -128,9 +136,9 @@
             }  
         }
         if (atLeastOneChecked) {
-            show(unsubscribeBtn);
+            enable(unsubscribeBtn);
         } else {
-            hide(unsubscribeBtn);
+            disable(unsubscribeBtn);
         }
     };
 
@@ -148,33 +156,45 @@
         return checkedBoardNames;
     };
 
-    function modifySubscriptions(mode) {
-
-    boards = getCheckedBoards();
-
-    for (var i = 0; i < boards.length; i++) {
-
-        boardName = boards[i];
-
-        var xhr_update = new XMLHttpRequest();
-        xhr_update.onreadystatechange = function() {
-            if(xhr_update.readyState == 4 && xhr_update.status == 200) {
-                alert("Modified user subscription!");
-            }
+    function uncheckAll() {
+        var inputs = document.getElementsByTagName("input");
+        for (var i = 0; i < inputs.length; i++) {
+            if (inputs[i].type == "checkbox") {
+                if (inputs[i].checked == true) {
+                    inputs[i].checked = false;
+                }
+            }  
         }
-
-        xhr_update.open('POST', '/update-subscriptions', true);  //asynchronous
-        xhr_update.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-        //pass the board name and the mode
-        var params = "boardName="+boardName+"&mode="+mode;
-        xhr_update.send(params);
-
-    }
-
-    return true;
     };
 
-    function createBoard() {
+    function modifySubscriptions(mode) {
+        boards = getCheckedBoards();
+        for (var i = 0; i < boards.length; i++) {
+            boardName = boards[i];
+
+            var xhr_update = new XMLHttpRequest();
+            xhr_update.onreadystatechange = function() {
+                if(xhr_update.readyState == 4 && xhr_update.status == 200) {
+                    if (mode == '1') {
+                        alert("Subscribed!");
+                    } else {
+                        alert("Unsubscribed!");
+                        loadBoards(numPerRow, '1');
+                    }
+                }
+            }
+
+            xhr_update.open('POST', '/update-subscriptions', true);  //asynchronous
+            xhr_update.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            //pass the board name and the mode
+            var params = "boardName="+boardName+"&mode="+mode;
+            xhr_update.send(params);
+        }
+        uncheckAll();
+        return true;
+    };
+
+    function displayForm() {
         inputField = document.getElementById("boardName");
         emptyDashboard = document.getElementById("empty-dashboard");
         form = document.getElementById("form");
@@ -321,6 +341,66 @@
         }
     };
 
+    function getNumSubscriptions() {
+        count = 0;
+        if (ticketCheck()){
+            var xhr_fetch = new XMLHttpRequest();
+            xhr_fetch.onreadystatechange = function() {
+                if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
+                    // DO/CALL YOUR RENDER FROM IN HERE
+                    console.log(this.responseText);
+                }
+            }
+            xhr_fetch.open('GET', '/fetch-board-list', false);  // Set the third parameter to false for a synchronous request
+            xhr_fetch.send();
+
+            if (xhr_fetch.status === 200) {
+                var response = JSON.parse(xhr_fetch.responseText);
+                response.forEach(element => {
+                    console.log(element);
+                    if (element.subscribed == 1) {
+                        count += 1;
+                    }
+                });
+            } else {
+                console.error('Failed to fetch ticket:', xhr_fetch.status, xhxhr_fetchr.statusText);
+                window.location.href = '/logout';
+            }
+        } else {
+            alert("ticket check didn't work");
+        }
+        return count;
+    };
+
+    function getSubscriptions() {
+        subscriptions = [];
+        if (ticketCheck()){
+            var xhr_fetch = new XMLHttpRequest();
+            xhr_fetch.onreadystatechange = function() {
+                if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
+                    // DO/CALL YOUR RENDER FROM IN HERE
+                    console.log(this.responseText);
+                }
+            }
+            xhr_fetch.open('GET', '/fetch-board-list', false);  // Set the third parameter to false for a synchronous request
+            xhr_fetch.send();
+
+            if (xhr_fetch.status === 200) {
+                var response = JSON.parse(xhr_fetch.responseText);
+                response.forEach(element => {
+                    console.log(element);
+                    subscriptions.push(element.subscribed);
+                });
+            } else {
+                console.error('Failed to fetch ticket:', xhr_fetch.status, xhxhr_fetchr.statusText);
+                window.location.href = '/logout';
+            }
+        } else {
+            alert("ticket check didn't work");
+        }
+        return subscriptions;
+    };
+
     function validateBoardName() {
         inputField = document.getElementById("boardName");
         boardName = document.forms["board form"]["board name"].value;
@@ -359,50 +439,99 @@
         return boardDescription == "None";
     };
 
-    function renderBoards(data, numPerRow) {
-        const container = document.getElementById("dashboard");
-        contents = ``;
-        n = getNumBoards();
-        names = getBoardNames();
-        descriptions = getBoardDescriptions();
-        colors = getBoardColors();
+    function renderBoards(data, numPerRow, mode) {
+        if (mode == '0') {
+            const container = document.getElementById("dashboard");
+            contents = ``;
+            n = getNumBoards();
+            names = getBoardNames();
+            descriptions = getBoardDescriptions();
+            colors = getBoardColors();
 
-        count = 0;
+            count = 0;
 
-        for (var i = 0; i < n; i++) {
-            name = names[i];
-            description = descriptions[i];
-            color = colors[i];
+            for (var i = 0; i < n; i++) {
+                name = names[i];
+                description = descriptions[i];
+                color = colors[i];
 
-            if (count == 0) {
-                contents += `<div class="row bottom-padding">`;
-            }
-            if (!isNone(description)) {
-                contents += `<div class="col"><div class="card board-widget" style="border-left:5px solid `+color+`"><div class="card-body">
-                    <h5 class="board-title">`+name+`</h5><input type="checkbox" class="float-end" value="`+name+`" onclick="toggleSubscribeBtn()">
-                    <p class="card-text">`+description+`</p>
-                    <a href="discussion.html?boardname=`+name+`" class="stretched-link"></a></div></div></div>`;
-            } else {
-                contents += `<div class="col"><div class="card board-widget" style="border-left:5px solid `+color+`"><div class="card-body">
-                    <h5 class="board-title">`+name+`</h5><input type="checkbox" class="float-end" value="`+name+`" onclick="toggleSubscribeBtn()">
-                    <p class="card-text" style="color:#ffffff">`+description+`</p>
-                    <a href="discussion.html?boardname=`+name+`" class="stretched-link"></a></div></div></div>`;
-            }
-            count += 1;
-            if (count == numPerRow) {
-                contents += `</div>`;
-                count = 0;
-            } else if (i == n-1) {
-                for (var j = numPerRow-count; j > 0; j--) {
-                    contents += `<div class="col"></div>`;
+                if (count == 0) {
+                    contents += `<div class="row bottom-padding">`;
+                }
+                if (!isNone(description)) {
+                    contents += `<div class="col"><div class="card board-widget" style="border-left:5px solid `+color+`"><div class="card-body">
+                        <h5 class="board-title">`+name+`</h5><input type="checkbox" class="float-end" value="`+name+`" onclick="toggleSubscribeBtn()">
+                        <p class="card-text">`+description+`</p>
+                        <a href="discussion.html?boardname=`+name+`" class="stretched-link"></a></div></div></div>`;
+                } else {
+                    contents += `<div class="col"><div class="card board-widget" style="border-left:5px solid `+color+`"><div class="card-body">
+                        <h5 class="board-title">`+name+`</h5><input type="checkbox" class="float-end" value="`+name+`" onclick="toggleSubscribeBtn()">
+                        <p class="card-text" style="color:#ffffff">`+description+`</p>
+                        <a href="discussion.html?boardname=`+name+`" class="stretched-link"></a></div></div></div>`;
+                }
+                count += 1;
+                if (count == numPerRow) {
+                    contents += `</div>`;
+                    count = 0;
+                } else if (i == n-1) {
+                    for (var j = numPerRow-count; j > 0; j--) {
+                        contents += `<div class="col"></div>`;
+                    }
                 }
             }
-         }
+            container.innerHTML = contents;
+        } else {
+            const container = document.getElementById("subscriptions");
+            contents = ``;
+            n = getNumBoards();
+            names = getBoardNames();
+            descriptions = getBoardDescriptions();
+            colors = getBoardColors();
+            subscriptions = getSubscriptions();
 
-        container.innerHTML = contents;
+            count = 0;
+            displayed = 0;
+            num = getNumSubscriptions();
+
+            for (var i = 0; i < n; i++) {
+                subscribed = subscriptions[i];
+
+                if (subscribed == 1) {
+                    name = names[i];
+                    description = descriptions[i];
+                    color = colors[i];
+
+                    if (count == 0) {
+                        contents += `<div class="row top-padding">`;
+                    }
+                    if (!isNone(description)) {
+                        contents += `<div class="col"><div class="card board-widget" style="border-left:5px solid `+color+`"><div class="card-body">
+                            <h5 class="board-title">`+name+`</h5><input type="checkbox" class="float-end" value="`+name+`" onclick="toggleUnsubscribeBtn()">
+                            <p class="card-text">`+description+`</p>
+                            <a href="discussion.html?boardname=`+name+`" class="stretched-link"></a></div></div></div>`;
+                    } else {
+                        contents += `<div class="col"><div class="card board-widget" style="border-left:5px solid `+color+`"><div class="card-body">
+                            <h5 class="board-title">`+name+`</h5><input type="checkbox" class="float-end" value="`+name+`" onclick="toggleUnsubscribeBtn()">
+                            <p class="card-text" style="color:#ffffff">`+description+`</p>
+                            <a href="discussion.html?boardname=`+name+`" class="stretched-link"></a></div></div></div>`;
+                    }
+                    count += 1;
+                    displayed += 1;
+                    if (count == numPerRow) {
+                        contents += `</div>`;
+                        count = 0;
+                    } else if (displayed == num) {
+                        for (var j = numPerRow-count; j > 0; j--) {
+                            contents += `<div class="col"></div>`;
+                        }
+                    }
+                }
+            }
+            container.innerHTML = contents;
+        }
     };
 
-    function loadAllBoards(numPerRow) {
+    function loadBoards(numPerRow, mode) {
 
         if (ticketCheck()){
 
@@ -411,7 +540,7 @@
                 if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
                     // DO/CALL YOUR RENDER FROM IN HERE
                     console.log(this.responseText);
-                    renderBoards(this.responseText, numPerRow);
+                    renderBoards(this.responseText, numPerRow, mode);
                 }
             }
             xhr_fetch.open('GET', '/fetch-board-list', false);  // Set the third parameter to false for a synchronous request
@@ -455,6 +584,7 @@
     function showMenuContent(menuID, contentID) {
 
         // reset all
+        uncheckAll();
         document.getElementById('menu0').className = "nav-link";
         document.getElementById('menu1').className = "nav-link";
         document.getElementById('content0').style.display = "none";
@@ -475,7 +605,7 @@
                 hide(form);
                 show(createButton);
                 show(dashboard);
-                loadAllBoards(numPerRow);
+                loadBoards(numPerRow, '0');
             } else {
                 hide(form);
                 hide(createButton);
@@ -487,45 +617,23 @@
             unsubscribeButton = document.getElementById("subscriptions-top");
             dashboard = document.getElementById("subscriptions");
 
-            show(unsubscribeButton);
-
-            numSubscriptions = 1; // TODO: fetch number of subscribed boards from DB
-
-            if (numSubscriptions > 0) {
+            if (getNumSubscriptions() > 0) {
                 hide(emptyDashboard);
                 show(dashboard);
+                show(unsubscribeButton);
+                loadBoards(numPerRow, '1');
             } else {
-                show(emptyDashboard);
                 hide(dashboard);
+                hide(unsubscribeButton);
+                show(emptyDashboard);
             }
         }
     };
 
     function loadPage() {
-
         ticketCheck();  //onload -> initial ticket check
-
         // If tickets are valid, load the page
-
         showMenuContent('menu0', 'content0');
-
-        // emptyDashboard = document.getElementById("empty-dashboard");
-        // form = document.getElementById("form");
-        // createButton = document.getElementById("dashboard-top");
-        // dashboard = document.getElementById("dashboard");
-        // if (getNumBoards() > 0) {
-        //     hide(emptyDashboard);
-        //     hide(form);
-        //     show(createButton);
-        //     show(dashboard);
-        //     loadAllBoards(numPerRow);
-        //     fetch_board_users(69);
-        // } else {
-        //     hide(form);
-        //     hide(createButton);
-        //     hide(dashboard);
-        //     show(emptyDashboard);
-        // }
     };
     
     function generateBoard() {
@@ -592,7 +700,7 @@
             var params = "name="+boardName+"&description="+boardDescription+"&color="+boardColor;
             xhr_create.send(params);
 
-            loadAllBoards(numPerRow);
+            loadBoards(numPerRow, '0');
 
             return true;
         }
@@ -629,7 +737,7 @@
                         <p class="empty-dashboard">Your dashboard is looking a little empty...</p>
                         <p class="empty-dashboard">Let's start a discussion board!</p>
                     </div>
-                    <a class="btn btn-primary top-padding" onclick="return createBoard()">Create board</a>
+                    <a class="btn btn-primary top-padding" onclick="return displayForm()">Create board</a>
                 </div>
                 <form id="form" name="board form" class="container box" style="display:none">
                     <div class="row padding">
@@ -662,9 +770,9 @@
                         <p><a href="select-discussion.html" type="button" class="btn cancel-btn">Nevermind</a></p>
                     </div>
                 </form>
-                <div id="dashboard-top" class="container-fluid padding" style="display:none">
-                    <a href="#" class="btn btn-primary float-end" onclick="return createBoard()">Create board</a>
-                    <a href="#" type="submit" id="subscribeBtn" class="btn subscribe-btn float-end" style="margin-right:10px;display:none" onclick="modifySubscriptions('1')">&#128276; Subscribe</a>
+                <div id="dashboard-top" class="container-fluid padding" style="display:block">
+                    <a href="#" class="btn btn-primary float-end" onclick="return displayForm()">Create board</a>
+                    <a href="#" type="submit" id="subscribeBtn" class="btn subscribe-btn float-end" style="margin-right:10px;display:block" onclick="modifySubscriptions('1')" disabled>&#128276; Subscribe</a>
                 </div>
                 <div id="dashboard" class="container-fluid" style="display:none"></div>
             </div>
@@ -672,56 +780,11 @@
         <div id="content1" style="display:none">
             <div class="card">
                 <div id="no-subscriptions" class="card-body text-center box">
-                    <div class="bottom-padding">
-                        <p class="empty-dashboard">No boards to show.</p>
-                    </div>
+                    <p class="empty-dashboard">No boards to show.</p>
                 </div>
-                <div id="subscriptions" class="container-fluid top-padding" style="display:none">
-                    <div class="row top-padding">
-                        <div class="col">
-                            <div class="card board-widget">
-                                <div class="card-body">
-                                    <h5 class="board-title">Test</h5>
-                                    <input type="checkbox" class="float-end" value="Test" onclick="toggleUnsubscribeBtn()">
-                                    <p class="card-text">None</p>
-                                    <a href="discussion.html?boardname=Test" class="stretched-link"></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="card board-widget">
-                                <div class="card-body">
-                                    <h5 class="board-title">Test</h5>
-                                    <input type="checkbox" class="float-end" value="Test" onclick="toggleUnsubscribeBtn()">
-                                    <p class="card-text">None</p>
-                                    <a href="discussion.html?boardname=Test" class="stretched-link"></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="card board-widget">
-                                <div class="card-body">
-                                    <h5 class="board-title">Test</h5>
-                                    <input type="checkbox" class="float-end" value="Test" onclick="toggleUnsubscribeBtn()">
-                                    <p class="card-text">None</p>
-                                    <a href="discussion.html?boardname=Test" class="stretched-link"></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="card board-widget">
-                                <div class="card-body">
-                                    <h5 class="board-title">Test</h5>
-                                    <input type="checkbox" class="float-end" value="Test" onclick="toggleUnsubscribeBtn()">
-                                    <p class="card-text">None</p>
-                                    <a href="discussion.html?boardname=Test" class="stretched-link"></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div id="subscriptions-top" class="container-fluid padding" style="display:none">
-                    <a href="#" type="submit" id="unsubscribeBtn" class="btn cancel-btn" style="display:none;width:150px;margin:auto" onclick="modifySubscriptions('0')">&#128277; Unsubscribe</a>
+                <div id="subscriptions" class="container-fluid top-padding" style="display:none"></div>
+                <div id="subscriptions-top" class="container-fluid padding" style="display:block">
+                    <a href="#" type="submit" id="unsubscribeBtn" class="btn cancel-btn" style="display:block;width:150px;margin:auto" onclick="modifySubscriptions('0')" disabled>&#128277; Unsubscribe</a>
                 </div>
             </div>
         </div>
