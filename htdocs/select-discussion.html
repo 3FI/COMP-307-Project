@@ -76,6 +76,10 @@
 
     /* !!! FOR MATAN !!! */
 
+    function resetToggleCounts() {
+        selectAllCount = 0
+        selectAllSubscribedCount = 0
+    };
 
     function hide(element) {
         element.style.display = "none";
@@ -638,7 +642,7 @@
                 button.className = "btn btn-primary float-start";
                 uncheckAll();
             } else {
-                button.className = "btn cancel-btn float-start";
+                button.className = "btn cancel-btn on float-start";
                 checkAll();
             }
         } else {
@@ -648,7 +652,7 @@
                 button.className = "btn btn-primary float-start";
                 uncheckAll();
             } else {
-                button.className = "btn cancel-btn float-start";
+                button.className = "btn cancel-btn on float-start";
                 checkAll();
             }
         }
@@ -685,6 +689,8 @@
                 hide(dashboard);
                 show(emptyDashboard);
             }
+            selectAllCount = 1;
+            toggleSelectAll('0');
         } else {
             emptyDashboard = document.getElementById("no-subscriptions");
             selectAllButton = document.getElementById("subscriptions-header");
@@ -703,7 +709,10 @@
                 hide(unsubscribeButton);
                 show(emptyDashboard);
             }
+            selectAllSubscribedCount = 1;
+            toggleSelectAll('1');
         }
+        resetToggleCounts();
     };
 
     function loadPage() {
