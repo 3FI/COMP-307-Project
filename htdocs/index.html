@@ -26,17 +26,7 @@
 
         .error-icon {
             display: inline-block;
-            margin: 10px;
-            align-items: left;
-        }
-
-        .btn {
-            margin-top: 10px;
-        }
-
-        .welcome {
-            border-right: 3px solid #a6a6a6;
-            height: 95vh;
+            margin: 15px;
         }
     </style>
 </head>
@@ -92,47 +82,46 @@
 
 
 <body>
-    <nav class="navbar navbar-light bg-light">
-        <a class="navbar-brand" href="#" style="margin-left: 15px">
-            <img src="/img/logo.png" alt="logo" class="d-inline-block align-top" style="width:30px;height:30px;margin-right:8px">
-            <!-- TODO: Change text below to website name -->
-            COMP 307 Project - Landing Page
-        </a>
-    </nav>
-    <div class="container">
-        <div class="row text-center">
-            <div class="welcome col-7 col-md-8 col-lg-9 mx-auto">
-                <h1 class="col-7">Welcome to the COMP 307 Project</h1>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-9 px-0 d-none d-sm-block">
+                <img src="/img/mcgill-campus.jpg" alt="McGill campus" class="mw-100 mh-100" style="object-fit:contain;object-position:left">
             </div>
-            <div class="login-register col-5 col-md-4 col-lg-3 mx-auto">
-                <form class="login" action="/login" method="post" onsubmit="return errorMessage()">
-                    <h1>Login</h1>
-                    <div class="col-8 mx-auto" id="registration-error">
-                        <img class="error-icon" src="../img/error_icon.svg" width="30" height="30">
-                        <p id="invalid-email">Invalid Email</p>
-                        <p id="invalid-password">Invalid Password</p>
+            <div class="col-sm-3 px-0 d-none d-sm-block text-center" style="overflow:hidden;position:relative">
+                <nav class="navbar navbar-light bg-white mw-100">
+                    <a class="navbar-brand text-center" style="margin-left:15px;cursor:default">
+                        <img src="/img/logo.png" alt="logo" class="d-inline-block align-top" style="width:30px;height:30px;margin-right:8px">
+                        COMP 307 Project - Welcome
+                    </a>
+                </nav>
+                <div class="m-4">
+                    <form action="/login" method="post" onsubmit="return errorMessage()">
+                        <h2 style="margin-top:30px;margin-bottom:20px;">Login</h2>
+                        <div class="col-8 mx-auto" id="registration-error">
+                            <img class="error-icon" src="../img/error_icon.svg" width="30" height="30">
+                            <p id="invalid-email">Invalid Email</p>
+                            <p id="invalid-password">Invalid Password</p>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1" id="email_text">Email address</label>
+                            <input type="email" class="form-control" id="exampleInputEmail1" name="email"
+                                aria-describedby="emailHelp" placeholder="Enter email">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1" id="password_text">Password</label>
+                            <input type="password" class="form-control" id="exampleInputPassword1" name="password"
+                                placeholder="Password">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </form>
+                    <hr>
+                    <button type="button" onclick="location.href='/register-form'" class="btn btn-outline-secondary">Register</button>
+                    <div id="successMessage">
+                        <small class="form-text" color="#d9d9d9">Your account has been successfully created.</small>
                     </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1" id="email_text">Email address</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" name="email"
-                            aria-describedby="emailHelp" placeholder="Enter email">
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1" id="password_text">Password</label>
-                        <input type="password" class="form-control" id="exampleInputPassword1" name="password"
-                            placeholder="Password">
-                    </div>
-                    <button type="submit" class="btn btn-primary">Login</button>
-                </form>
-                <hr>
-                <button type="button" onclick="location.href='/register-form'" class="btn btn-outline-secondary">Register</button>
-                <div id="successMessage">
-                    <small class="form-text" color="#d9d9d9">Your account has been successfully created.</small>
                 </div>
             </div>
         </div>
     </div>
-
 </body>
-
 </html>
