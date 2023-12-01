@@ -7,7 +7,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="main.css">
-    <link rel="stylesheet" href="landingpage.css">
     <title>Welcome</title>
     <link rel="icon" type="image/x-icon" href="/img/logo.ico">
     <style>
@@ -96,24 +95,24 @@
                     </a>
                 </nav>
                 <div class="m-5">
-                    <form action="/login" method="post" onsubmit="return errorMessage()">
-                        <h1 style="margin-top:40px;margin-bottom:20px">Login</h1>
-                        <div class="col-8 mx-auto" id="registration-error">
+                    <h1 class="form-title">Login</h1>
+                    <form class="container top-padding" action="/login" method="post" onsubmit="return errorMessage()">
+                        <div class="row top-padding" id="registration-error">
                             <img class="error-icon" src="../img/error_icon.svg" width="30" height="30">
                             <p id="invalid-email">Invalid Email</p>
                             <p id="invalid-password">Invalid Password</p>
                         </div>
-                        <div class="form-group">
+                        <div class="row top-padding">
                             <label for="exampleInputEmail1" id="email_text">Email address</label>
                             <input type="email" class="form-control" id="exampleInputEmail1" name="email"
                                 aria-describedby="emailHelp" placeholder="Enter email">
                         </div>
-                        <div class="form-group">
+                        <div class="row top-padding">
                             <label for="exampleInputPassword1" id="password_text">Password</label>
                             <input type="password" class="form-control" id="exampleInputPassword1" name="password"
                                 placeholder="Password">
                         </div>
-                        <button type="submit" class="btn btn-primary">Login</button>
+                        <button type="submit" class="btn btn-primary top-padding">Login</button>
                     </form>
                     <hr>
                     <button type="button" onclick="location.href='/register-form'" class="btn btn-outline-success">Register</button>

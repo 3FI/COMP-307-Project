@@ -1,3 +1,19 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden; 
+}
+
+.form-title {
+    margin-top: 15%;
+    margin-bottom: 25px;
+}
+
+input {
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
 .box {
     margin-top: 100px;
     margin-bottom: 100px;
