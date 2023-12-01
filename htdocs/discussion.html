@@ -14,14 +14,14 @@
 
 <body onload="renderContent()">
 <!-- <body> -->
-    <nav class="navbar navbar-expand-lg">
+    <nav class="navbar navbar-expand-lg" id="navbar">
         <div class="container-fluid">
-            <img src="/img/logo.png" alt="logo" class="d-inline-block align-top" style="width:30px;height:30px;margin-right:10px">
-            <span class="navbar-brand" id="board-name" href="#">Current Discussion Name</span>
+            <img src="/img/logo.png" alt="logo" class="d-inline-block align-top" style="width:30px;height:30px;margin-right:10px;">
+            <span class="navbar-brand" id="board-name" href="#" style="color: white;"></span>
             <div class="navbar-modified" id="navbarText">
                 <ul class="navbar-nav me-auto mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="select-discussion.html">Home</a>
+                        <a class="nav-link active" aria-current="page" href="select-discussion.html" style="color: white;">Home</a>
                     </li>
                 </ul>
                 <div class="dropdown">
@@ -92,6 +92,7 @@
         var message_data = {};
         var active_channel = null;
         var board_id = '';
+        var board_color = '';
         //TODO: change to actual username
         var my_username = 'matan@atlas.com';
         const queryParams = new URLSearchParams(window.location.search);
@@ -179,7 +180,6 @@
             checkForPinnedMessagesUpdates();
         }
 
-        
 
         //getMyUsername();
         
@@ -247,6 +247,7 @@
                     for (var i = 0; i < parsed_data.length; i++) {
                         if (parsed_data[i].name == board_name){
                             board_id = parsed_data[i].id;
+                            board_color = parsed_data[i].color;
                         }
                     }
                 }
@@ -266,6 +267,9 @@
             renderMessages();   
             renderPinnedMessages();  
             renderUsers();
+            var navbar = document.getElementById("navbar");
+            navbar.style.backgroundColor = board_color;
+
         }
 
         function isAlphaNumeric(str) {
@@ -954,6 +958,7 @@
                 var xhr_delete = new XMLHttpRequest();
                 xhr_delete.onreadystatechange = function() {
                     if(xhr_delete.readyState == 4 && xhr_delete.status == 200) {
+                        console.log(this.responseText);
                         // If the message was sent successfully, render the messages column
                         if(this.responseText == "TRUE") {
                             window.location.href = '/select-discussion';
