@@ -2,24 +2,6 @@ html, body {
     height:100%;
 }
 
-.box {
-    margin-top: 100px;
-    margin-bottom: 100px;
-}
-
-.padding {
-    margin-top: 15px;
-    margin-bottom: 15px;
-}
-
-.top-padding {
-    margin-top: 15px;
-}
-
-.bottom-padding {
-    margin-bottom: 15px;
-}
-
 p.empty-dashboard {
     color: #d9d9d9;
     text-align: center;
