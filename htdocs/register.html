@@ -10,86 +10,80 @@
     <link rel="stylesheet" href="landingpage.css">
     <title>New User Registration</title>
     <link rel="icon" type="image/x-icon" href="/img/logo.ico">
-    <style>
-        #registration-error {
-            display: none; /* Initially hide the registration error message */
-            border : 1px solid black;
-            border-radius: 25px;
-            background-color: lightgray;
-            text-align: center;
-            margin-bottom:10px;
-        }
-        .error-icon {
-            display: inline-block;
-            margin: 15px;
-        }
-    </style>
 </head>
 
-
- <!-- errorMessage(): Checks if the fields are empty before sending the form -->
 <script>
+    function hide(element) {
+        element.style.display = "none";
+    };
 
-    function errorMessage() {
+    function show(element) {
+        element.style.display = "block";
+    };
 
-        //On submit -> hide random error text
-        document.getElementById('random-error').style.display = 'none';
+    function colorRed(element) {
+        element.style.color = "#dc3545";
+    };
 
-        var email_input = document.getElementById("exampleInputEmail1").value;
-        var password_input = document.getElementById("exampleInputPassword1").value;
+    function colorDefault(helpMsg) {
+        helpMsg.style.color = "#a6a6a6";
+    };
 
-        var error_email = false;
-        var error_password = false;
+    function validateEmail() {
+        inputField = document.getElementById("email");
+        email = document.forms["register form"]["email"].value;
+        errorMsg = document.getElementById("invalidEmail");
 
-        if (email_input == ''){
-            error_email = true
-            document.getElementById("email_text").style.color = "red"
+        if (!(email.includes('@') && email.includes('.'))) {
+            inputField.classList.remove("is-valid");
+            inputField.classList.add("is-invalid");
+            show(errorMsg);
+            return false;
         } else {
-            error_email = false
-            document.getElementById("email_text").style.color = "black"
+            inputField.classList.remove("is-invalid");
+            inputField.classList.add("is-valid");
+            hide(errorMsg);
+            return true;
         }
+    };
 
-        if (password_input == '' || insecurePassword(password_input)){
-            error_password = true
-            document.getElementById("password_text").style.color = "red"
+    function validatePassword() {
+        inputField = document.getElementById("password");
+        password = document.forms["register form"]["password"].value;
+        helpMsg = document.getElementById("registerHelp");
+
+        if (password.length < 8) {
+            inputField.classList.remove("is-valid");
+            inputField.classList.add("is-invalid");
+            colorRed(helpMsg);
+            return false;
+        } else if (password.search(/[a-z]/) == -1) {
+            inputField.classList.remove("is-valid");
+            inputField.classList.add("is-invalid");
+            colorRed(helpMsg);
+            return false;
+        } else if (password.search(/[A-Z]/) == -1) {
+            inputField.classList.remove("is-valid");
+            inputField.classList.add("is-invalid");
+            colorRed(helpMsg);
+            show(helpMsg);
+            return false;
+        } else if (password.search(/[0-9]/) == -1) {
+            inputField.classList.remove("is-valid");
+            inputField.classList.add("is-invalid");
+            colorRed(helpMsg);
+            return false;
         } else {
-            error_password = false
-            document.getElementById("password_text").style.color = "black"
+            inputField.classList.remove("is-invalid");
+            inputField.classList.add("is-valid");
+            colorDefault(helpMsg);
+            return true;
         }
+    };
 
-        if ((error_email || error_password)){
-                document.getElementById('registration-error').style.display = 'block';
-                if (error_email){
-                    document.getElementById('invalid-email').style.display = 'block';
-                } else {
-                    document.getElementById('invalid-email').style.display = 'none';
-                }
-                if (error_password){
-                    document.getElementById('invalid-password').style.display = 'block';
-                } else {
-                    document.getElementById('invalid-password').style.display = 'none';
-                }
-
-                return false
-            } else {
-                return true
-        }
-    }
-    function insecurePassword(password){
-        if (password.length < 8){
-            return true
-        } else if (password.search(/[a-z]/) == -1){
-            return true
-        } else if (password.search(/[A-Z]/) == -1){
-            return true
-        } else if (password.search(/[0-9]/) == -1){
-            return true
-        } else {
-            return false
-        }
-
-    }
-
+    function validateRegistration() {
+        return (validateEmail() && validatePassword());
+    };
 </script>
 
 <body>
@@ -97,30 +91,31 @@
         <a class="navbar-brand" href="#" style="margin-left: 15px">
             <img src="/img/logo.png" alt="logo" class="d-inline-block align-top" style="width:30px;height:30px;margin-right:10px">
             <!-- TODO: Change text below to website name -->
-            COMP 307 Project - Register User Page
+            Register New User
         </a>
     </nav>
     <div>
-        <div class="m-5">
-            <h1 class="col-8 mx-auto text-center" style="margin-top:40px;margin-bottom:20px">Register</h1>
-            <div class="col-2 mx-auto" id="registration-error">
-                <img class="error-icon" src="../img/error_icon.svg" width="30" height="30">
-                <p id="invalid-email">Invalid Email</p>
-                <p id="invalid-password">Invalid Password</p>
-                <p id="random-error"> Oops... Something unexpected happened</p>
-            </div>
-            <form class="text-center" action="/register" method="post" onsubmit="return errorMessage()">
-                <div class="form-group col-4 mx-auto">
-                    <label for="exampleInputEmail1" id="email_text">Email address</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" name="email" aria-describedby="emailHelp" placeholder="Enter email">
+        <div class="col-sm-4 px-0 d-none d-sm-block" style="margin:auto">
+            <h1 class="col-8 mx-auto text-center padding">Register</h1>
+            <form name="register form" class="container box" action="/register" method="post" onsubmit="return validateRegistration()">
+                <div class="row top-padding">
+                    <label for="email">Email address</label>
+                    <input type="text" name="email" class="form-control" id="email" placeholder="Enter email" onfocusout="return validateEmail()">
+                    <div id="invalidEmail" class="invalid-feedback" style="display:none">
+                        Invalid email
+                    </div>
                 </div>
-                <div class="form-group col-4 mx-auto" style="margin-bottom:20px">
-                    <label for="exampleInputPassword1" id="password_text">Password</label><br>
-                    <input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="Password">
-                    <small id="registerHelp" class="form-text" style="color:#a6a6a6">Must be at least 8 characters long and contain one number, one uppercase letter and one lowercase letter.</small>
+                <div class="row top-padding">
+                    <label for="password">Password</label><br>
+                    <input type="password" name="password" class="form-control" id="password" placeholder="Password">
+                    <small id="registerHelp" class="form-text" style="color:#a6a6a6">
+                        Must be at least 8 characters long and contain one number, one uppercase letter and one lowercase letter.
+                    </small>
                 </div>
-                <p><button type="submit" class="btn btn-primary">Register</button></p>
-                <p><a href="index.html" type="button" class="btn btn-outline-secondary">Return to Home Page</a></p>
+                <div class="text-center top-padding">
+                    <p><button type="submit" class="btn btn-primary">Register</button></p>
+                    <p><a href="index.html" type="button" class="btn btn-outline-secondary">Return to Home Page</a></p>
+                </div>
             </form>
         </div>
     </div>
