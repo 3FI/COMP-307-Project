@@ -23,16 +23,16 @@
                     </li>
                 </ul>
                 <div class="dropdown">
-                    <button class="btn btn-primary dropdown-toggle" type="button" onclick="togglePinnedMessages()" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button class="btn btn-primary dropdown-toggle" id="dropdown-button" type="button" onclick="togglePinnedMessages()" data-bs-toggle="dropdown" aria-expanded="false">
                       <img src="./img/pin_icon.svg" style="padding-right: 6px; padding-bottom: 4px;">
                         Pinned
                     </button>
+                    <div id="close-menu-overlay" onclick="togglePinnedMessages()"></div>
                     <div class="dropdown-menu" id="dropdown-menu">
                       
                     </div>
                 </div>
-                <button onclick="leaveBoard()">Leave board</button>
-                <form action="/logout" method="post">
+                <form action="/logout">
                     <button type="logout" class="btn logout logout-btn">Logout</button>
                 </form>
             </div>
@@ -70,14 +70,13 @@
                 <input class="text-box" type="text" onkeypress="sendMessage();" placeholder="Type your message here...">
                 <div class="text-box-background"></div>
                 <div id="messages">
-                    <!-- <div class="message">
-                        <div class="username"><strong>User 1</strong></div>
+                    <div class="message">
+                        <!-- <div class="username"><strong>User 1</strong></div>
                         <div class="datetime">2023/8/2</div>
                         <img src="./img/pin_icon.svg" alt="" class="pin-icon" onclick="pinMessage(this)">
                         <div id="pinned-mark">Pinned</div>
-                        <div class="text">Test message</div>
-
-                    </div> -->
+                        <div class="text">Test message</div> -->
+                    </div>
                 </div>
 
             </div>
@@ -97,7 +96,6 @@
         document.getElementById("board-name").innerHTML = board_name;
         getBoardId(board_name);
 
-        
         // Set interval to execute the function every second (1000 milliseconds)
         setInterval(checkForUpdates, 1000);
 
@@ -178,13 +176,7 @@
             checkForPinnedMessagesUpdates();
         }
 
-        // function refreshContent(){
-        //     renderChannels();
-        //     renderUsers();
-        //     renderMessages();
-        //     renderPinnedMessages();
-        // }
-
+        
 
         //getMyUsername();
         
@@ -293,11 +285,14 @@
 
         function togglePinnedMessages(){
             var dropdown = document.getElementById("dropdown-menu");
+            var overlay = document.getElementById("close-menu-overlay");
             if (dropdown.style.display != "block"){
                 dropdown.style.display = "block";
+                overlay.style.display = "block";
             }
             else{
                 dropdown.style.display = "none";
+                overlay.style.display = "none";
             }
         }
 
@@ -947,23 +942,6 @@
             xhr_fetch.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             xhr_fetch.send('channelId='+active_channel);
         }
-        function leaveBoard(){
-            
-            if (confirm("Do you really want to leave the discussion board ?") == true) {
-                var xhr_delete = new XMLHttpRequest();
-                xhr_delete.onreadystatechange = function() {
-                    if(xhr_delete.readyState == 4 && xhr_delete.status == 200) {
-                        // If the message was sent successfully, render the messages column
-                        if(this.responseText == "TRUE") {
-                            window.location.href = '/select-discussion';
-                        }
-                    }
-                }
-                xhr_delete.open('POST', '/leave-board', false);
-                xhr_delete.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-                xhr_delete.send("board_id="+board_id);
-            } 
 
-        }
     </script>
 </body>
