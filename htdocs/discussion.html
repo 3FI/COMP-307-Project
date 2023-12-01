@@ -34,7 +34,7 @@
                       
                     </div>
                 </div>
-                <button onclick="leaveBoard()">Leave board</button>
+                <button class="btn btn-secondary" onclick="leaveBoard()" style="margin-right: 6px;">Leave board</button>
                 <form action="/logout" method="post">
                     <button type="logout" class="btn logout logout-btn">Logout</button>
                 </form>
@@ -356,7 +356,8 @@
                             //creating the user html element
                             var user = document.createElement("div");
                             user.className = "username";
-                            user.innerHTML = "<strong>" + parsed_data[i].username + "</strong>";
+                            var split_username = parsed_data[i].username.split("@");
+                            user.innerHTML = "<strong>" + split_username[0] + "</strong>";
                             //creating the datetime html element
                             var time = document.createElement("div");
                             time.className = "datetime";
@@ -906,7 +907,8 @@
                         //creating the user html element
                         var user = document.createElement("div");
                         user.className = "username";
-                        user.innerHTML = "<strong>" + parsed_data[i].username + "</strong>";
+                        var split_username = parsed_data[i].username.split("@");
+                        user.innerHTML = "<strong>" + split_username[0] + "</strong>";
                         //creating the datetime html element
                         var time = document.createElement("div");
                         time.className = "datetime";
