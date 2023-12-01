@@ -34,6 +34,7 @@
                       
                     </div>
                 </div>
+                <button onclick="leaveBoard()">Leave board</button>
                 <form action="/logout" method="post">
                     <button type="logout" class="btn logout logout-btn">Logout</button>
                 </form>
@@ -943,6 +944,25 @@
             xhr_fetch.open('POST', '/fetch-messages-list', false);
             xhr_fetch.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             xhr_fetch.send('channelId='+active_channel);
+        }
+
+        function leaveBoard(){
+
+            if (confirm("Do you really want to leave the discussion board ?") == true) {
+                var xhr_delete = new XMLHttpRequest();
+                xhr_delete.onreadystatechange = function() {
+                    if(xhr_delete.readyState == 4 && xhr_delete.status == 200) {
+                        // If the message was sent successfully, render the messages column
+                        if(this.responseText == "TRUE") {
+                            window.location.href = '/select-discussion';
+                        }
+                    }
+                }
+            xhr_delete.open('POST', '/leave-board', false);
+            xhr_delete.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhr_delete.send("board_id="+board_id);
+            } 
+
         }
 
     </script>
