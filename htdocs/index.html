@@ -10,14 +10,14 @@
     <title>Welcome</title>
     <link rel="icon" type="image/x-icon" href="/img/logo.ico">
     <style>
-        #registration-error {
+        #registrationError {
             display: none;
             /* Initially hide the registration error message */
-            border: 1px solid black;
+            border: 2px solid #000000;
             border-radius: 25px;
-            background-color: lightgray;
+            background-color: #f2f2f2;
             text-align: center;
-            margin-bottom: 10px;
+            
         }
 
         #successMessage{
@@ -25,59 +25,76 @@
         }
 
         .error-icon {
-            display: inline-block;
-            margin: 15px;
+            margin-top: 15px;
+            margin-bottom: 15px;
+            text-align: center;
         }
     </style>
 </head>
 
-<!-- errorMessage(): Checks if the fields are empty before sending the form -->
 <script>
+    function hide(element) {
+        element.style.display = "none";
+    };
 
-    function errorMessage() {
+    function show(element) {
+        element.style.display = "block";
+    };
 
-        var email_input = document.getElementById("exampleInputEmail1").value;
-        var password_input = document.getElementById("exampleInputPassword1").value;
+    function colorRed(element) {
+        element.style.color = "#dc3545";
+    };
 
+    function colorDefault(helpMsg) {
+        helpMsg.style.color = "#000000";
+    };
+
+    function validateLogin() {
+        /* Checks if the fields are empty before sending the form */
+        var email_input = document.getElementById("inputEmail").value;
+        var password_input = document.getElementById("inputPassword").value;
         var error_email = false;
         var error_password = false;
 
+        email_label = document.getElementById("emailLabel");
+        password_label = document.getElementById("passwordLabel");
+        registration_error = document.getElementById('registrationError');
+        invalid_email = document.getElementById('invalidEmail');
+        invalid_password = document.getElementById('invalidPassword');
+
         if (email_input == '') {
-            error_email = true
-            document.getElementById("email_text").style.color = "red"
+            colorRed(email_label);
+            error_email = true;
         } else {
-            error_email = false
-            document.getElementById("email_text").style.color = "black"
+            colorDefault(email_label);
+            error_email = false;
         }
 
         if (password_input == '') {
-            error_password = true
-            document.getElementById("password_text").style.color = "red"
+            colorRed(password_label);
+            error_password = true;
         } else {
-            error_password = false
-            document.getElementById("password_text").style.color = "black"
+            colorDefault(password_label);
+            error_password = false;
         }
 
         if ((error_email || error_password)) {
-            document.getElementById('registration-error').style.display = 'block';
+            show(registration_error);
             if (error_email) {
-                document.getElementById('invalid-email').style.display = 'block';
+                show(invalid_email);
             } else {
-                document.getElementById('invalid-email').style.display = 'none';
+                hide(invalid_email);
             }
             if (error_password) {
-                document.getElementById('invalid-password').style.display = 'block';
+                show(invalid_password);
             } else {
-                document.getElementById('invalid-password').style.display = 'none';
+                hide(invalid_password);
             }
-
-            return false
+            return false;
         } else {
-            return true
+            return true;
         }
-
-    }
-
+    };
 </script>
 
 
@@ -96,20 +113,20 @@
                 </nav>
                 <div class="m-5">
                     <h1 class="form-title">Login</h1>
-                    <form class="container top-padding" action="/login" method="post" onsubmit="return errorMessage()">
-                        <div class="row top-padding" id="registration-error">
-                            <img class="error-icon" src="../img/error_icon.svg" width="30" height="30">
-                            <p id="invalid-email">Invalid Email</p>
-                            <p id="invalid-password">Invalid Password</p>
+                    <form class="container top-padding" action="/login" method="post" onsubmit="return validateLogin()">
+                        <div class="row bottom-padding" id="registrationError">
+                            <img class="error-icon" src="/img/error_icon.svg" width="30" height="30">
+                            <div class="bottom-padding" id="invalidEmail">Invalid Email</div>
+                            <div class="bottom-padding" id="invalidPassword">Invalid Password</div>
                         </div>
                         <div class="row padding">
-                            <label for="exampleInputEmail1" id="email_text">Email address</label>
-                            <input type="email" class="form-control field" id="exampleInputEmail1" name="email"
-                                aria-describedby="emailHelp" placeholder="Enter email">
+                            <label for="inputEmail" id="emailLabel">Email address</label>
+                            <input type="email" class="form-control field" id="inputEmail" name="email"
+                                aria-describedby="emailHelp" placeholder="Enter email" onfocusin="hide(document.getElementById('registrationError'))">
                         </div>
                         <div class="row padding">
-                            <label for="exampleInputPassword1" id="password_text">Password</label>
-                            <input type="password" class="form-control field" id="exampleInputPassword1" name="password" placeholder="Password">
+                            <label for="inputPassword" id="passwordLabel">Password</label>
+                            <input type="password" class="form-control field" id="inputPassword" name="password" placeholder="Password">
                         </div>
                         <button type="submit" class="btn btn-primary form-buttons">Login</button>
                     </form>
