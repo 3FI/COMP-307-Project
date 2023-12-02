@@ -49,7 +49,7 @@ html, body {
 }
 
 .leaveboard-btn {
-    color: #e6e6e6;
+    color: #f2f2f2;
     background-color: #cc0000;
     border-color: #cc0000;
 }
@@ -61,7 +61,7 @@ html, body {
 }
 
 .logout-btn {
-    color: #e6e6e6;
+    color: #f2f2f2;
     background-color: #cc0000;
     border-color: #cc0000;
 }
@@ -87,12 +87,12 @@ html, body {
 
 .subscribe-btn {
     color: #2eb82e;
-    background-color: #e6e6e6;
+    background-color: #f2f2f2;
     border-color: #2eb82e;
 }
 
 .subscribe-btn.on {
-    color: #e6e6e6;
+    color: #f2f2f2;
     background-color: #2eb82e;
     border-color: #2eb82e;
 }
@@ -105,12 +105,12 @@ html, body {
 
 .cancel-btn {
     color: #e60000;
-    background-color: #e6e6e6;
+    background-color: #f2f2f2;
     border-color: #e60000;
 }
 
 .cancel-btn.on {
-    color: #e6e6e6;
+    color: #f2f2f2;
     background-color: #e60000;
     border-color: #e60000;
 }

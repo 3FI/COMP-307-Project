@@ -167,19 +167,6 @@
         }
     };
 
-    function oneCheckedBoard() {
-        count = 0;
-        var inputs = document.getElementsByTagName("input");
-        for (var i = 0; i < inputs.length; i++) {
-            if (inputs[i].type == "checkbox") {
-                if (inputs[i].checked == true) {
-                    count += 1;
-                }
-            }  
-        }
-        return (count == 1)
-    };
-
     function getCheckedBoards() {
         checkedBoardNames = [];
         var inputs = document.getElementsByTagName("input");
@@ -256,7 +243,8 @@
 
     function toggleEditDescription() {
         button = document.getElementById("editDescriptionBtn");
-        if (oneCheckedBoard()) {
+        checkedBoardNames = getCheckedBoards();
+        if (len(checkedBoardNames) == 1) {
             button.className = "btn edit-description-btn on float-start";
             boardName = getCheckedBoards()[0];
             editDescription(boardName);
