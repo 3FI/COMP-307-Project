@@ -11,23 +11,23 @@ if (isset($_SESSION['inputs'])) {
 
 if (isset($errors["unknown"])){
     echo "<script> window.onload = function () { 
-        document.getElementById('registrationError').style.display = 'block';
-        document.getElementById('invalidPassword').style.display = 'none';
-        document.getElementById('invalidEmail').style.display = 'none';
+        document.getElementById('duplicateEmail').style.display = 'none';
+        document.getElementById('invalidPassword').style.color = '#a6a6a6';
+        document.getElementById('invalidEmail').style.display = 'block';
     } </script>"; 
 }
 if (isset($errors["invalid_email"])){
     echo "<script> window.onload = function () { 
-        document.getElementById('registrationError').style.display = 'block';
-        document.getElementById('invalidEmail').style.display = 'block';
-        document.getElementById('invalidPassword').style.display = 'none';
+        document.getElementById('invalidEmail').style.display = 'none';
+        document.getElementById('invalidPassword').style.color = '#a6a6a6';
+        document.getElementById('duplicateEmail').style.display = 'block';
     } </script>"; 
 }
 if (isset($errors["invalid_password"])){
     echo "<script> window.onload = function () { 
-        document.getElementById('registrationError').style.display = 'block';
         document.getElementById('invalidEmail').style.display = 'none';
-        document.getElementById('invalidPassword').style.display = 'block';
+        document.getElementById('duplicateEmail').style.display = 'none';
+        document.getElementById('invalidPassword').style.color = '#dc3545';
     } </script>"; 
 }
 

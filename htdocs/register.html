@@ -49,7 +49,7 @@
     function validatePassword() {
         inputField = document.getElementById("password");
         password = document.forms["register form"]["password"].value;
-        helpMsg = document.getElementById("registerHelp");
+        helpMsg = document.getElementById("invalidPassword");
 
         if (password.length < 8) {
             inputField.classList.remove("is-valid");
@@ -110,7 +110,7 @@
                 <div class="row padding">
                     <label for="password">Password</label>
                     <input type="password" name="password" class="form-control field" id="password" onfocusin="return validateEmail()">
-                    <small id="registerHelp" class="form-text" style="color:#a6a6a6">
+                    <small id="invalidPassword" class="form-text" style="color:#a6a6a6">
                         Must have at least 8 characters and contain one number, one uppercase letter and one lowercase letter
                     </small>
                 </div>
