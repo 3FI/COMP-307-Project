@@ -61,6 +61,8 @@
 			require __DIR__ . $viewDir . 'update-pinned-message.php';
 		case '/leave-board':
 			require __DIR__ . $viewDir . 'leave-board.php';
+		case '/is-admin':
+			require __DIR__ . $viewDir . 'is-admin.php';
 
 
 	    default:
