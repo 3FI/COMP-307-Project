@@ -9,8 +9,12 @@ html, body {
     margin-bottom: 25px;
 }
 
-input {
-    margin-top: 2px;
+.form-buttons {
+    margin-top: 5px;
+}
+
+.field {
+    margin-top: 3px;
     margin-bottom: 2px;
 }
 
