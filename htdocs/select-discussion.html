@@ -832,7 +832,7 @@
                             <label for="boardName">Give it a name...</label>
                         </div>
                         <div class="col">
-                            <input type="text" name="board name" class="form-control" id="boardName" placeholder="COMP 307" onfocusout="validateBoardName()">
+                            <input type="text" name="board name" class="form-control" id="boardName" placeholder="COMP 307" maxlength="30" onfocusout="validateBoardName()">
                             <small id="boardNameHelp" class="form-text" style="color:#a6a6a6;display:block">
                                 Only letters, digits, and spaces allowed
                             </small>
@@ -850,7 +850,10 @@
                             <label for="boardName">...and a description if you'd like:</label>
                         </div>
                         <div class="col">
-                            <input type="text" name="board description" class="form-control" id="boardDescription" placeholder="The best course ever">
+                            <input type="text" name="board description" class="form-control" id="boardDescription" placeholder="The best course ever" maxlength="70">
+                            <small id="boardDescriptionHelp" class="form-text" style="color:#a6a6a6;display:block">
+                                (Max. 70 characters)
+                            </small>
                         </div>
                         <div class="col"></div>
                     </div>
