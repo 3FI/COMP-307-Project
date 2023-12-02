@@ -9,7 +9,7 @@
     <link href="main.css" rel="stylesheet">
     <link href="select-discussion.css" rel="stylesheet">
     <title>Discussions</title>
-    <link rel="icon" type="image/x-icon" href="/img/logo.ico">
+    <link rel="icon" type="image/x-icon" href="./img/logo.ico">
 </head>
 <script>
     numPerRow = 4;
@@ -504,12 +504,12 @@
                     contents += `<div class="col"><div class="card board-widget" style="border-left:5px solid `+color+`"><div class="card-body">
                         <h5 class="board-title">`+name+`</h5><input type="checkbox" class="float-end" value="`+name+`" onclick="toggleSubscribeBtn()">
                         <p class="card-text">`+description+`</p>
-                        <a href="discussion.html?boardname=`+name+`" class="stretched-link"></a></div></div></div>`;
+                        <a href="./discussion.html?boardname=`+name+`" class="stretched-link"></a></div></div></div>`;
                 } else {
                     contents += `<div class="col"><div class="card board-widget" style="border-left:5px solid `+color+`"><div class="card-body">
                         <h5 class="board-title">`+name+`</h5><input type="checkbox" class="float-end" value="`+name+`" onclick="toggleSubscribeBtn()">
                         <p class="card-text" style="color:#ffffff">`+description+`</p>
-                        <a href="discussion.html?boardname=`+name+`" class="stretched-link"></a></div></div></div>`;
+                        <a href="./discussion.html?boardname=`+name+`" class="stretched-link"></a></div></div></div>`;
                 }
                 count += 1;
                 if (count == numPerRow) {
@@ -561,12 +561,12 @@
                             contents += `<div class="col"><div class="card board-widget" style="border-left:5px solid `+color+`"><div class="card-body">
                                 <h5 class="board-title">`+name+`</h5><input type="checkbox" class="float-end" value="`+name+`" onclick="toggleUnsubscribeBtn()">
                                 <p class="card-text">`+description+`</p>
-                                <a href="discussion.html?boardname=`+name+`" class="stretched-link"></a></div></div></div>`;
+                                <a href="./discussion.html?boardname=`+name+`" class="stretched-link"></a></div></div></div>`;
                         } else {
                             contents += `<div class="col"><div class="card board-widget" style="border-left:5px solid `+color+`"><div class="card-body">
                                 <h5 class="board-title">`+name+`</h5><input type="checkbox" class="float-end" value="`+name+`" onclick="toggleUnsubscribeBtn()">
                                 <p class="card-text" style="color:#ffffff">`+description+`</p>
-                                <a href="discussion.html?boardname=`+name+`" class="stretched-link"></a></div></div></div>`;
+                                <a href="./discussion.html?boardname=`+name+`" class="stretched-link"></a></div></div></div>`;
                         }
                         count += 1;
                         displayed += 1;
@@ -796,11 +796,11 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-white banner">
         <div class="container-fluid">
             <div class="navbar-header">
-                <img src="/img/logo.png" alt="logo" class="d-inline-block align-top" style="width:30px;height:30px;margin-right:10px">
+                <img src="./img/logo.png" alt="logo" class="d-inline-block align-top" style="width:30px;height:30px;margin-right:10px">
                 <a class="navbar-brand" style="cursor:default">Discussions</a>
             </div>
             <div class="nav navbar-right">
-                <form action="/logout" method="post">
+                <form action="./logout" method="post">
                     <button type="logout" class="btn logout-btn">Logout</button>
                 </form>
             </div>
@@ -859,7 +859,7 @@
                     </div>
                     <div class="card-body text-center">
                         <p><button type="button" class="btn btn-primary" onclick="return generateBoard()">Create</button></p>
-                        <p><a href="select-discussion.html" type="button" class="btn cancel-btn">Nevermind</a></p>
+                        <p><a href="./select-discussion.html" type="button" class="btn cancel-btn">Nevermind</a></p>
                     </div>
                 </form>
                 <div id="dashboard-header" class="container-fluid padding" style="display:block">

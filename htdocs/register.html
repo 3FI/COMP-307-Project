@@ -8,7 +8,7 @@
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="main.css">
     <title>New User Registration</title>
-    <link rel="icon" type="image/x-icon" href="/img/logo.ico">
+    <link rel="icon" type="image/x-icon" href="./img/logo.ico">
 </head>
 
 <script>
@@ -88,7 +88,7 @@
 <body>
     <nav class="navbar navbar-light bg-light">
         <a class="navbar-brand" href="#" style="margin-left: 15px">
-            <img src="/img/logo.png" alt="logo" class="d-inline-block align-top" style="width:30px;height:30px;margin-right:10px">
+            <img src="./img/logo.png" alt="logo" class="d-inline-block align-top" style="width:30px;height:30px;margin-right:10px">
             <!-- TODO: Change text below to website name -->
             Register New User
         </a>
@@ -96,7 +96,7 @@
     <div>
         <div class="col-sm-4 px-0 d-none d-sm-block box" style="margin:auto">
             <h1 class="col-8 mx-auto text-center form-title">Register</h1>
-            <form name="register form" class="container top-padding" action="/register" method="post" onsubmit="return validateRegistration()">
+            <form name="register form" class="container top-padding" action="./register" method="post" onsubmit="return validateRegistration()">
                 <div class="row top-padding">
                     <label for="email">Email address</label>
                     <input type="text" name="email" class="form-control field" id="email" placeholder="e.g., john.doe@mail.mcgill.ca" autofocus>
@@ -116,7 +116,7 @@
                 </div>
                 <div class="text-center small-top-padding">
                     <p><button type="submit" class="btn btn-primary">Register</button></p>
-                    <p><a href="index.html" type="button" class="btn btn-outline-secondary">Return to Home Page</a></p>
+                    <p><a href="./index.html" type="button" class="btn btn-outline-secondary">Return to Home Page</a></p>
                 </div>
             </form>
         </div>
