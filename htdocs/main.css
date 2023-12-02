@@ -138,3 +138,7 @@ html, body {
 .pin {
     filter: invert(11%) sepia(94%) saturate(6687%) hue-rotate(9deg) brightness(90%) contrast(117%);
 }
+
+.unpin {
+    filter: invert(55%) sepia(2%) saturate(20%) hue-rotate(34deg) brightness(99%) contrast(95%);
+}

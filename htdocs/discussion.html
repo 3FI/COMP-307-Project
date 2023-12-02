@@ -21,7 +21,7 @@
             <div class="navbar-modified" id="navbarText">
                 <ul class="navbar-nav me-auto mb-lg-0">
                     <div class="nav navbar-left">
-                        <a href="select-discussion.html" class="boards-link" style="color:#ffffff;">Home</a>
+                        <a href="select-discussion.html" class="boards-link" style="margin-left:15px;color:#ffffff;">Home</a>
                     </div>
                 </ul>
                 <div class="dropdown">
@@ -291,10 +291,13 @@
                     }
                 });
             }
-            document.getElementById("leaveBoard").style.backgroundColor = darkenColor(board_color, 40);
-            document.getElementById("leaveBoard").style.borderColor = darkenColor(board_color, 30);
-            document.getElementById("logout").style.backgroundColor = darkenColor(board_color, 60);
-            document.getElementById("logout").style.borderColor = darkenColor(board_color, 50);
+            leaveBoardBtn = document.getElementById("leaveBoard");
+            leaveBoardBtn.style.backgroundColor = darkenColor(board_color, 40);
+            leaveBoardBtn.style.borderColor = darkenColor(board_color, 30);
+
+            logoutBtn = document.getElementById("logout");
+            logoutBtn.style.backgroundColor = darkenColor(board_color, 60);
+            logoutBtn.style.borderColor = darkenColor(board_color, 50);
         }
         
         function darkenColor(hex, percentage) {
@@ -416,7 +419,7 @@
                             pinned_id.innerHTML = parsed_data[i].id;
                             //create the pin message icon
                             var pin = document.createElement("img");
-                            pin.className = "pin-icon";
+                            pin.className = "pin-icon unpin";
                             pin.src = "./img/pin_icon.svg";
                             pin.onclick = function() {
                                 this.parentNode.onclick = null;
@@ -467,7 +470,7 @@
             var name = document.getElementById("name");
             name.style.display = "inline-block";
             name.value = "";
-            name.placeholder = "Channel Name";
+            name.placeholder = "e.g., Announcements";
             valid = document.getElementById("valid-input")
             valid.innerHTML = "";
             name.onchange = function() {
@@ -549,7 +552,7 @@
             var name = document.getElementById("name");
             name.style.display = "inline-block";
             name.value = "";
-            name.placeholder = "email";
+            name.placeholder = "e.g., john.doe@mail.mcgill.ca";
             valid = document.getElementById("valid-input")
             valid.innerHTML = "";
             name.onchange = function() {
@@ -974,7 +977,7 @@
                         text.innerHTML = parsed_data[i].message;
                         //create the pin message icon
                         var pin = document.createElement("img");
-                        pin.className = "pin-icon";
+                        pin.className = "pin-icon pin";
                         pin.src = "./img/pin_icon.svg";
                         pin.onclick = function() {pinMessage(this)};
                         //create the pinned message mark

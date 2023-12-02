@@ -80,7 +80,7 @@ nav {
 }
 
 #channel-select, #users-select {
-    padding: 4px;
+    padding: 4px 4px 0px 4px;
     height: 50vh;
     overflow-y: scroll;
 }
@@ -89,7 +89,7 @@ nav {
     display: flex;
     justify-content: space-between;
     font-size: 16px;
-    border-radius: 8px;
+    border-radius: 9px;
     padding: 12px; 
     margin-bottom: 4px;
     margin-right: 1px;
@@ -105,13 +105,13 @@ nav {
 .add-icon{
     color: #e6e6e6;
     font-size: large;
-    transform: scale(1.5);
+    transform: scale(1.6);
 }
 .add-icon:hover{
     cursor: pointer;
     color: #ffffff;
     margin: 0;
-    transform: scale(1.7);
+    transform: scale(1.8);
 }   
 .channel .settings-icon{
     visibility: hidden;
@@ -225,7 +225,7 @@ nav {
 }
 .message:hover{
     background-color: #f2f2f2;
-    transform: scale(1.01);
+    transform: scale(1.005);
     cursor: default;
 }
 .username{
@@ -265,9 +265,10 @@ nav {
 #pinned-mark{
     display: none;
     float:inline-end;
-    padding: 2px 5px;
-    background: lightgray;
+    padding: 1px 6px;
+    background: #d9d9d9;
     border-radius: 5px;
+    margin-right: 10px;
 }
 #create-new-window{
     display: none;
@@ -275,6 +276,7 @@ nav {
     justify-content: space-around;
     flex-direction: column;
     align-items: center;
+    vertical-align: auto;
     top: 30%;
     left: 30%;
     width: 60%;
