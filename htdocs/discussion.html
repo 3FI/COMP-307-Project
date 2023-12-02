@@ -53,8 +53,8 @@
     </div>
     <div class="container-fluid" id="disable">
         <div class="row">
-            <div class="channels-users col-lg-2 col-md-3 col-sm-4 col-4">
-                <div class="header channels">
+            <div class="channels-users col-lg-2 col-md-3 col-sm-4 col-4" id="l-column">
+                <div class="header channels l-col-headers">
                     <span class="navbar-brand">Channels</span>
                     <span class="new-channel-btn navbar-brand" onclick="toggleNewChannel()">+</span>
                 </div>
@@ -62,7 +62,7 @@
                     <div class="channel" onclick="chooseChannel(this)">
                     </div>
                 </div>
-                <div class="header users">
+                <div class="header users l-col-headers">
                     <span class="navbar-brand">Users</span>
                     <span class="new-channel-btn navbar-brand" onclick="toggleNewUser()">+</span>
                 </div>
@@ -91,6 +91,7 @@
         var user_data = {};
         var message_data = {};
         var active_channel = null;
+        var active_channel_name = null;
         var board_id = '';
         var board_color = '';
         //TODO: change to actual username
@@ -124,7 +125,7 @@
                 xhr_fetch.onreadystatechange = function() {
                     if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
                         var response = JSON.parse(xhr_fetch.responseText);
-                        if (!areJSONObjectsEqual(response, user_data)){
+                        if (!areJSONObjectsEqual(response.users, user_data)){
                             renderUsers();
                         }
                     }
@@ -263,13 +264,50 @@
             }
             active_channel = channel_data[0].id;
             channels = document.getElementsByClassName("channel");
-            channels[0].style.backgroundColor = "#777575";
+            channels[0].style.backgroundColor = darkenColor(board_color, 60);
             renderMessages();   
             renderPinnedMessages();  
             renderUsers();
             var navbar = document.getElementById("navbar");
             navbar.style.backgroundColor = board_color;
+            var pinned_btn = document.getElementById("dropdown-button");
+            pinned_btn.style.backgroundColor = darkenColor(board_color, 40);
+            pinned_btn.style.borderColor = darkenColor(board_color, 30);
+            var l_col = document.getElementById("l-column");
+            l_col.style.backgroundColor = darkenColor(board_color, 40);
+            var l_col_headers = document.getElementsByClassName("l-col-headers");
+            for (var i = 0; i < l_col_headers.length; i++) {
+                l_col_headers[i].style.backgroundColor = darkenColor(board_color, 50);
+            }
+            var new_buttons = document.getElementsByClassName("new-channel-btn");
+            for (var i = 0; i < new_buttons.length; i++) {
+                new_buttons[i].addEventListener('mouseover', function() {
+                    this.style.backgroundColor = darkenColor(board_color, 60);
+                });
+                new_buttons[i].addEventListener('mouseout', function() {
+                    if (this.childNodes[0].innerHTML != active_channel_name){
+                        console.log(active_channel_name)
+                        this.style.backgroundColor = darkenColor(board_color, 50);
+                    }
+                });
+            }
 
+        }
+        
+        function darkenColor(hex, percentage) {
+            // Convert hex to RGB
+            const originalR = parseInt(hex.slice(1, 3), 16);
+            const originalG = parseInt(hex.slice(3, 5), 16);
+            const originalB = parseInt(hex.slice(5, 7), 16);
+
+            // Darken the color
+            const darkenedR = Math.round(originalR * (1 - percentage / 100));
+            const darkenedG = Math.round(originalG * (1 - percentage / 100));
+            const darkenedB = Math.round(originalB * (1 - percentage / 100));
+
+            // Convert RGB back to hex
+            const darkenedColor = `#${darkenedR.toString(16).padStart(2, '0')}${darkenedG.toString(16).padStart(2, '0')}${darkenedB.toString(16).padStart(2, '0')}`;
+            return darkenedColor;
         }
 
         function isAlphaNumeric(str) {
@@ -738,13 +776,14 @@
             var channelName = channel.childNodes[0].innerHTML;
             // Set the active_channel variable to the chosen channel
             active_channel = channel_data.find(x => x.name === channelName).id;
+            active_channel_name = channelName;
             // Reset the background colors of all channels
             var channels = document.getElementsByClassName("channel");
             for (var i = 0; i < channels.length; i++) {
-                channels[i].style.backgroundColor = "darkgray";
+                channels[i].style.backgroundColor = darkenColor(board_color, 40);
             }
             // Set the background color of the chosen channel
-            channel.style.backgroundColor = "#777575";
+            channel.style.backgroundColor = darkenColor(board_color, 60);
             renderMessages();
             renderPinnedMessages();
         }
@@ -835,6 +874,15 @@
                     for (var i = 0; i < parsed_data.length; i++) {
                         var newChannel = document.createElement("div");
                         newChannel.className = "channel";
+                        newChannel.addEventListener('mouseover', function() {
+                            this.style.backgroundColor = darkenColor(board_color, 60);
+                        });
+                        newChannel.addEventListener('mouseout', function() {
+                            if (this.childNodes[0].innerHTML != active_channel_name){
+                                console.log(active_channel_name)
+                                this.style.backgroundColor = darkenColor(board_color, 40);
+                            }
+                        });
                         newChannel.onclick = function() {chooseChannel(this)};
                         // If the channel is the general channel, do not add the settings icon, this channel cannot be deleted
                         if (parsed_data[i].name == "General"){
@@ -845,7 +893,7 @@
                         }
                         // If the channel is the active channel, set its background color to a darker gray
                         if (parsed_data[i].name == active_channel_name){
-                            newChannel.style.backgroundColor = "#777575";
+                            newChannel.style.backgroundColor = darkenColor(board_color, 60);
                         }
                         channels.appendChild(newChannel);
                     }

@@ -53,15 +53,16 @@ nav {
 .channels-users {
     border-right: 3px solid black;
     padding: 0px;
-    background-color: darkgray;
+    /* background-color: darkgray; */
     height: 95vh;
+    color: white;
     /* overflow-y: scroll; */
     >.header {
         position: sticky;
         top: 0;
         left: 0;
         padding: 6px 12px;
-        background-color: gray;
+        /* background-color: gray; */
         
         >.new-channel-btn {
             display: inline;
@@ -94,7 +95,7 @@ nav {
     transition: font-size 0.1s ease-in-out, background-color 0.1s ease-in-out;
 }
 .channel:hover, .user:hover{
-    background-color: #777575!important;
+    /* background-color: #777575!important; */
     font-size: 18px;
 }
 .channel .settings-icon{
