@@ -11,16 +11,16 @@ if (isset($_SESSION['inputs'])) {
 
 if (isset($errors["invalid_email"])){
     echo "<script> window.onload = function () {
-        document.getElementById('registration-error').style.display = 'block';
-        document.getElementById('invalid_email').style.display = 'block';
-        document.getElementById('invalid_password').style.display = 'none';
+        document.getElementById('registrationError').style.display = 'block';
+        document.getElementById('invalidEmail').style.display = 'block';
+        document.getElementById('invalidPassword').style.display = 'none';
      } </script>"; 
 } 
 if (isset($errors["invalid_password"])){
     echo "<script> window.onload = function () {
-        document.getElementById('registration-error').style.display = 'block';
-        document.getElementById('invalid_email').style.display = 'none';
-        document.getElementById('invalid_password').style.display = 'block';
+        document.getElementById('registrationError').style.display = 'block';
+        document.getElementById('invalidEmail').style.display = 'none';
+        document.getElementById('invalidPassword').style.display = 'block';
      } </script>"; 
 }
 
