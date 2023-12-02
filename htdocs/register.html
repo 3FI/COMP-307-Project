@@ -99,7 +99,7 @@
             <form name="register form" class="container top-padding" action="/register" method="post" onsubmit="return validateRegistration()">
                 <div class="row top-padding">
                     <label for="email">Email address</label>
-                    <input type="text" name="email" class="form-control field" id="email" placeholder="e.g., johndoe@hotmail.com" onfocusout="return validateEmail()" autofocus>
+                    <input type="text" name="email" class="form-control field" id="email" placeholder="e.g., johndoe@hotmail.com" autofocus>
                     <div id="invalidEmail" class="invalid-feedback" style="display:none">
                         Invalid email
                     </div>
@@ -109,7 +109,7 @@
                 </div>
                 <div class="row padding">
                     <label for="password">Password</label>
-                    <input type="password" name="password" class="form-control field" id="password">
+                    <input type="password" name="password" class="form-control field" id="password" onfocusin="return validateEmail()">
                     <small id="registerHelp" class="form-text" style="color:#a6a6a6">
                         Must have at least 8 characters and contain one number, one uppercase letter and one lowercase letter
                     </small>
