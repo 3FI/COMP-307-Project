@@ -36,7 +36,7 @@
 
 ## Roadmap
 
-![Storyboard](/img/storyboard.png)
+![Storyboard](./htdocs/img/storyboard.png)
 
 - [x] Landing page
     - [X] Login page
@@ -47,9 +47,9 @@
     - [X] Subscribe To Board functionality
     - [X] Unsubscribe From Board functionality
 - [X] Discussion Board page
-    - [ ] Manage Board functionality
     - [X] Manage Channels functionality
     - [X] Manage Members functionality
+    - [ ] Manage Board functionality
     - [ ] Search Messages functionality
 
 
