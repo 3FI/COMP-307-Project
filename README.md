@@ -36,18 +36,20 @@
 
 ## Roadmap
 
-![Storyboard](/storyboard.png)
+![Storyboard](/img/storyboard.png)
 
-- [x] Landing page (Matan)
+- [x] Landing page
     - [X] Login page
-- [x] Registration page (Matan)
-- [X] Select Discussion Board page (Sissy)
-    - [ ] Create Board functionality
-    - [ ] Navigate To Board functionality
-- [ ] Discussion Board page
+- [x] Registration page
+- [X] Select Discussion Board page
+    - [X] Create Board functionality
+    - [X] Navigate To Board functionality
+    - [X] Subscribe To Board functionality
+    - [X] Unsubscribe From Board functionality
+- [X] Discussion Board page
     - [ ] Manage Board functionality
-    - [ ] Manage Channels functionality
-    - [ ] Manage Members functionality
+    - [X] Manage Channels functionality
+    - [X] Manage Members functionality
     - [ ] Search Messages functionality
 
 
