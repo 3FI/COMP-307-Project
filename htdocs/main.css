@@ -28,6 +28,14 @@ html, body {
     margin-bottom: 15px;
 }
 
+.small-top-padding {
+    margin-top: 10px;
+}
+
+.small-bottom-padding {
+    margin-bottom: 10px;
+}
+
 .top-padding {
     margin-top: 15px;
 }
