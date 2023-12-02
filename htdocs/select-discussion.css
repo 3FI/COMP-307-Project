@@ -45,3 +45,21 @@ input[type=checkbox] {
 input[type=checkbox]:checked {
     accent-color: #29a329;
 }
+
+.edit-description-btn {
+    color: #9933ff;
+    background-color: #e6e6e6;
+    border-color: #9933ff;
+}
+
+.edit-description-btn.on {
+    color: #e6e6e6;
+    background-color: #9933ff;
+    border-color: #9933ff;
+}
+
+.edit-description-btn:hover {
+    color: #ffffff;
+    background-color: #8c1aff;
+    border-color: #8c1aff;
+}

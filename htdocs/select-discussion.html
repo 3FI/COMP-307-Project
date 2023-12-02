@@ -167,6 +167,19 @@
         }
     };
 
+    function oneCheckedBoard() {
+        count = 0;
+        var inputs = document.getElementsByTagName("input");
+        for (var i = 0; i < inputs.length; i++) {
+            if (inputs[i].type == "checkbox") {
+                if (inputs[i].checked == true) {
+                    count += 1;
+                }
+            }  
+        }
+        return (count == 1)
+    };
+
     function getCheckedBoards() {
         checkedBoardNames = [];
         var inputs = document.getElementsByTagName("input");
@@ -234,6 +247,23 @@
         }
         uncheckAll();
         return true;
+    };
+
+    function editDescription(boardName) {
+        var foo = prompt("New description for "+boardName+":");
+        alert(foo);
+    };
+
+    function toggleEditDescription() {
+        button = document.getElementById("editDescriptionBtn");
+        if (oneCheckedBoard()) {
+            button.className = "btn edit-description-btn on float-start";
+            boardName = getCheckedBoards()[0];
+            editDescription(boardName);
+        } else {
+            button.className = "btn edit-description-btn float-start";
+            return false;
+        }
     };
 
     function displayForm() {
@@ -866,6 +896,7 @@
                     <a href="#" class="btn btn-primary float-end" onclick="return displayForm()">Create board</a>
                     <a href="#" type="submit" id="subscribeBtn" class="btn subscribe-btn float-end" style="margin-right:15px;display:block" onclick="modifySubscriptions('1')" disabled>&#128276; Subscribe</a>
                     <a href="#" id="selectAllBoards" class="btn btn-primary float-start" style="margin-right:15px" onclick="toggleSelectAll('0')">Select All</a>
+                    <a href="#" id="editDescriptionBtn" class="btn edit-description-btn float-start" style="margin-right:15px" onclick="toggleEditDescription()">Modify description</a>
                 </div>
                 <div id="dashboard" class="container-fluid" style="display:none"></div>
             </div>

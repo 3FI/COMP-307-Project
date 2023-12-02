@@ -61,7 +61,7 @@ html, body {
 }
 
 .logout-btn {
-    color: #f2f2f2;
+    color: #e6e6e6;
     background-color: #cc0000;
     border-color: #cc0000;
 }
@@ -85,28 +85,14 @@ html, body {
     cursor: pointer;
 }
 
-.logout-link {
-    text-decoration: none;
-    font-weight: 400;
-    color: #a6a6a6;
-    margin: 15px;
-    cursor: pointer;
-}
-
-.logout-link:hover {
-    text-decoration: none;
-    font-weight: 500;
-    color: #cc0000;
-}
-
 .subscribe-btn {
     color: #2eb82e;
-    background-color: #ffffff;
+    background-color: #e6e6e6;
     border-color: #2eb82e;
 }
 
 .subscribe-btn.on {
-    color: #ffffff;
+    color: #e6e6e6;
     background-color: #2eb82e;
     border-color: #2eb82e;
 }
@@ -119,12 +105,12 @@ html, body {
 
 .cancel-btn {
     color: #e60000;
-    background-color: #ffffff;
+    background-color: #e6e6e6;
     border-color: #e60000;
 }
 
 .cancel-btn.on {
-    color: #ffffff;
+    color: #e6e6e6;
     background-color: #e60000;
     border-color: #e60000;
 }
