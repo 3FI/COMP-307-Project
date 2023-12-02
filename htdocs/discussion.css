@@ -254,7 +254,6 @@ nav {
     z-index: 100;
     transform: scale(1.5);
     margin-right: 6px;
-    filter: invert(11%) sepia(94%) saturate(6687%) hue-rotate(9deg) brightness(90%) contrast(117%);
 }
 .pin-icon:hover{
     transform: scale(1.8);

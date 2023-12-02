@@ -693,6 +693,7 @@
                         // If the user was added successfully, render the users column
                         if (this.responseText == "TRUE") {
                             renderUsers(userName);
+                            closeWindow();
                         }
                         // If the user was not added successfully, display an error message
                         else if (this.responseText == "Access Denied"){
