@@ -60,6 +60,20 @@ html, body {
     border-color: #cc0000;
 }
 
+.boards-link {
+    text-decoration: none;
+    font-weight: 400;
+    color: #ffffff;
+    margin: 15px;
+    cursor: pointer;
+}
+
+.boards-link:hover {
+    text-decoration: none;
+    font-weight: 500;
+    color: #ffffff;
+}
+
 .logout-link {
     text-decoration: none;
     font-weight: 400;
