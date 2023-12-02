@@ -20,13 +20,13 @@
             <span class="navbar-brand" id="board-name" style="color:#ffffff;cursor:default;"></span>
             <div class="navbar-modified" id="navbarText">
                 <ul class="navbar-nav me-auto mb-lg-0">
-                    <li class="nav-item">
-                        <a class="boards-link" aria-current="page" href="select-discussion.html" style="color:#ffffff;">Home</a>
-                    </li>
+                    <div class="nav navbar-left">
+                        <a href="select-discussion.html" class="boards-link" style="color:#ffffff;">Home</a>
+                    </div>
                 </ul>
                 <div class="dropdown">
                     <button class="btn btn-primary dropdown-toggle" id="dropdown-button" type="button" onclick="togglePinnedMessages()" data-bs-toggle="dropdown" aria-expanded="false">
-                      <img src="./img/pin_icon.svg" style="padding-right: 6px; padding-bottom: 4px;">
+                      <img src="./img/pin_icon.svg" class="pin" style="padding-right: 6px; padding-bottom: 4px;">
                         Pinned
                     </button>
                     <div id="close-menu-overlay" onclick="togglePinnedMessages()"></div>
@@ -34,9 +34,9 @@
                       
                     </div>
                 </div>
-                <button class="btn btn-secondary" onclick="leaveBoard()" style="margin-right:15px;">Leave board</button>
+                <button id="leaveBoard" class="btn leaveboard-btn" onclick="leaveBoard()" style="margin-right:15px;">Leave board</button>
                 <form action="/logout" method="post">
-                    <button type="logout" class="btn logout logout-btn">Logout</button>
+                    <button id="logout" type="logout" class="btn logout-btn">Logout</button>
                 </form>
             </div>
         </div>
@@ -47,7 +47,7 @@
         <input type="text" id="name" placeholder="">
         <small id="valid-input"></small>
         <div class="buttons">
-            <button type="button" class="btn btn-secondary cancel-btn" id="close-btn" onclick="closeWindow()">Cancel</button>
+            <button type="button" class="btn btn-secondary cancel-btn" id="close-btn" onclick="closeWindow()" style="margin-right:5px">Cancel</button>
             <button type="button" class="btn btn-primary" id="create-btn"></button>
         </div>
     </div>
@@ -55,16 +55,16 @@
         <div class="row">
             <div class="channels-users col-lg-2 col-md-3 col-sm-4 col-4" id="l-column">
                 <div class="header channels l-col-headers">
-                    <span class="navbar-brand">Channels</span>
-                    <span class="new-channel-btn navbar-brand" onclick="toggleNewChannel()">+</span>
+                    <span class="navbar-brand" style="cursor:default">Channels</span>
+                    <span class="new-channel-btn add-icon" onclick="toggleNewChannel()">&#43;</span>
                 </div>
                 <div id="channel-select">
                     <div class="channel" onclick="chooseChannel(this)">
                     </div>
                 </div>
                 <div class="header users l-col-headers">
-                    <span class="navbar-brand">Users</span>
-                    <span class="new-channel-btn navbar-brand" onclick="toggleNewUser()">+</span>
+                    <span class="navbar-brand" style="cursor:default">Users</span>
+                    <span class="new-channel-btn add-icon" onclick="toggleNewUser()">&#43;</span>
                 </div>
                 <div id="users-select">
                 </div>
@@ -76,7 +76,7 @@
                     <div class="message">
                         <!-- <div class="username"><strong>User 1</strong></div>
                         <div class="datetime">2023/8/2</div>
-                        <img src="./img/pin_icon.svg" alt="" class="pin-icon" onclick="pinMessage(this)">
+                        <img src="./img/pin_icon.svg" alt="" class="pin" onclick="pinMessage(this)">
                         <div id="pinned-mark">Pinned</div>
                         <div class="text">Test message</div> -->
                     </div>
@@ -282,7 +282,7 @@
             var new_buttons = document.getElementsByClassName("new-channel-btn");
             for (var i = 0; i < new_buttons.length; i++) {
                 new_buttons[i].addEventListener('mouseover', function() {
-                    this.style.backgroundColor = darkenColor(board_color, 60);
+                    this.style.backgroundColor = darkenColor(board_color, 50);
                 });
                 new_buttons[i].addEventListener('mouseout', function() {
                     if (this.childNodes[0].innerHTML != active_channel_name){
@@ -291,7 +291,10 @@
                     }
                 });
             }
-
+            document.getElementById("leaveBoard").style.backgroundColor = darkenColor(board_color, 40);
+            document.getElementById("leaveBoard").style.borderColor = darkenColor(board_color, 30);
+            document.getElementById("logout").style.backgroundColor = darkenColor(board_color, 60);
+            document.getElementById("logout").style.borderColor = darkenColor(board_color, 50);
         }
         
         function darkenColor(hex, percentage) {

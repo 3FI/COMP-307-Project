@@ -48,30 +48,41 @@ html, body {
     height: 61px;
 }
 
-.logout-btn {
-    color: #ffffff;
-    background-color: #a6a6a6;
-    border-color: #a6a6a6;
+.leaveboard-btn {
+    color: #e6e6e6;
+    background-color: #cc0000;
+    border-color: #cc0000;
 }
 
-.logout-btn:hover {
+.leaveboard-btn:hover {
     color: #ffffff;
     background-color: #cc0000;
     border-color: #cc0000;
 }
 
+.logout-btn {
+    color: #e6e6e6;
+    background-color: #b30000;
+    border-color: #b30000;
+}
+
+.logout-btn:hover {
+    color: #ffffff;
+    background-color: #b30000;
+    border-color: #b30000;
+}
+
 .boards-link {
     text-decoration: none;
-    font-weight: 400;
-    color: #ffffff;
-    margin: 15px;
+    color: #e6e6e6;
     cursor: pointer;
 }
 
 .boards-link:hover {
     text-decoration: none;
-    font-weight: 500;
     color: #ffffff;
+    transform: scale(1.02);
+    cursor: pointer;
 }
 
 .logout-link {
@@ -122,4 +133,8 @@ html, body {
     color: #ffffff;
     background-color: #b30000;
     border-color: #b30000;
+}
+
+.pin {
+    filter: invert(11%) sepia(94%) saturate(6687%) hue-rotate(9deg) brightness(90%) contrast(117%);
 }
