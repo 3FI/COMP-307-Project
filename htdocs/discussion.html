@@ -100,7 +100,7 @@
         var active_channel_name = null;
         var board_id = '';
         var board_color = '';
-        var my_username = ''
+        my_username = ''
         var cur_is_admin = false;
         const queryParams = new URLSearchParams(window.location.search);
         var board_name = queryParams.get('boardname');
@@ -147,7 +147,7 @@
                     if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
                         var response = JSON.parse(xhr_fetch.responseText);
                         response.forEach(elm=> delete elm['is_pinned']);
-                        var msg_data_without_pinned = message_data;
+                        var msg_data_without_pinned = JSON.parse(JSON.stringify(message_data));
                         msg_data_without_pinned.forEach(elm=> delete elm['is_pinned']);
                         if (!areJSONObjectsEqual(response, msg_data_without_pinned)){
                             renderMessages();
@@ -167,6 +167,7 @@
                         var response = JSON.parse(xhr_fetch.responseText);
                         if (!areJSONObjectsEqual(response, message_data)){
                             renderPinnedMessages();
+                            renderMessages();
                         }
                     }
                 }
@@ -401,6 +402,19 @@
                     // Parse the response data
                     data = this.responseText;
                     parsed_data = JSON.parse(data);
+                    message_data = JSON.parse(JSON.stringify(parsed_data));
+                    function sortByDate(jsonArray) {
+                        // Sort the array based on the "date" field
+                        jsonArray.sort((a, b) => {
+                            const dateA = new Date(a.date);
+                            const dateB = new Date(b.date);
+
+                            return dateA - dateB;
+                        });
+
+                        return jsonArray;
+                    }
+                    parsed_data = sortByDate(parsed_data);
                     // Get the pinned messages dropdown column
                     pinned_messages = document.getElementById("dropdown-menu");
                     // Clear the pinned messages dropdown column
@@ -994,7 +1008,19 @@
                     // Parse the response data
                     data = this.responseText;
                     parsed_data = JSON.parse(data);
-                    message_data = parsed_data;
+                    message_data = JSON.parse(JSON.stringify(parsed_data));
+                    function sortByDate(jsonArray) {
+                        // Sort the array based on the "date" field
+                        jsonArray.sort((a, b) => {
+                            const dateA = new Date(a.date);
+                            const dateB = new Date(b.date);
+
+                            return dateA - dateB;
+                        });
+
+                        return jsonArray;
+                    }
+                    parsed_data = sortByDate(parsed_data);
                     // Get the messages column
                     var messages = document.getElementById("messages");
                     // Clear the messages column
