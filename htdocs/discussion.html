@@ -94,6 +94,7 @@
         var active_channel_name = null;
         var board_id = '';
         var board_color = '';
+        var cur_is_admin = false;
         //TODO: change to actual username
         var my_username = 'matan@atlas.com';
         const queryParams = new URLSearchParams(window.location.search);
@@ -268,6 +269,7 @@
             renderMessages();   
             renderPinnedMessages();  
             renderUsers();
+            is_admin();
             var navbar = document.getElementById("navbar");
             navbar.style.backgroundColor = board_color;
             var pinned_btn = document.getElementById("dropdown-button");
@@ -286,7 +288,6 @@
                 });
                 new_buttons[i].addEventListener('mouseout', function() {
                     if (this.childNodes[0].innerHTML != active_channel_name){
-                        console.log(active_channel_name)
                         this.style.backgroundColor = darkenColor(board_color, 50);
                     }
                 });
@@ -294,6 +295,14 @@
             leaveBoardBtn = document.getElementById("leaveBoard");
             leaveBoardBtn.style.backgroundColor = darkenColor(board_color, 40);
             leaveBoardBtn.style.borderColor = darkenColor(board_color, 30);
+            if (cur_is_admin){
+                leaveBoardBtn.innerHTML = "Delete Board";
+                leaveBoardBtn.onclick = function() {deleteBoard()};
+            }
+            else {
+                leaveBoardBtn.innerHTML = "Leave Board";
+                leaveBoardBtn.onclick = function() {leaveBoard()};
+            }
 
             logoutBtn = document.getElementById("logout");
             logoutBtn.style.backgroundColor = darkenColor(board_color, 60);
@@ -886,7 +895,6 @@
                         });
                         newChannel.addEventListener('mouseout', function() {
                             if (this.childNodes[0].innerHTML != active_channel_name){
-                                console.log(active_channel_name)
                                 this.style.backgroundColor = darkenColor(board_color, 40);
                             }
                         });
@@ -1027,28 +1035,41 @@
 
         }
 
+        function deleteBoard(){
+
+            if (confirm("Do you really want to delete the discussion board ?") == true) {
+                var xhr_delete = new XMLHttpRequest();
+                xhr_delete.onreadystatechange = function() {
+                    if(xhr_delete.readyState == 4 && xhr_delete.status == 200) {
+                        console.log(this.responseText);
+                        // If the message was sent successfully, render the messages column
+                        if(this.responseText == "TRUE") {
+                            window.location.href = '/select-discussion';
+                        }
+                    }
+                }
+            xhr_delete.open('POST', '/delete-board', false);
+            xhr_delete.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhr_delete.send("board_id="+board_id);
+            } 
+
+        }
+
         function is_admin(){
 
             var xhr_check = new XMLHttpRequest();
             xhr_check.onreadystatechange = function() {
                 if(xhr_check.readyState == 4 && xhr_check.status == 200) {
-                    console.log(this.responseText);
-                    // If the message was sent successfully, render the messages column
                     if(this.responseText == "TRUE") {
-                        alert("the user is the admin of this board");
-                        return true;
+                        cur_is_admin = true;
                     } else {
-                        alert("the user is not the admin of this board");
-                        return false;
+                        cur_is_admin = false;
                     }
                 }
-                    
             }
             xhr_check.open('POST', '/is-admin', false);
             xhr_check.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
             xhr_check.send("board_id="+board_id);
-
         }
-
     </script>
 </body>
