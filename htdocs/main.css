@@ -87,12 +87,12 @@ html, body {
 
 .subscribe-btn {
     color: #2eb82e;
-    background-color: #f2f2f2;
+    background-color: #ffffff;
     border-color: #2eb82e;
 }
 
 .subscribe-btn.on {
-    color: #f2f2f2;
+    color: #ffffff;
     background-color: #2eb82e;
     border-color: #2eb82e;
 }
@@ -105,12 +105,12 @@ html, body {
 
 .cancel-btn {
     color: #e60000;
-    background-color: #f2f2f2;
+    background-color: #ffffff;
     border-color: #e60000;
 }
 
 .cancel-btn.on {
-    color: #f2f2f2;
+    color: #ffffff;
     background-color: #e60000;
     border-color: #e60000;
 }

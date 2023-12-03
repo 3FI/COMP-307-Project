@@ -48,12 +48,12 @@ input[type=checkbox]:checked {
 
 .edit-description-btn {
     color: #9933ff;
-    background-color: #f2f2f2;
+    background-color: #ffffff;
     border-color: #9933ff;
 }
 
 .edit-description-btn.on {
-    color: #f2f2f2;
+    color: #ffffff;
     background-color: #9933ff;
     border-color: #9933ff;
 }
