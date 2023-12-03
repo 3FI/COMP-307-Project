@@ -97,6 +97,7 @@
         var active_channel_name = null;
         var board_id = '';
         var board_color = '';
+        var my_username = '';
         var cur_is_admin = false;
         const queryParams = new URLSearchParams(window.location.search);
         var board_name = queryParams.get('boardname');
@@ -754,6 +755,9 @@
                     // If the user was not deleted successfully, display an error message
                     else if(this.responseText == "Access Denied"){
                         accessDenied();
+                    }
+                    else if(this.responseText == "Admin cannot remove himself"){
+                        alert("Admin cannot remove himself");
                     }
                     else{
                         // alert("Error deleting user");
