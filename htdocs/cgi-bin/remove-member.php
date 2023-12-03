@@ -36,6 +36,7 @@ mysqli_stmt_bind_param($stmt, 's', $email);
 if (mysqli_stmt_execute($stmt)){
     $result = mysqli_stmt_get_result($stmt);
     if ($result->num_rows === 0) {
+        $conn->close();
         die("Invalid Email");
     }
     else if ($result->num_rows === 1){
@@ -43,11 +44,24 @@ if (mysqli_stmt_execute($stmt)){
         $oldMemberId = $row['user_id'];
     }
     else if ($result->num_rows >= 1){
+        $conn->close();
         die("Multiple Account with Email");
     }
 }
 
+#Check if admin is trying to remove himself
+$sql = "SELECT * FROM boards WHERE admin_id=? and id=?";
+$stmt = mysqli_prepare($conn, $sql);
+mysqli_stmt_bind_param($stmt, 'ii', $oldMemberId, $boardId);
+if (mysqli_stmt_execute($stmt)){
+    $result = mysqli_stmt_get_result($stmt);
+    if ($result->num_rows === 1) {
+        $conn->close();
+        die("Admin cannot remove himself");
+    }
+}
 
+#Delete remove member from board
 $sql = "DELETE FROM board_access WHERE user_id=? and board_id=?";
 $stmt = mysqli_prepare($conn, $sql);
 mysqli_stmt_bind_param($stmt, 'ii' ,$oldMemberId ,$boardId);
