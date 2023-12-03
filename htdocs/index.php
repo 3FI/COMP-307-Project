@@ -57,6 +57,8 @@
 			require __DIR__ . $viewDir . 'fetch-board-users.php';
 		case '/update-subscriptions':
 			require __DIR__ . $viewDir . 'update-subscriptions.php';
+		case '/update-board-description' :
+			require __DIR__ . $viewDir . 'update-board-description.php';
 		case '/update-pinned-message':
 			require __DIR__ . $viewDir . 'update-pinned-message.php';
 		case '/leave-board':
