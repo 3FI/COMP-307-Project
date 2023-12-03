@@ -11,6 +11,7 @@ nav {
 }
 .navbar-modified{
     display: flex!important;
+    justify-content: flex-end;
     align-items: center;
     flex-basis: auto;
     flex-grow: 1;
@@ -22,6 +23,38 @@ nav {
 @media screen and (max-width: 768px) {
     .dropdown-toggle{
         margin-right: 6px;
+    }
+    
+}
+.hamburger{
+    display: none;
+    position: fixed;
+    right:0;
+    top: 16px;
+    margin-right: 10px; 
+    margin-left: 10px; 
+}
+#hamburger-buttons{
+    display: flex;
+}
+@media screen and (max-width: 572px) {
+    .hamburger{
+        display: inline;
+    }
+    #hamburger-buttons{
+        display: none;
+    }
+    
+}
+@media screen and (min-width: 573px) {
+    nav {
+        height: 61px!important;
+    }
+    .hamburger{
+        display: none;
+    }
+    #hamburger-buttons{
+        display: flex!important;
     }
     
 }
@@ -153,6 +186,20 @@ nav {
     margin-bottom:10px ;
     z-index: 99;
 }
+/* #region responsive text box */
+@media  screen and (max-width: 991px) {
+    .text-box{
+        width: 73%;
+    }
+    
+}
+@media  screen and (max-width: 767px) {
+    .text-box{
+        width: 64%;
+    }
+    
+}
+/* #endregion */
 .text-box:focus{
     outline: none;
 }

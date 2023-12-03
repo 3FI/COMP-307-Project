@@ -18,26 +18,29 @@
         <div class="container-fluid">
             <img src="/img/logo.png" alt="logo" class="d-inline-block align-top" style="width:30px;height:30px;margin-right:15px;">
             <span class="navbar-brand" id="board-name" style="color:#ffffff;cursor:default;"></span>
-            <div class="navbar-modified" id="navbarText">
-                <ul class="navbar-nav me-auto mb-lg-0">
-                    <div class="nav navbar-left">
-                        <a href="select-discussion.html" class="boards-link" style="margin-left:15px;color:#ffffff;">Home</a>
-                    </div>
-                </ul>
-                <div class="dropdown">
-                    <button class="btn btn-primary dropdown-toggle" id="dropdown-button" type="button" onclick="togglePinnedMessages()" data-bs-toggle="dropdown" aria-expanded="false">
-                      <img src="./img/pin_icon.svg" class="pin" style="padding-right: 6px; padding-bottom: 4px;">
-                        Pinned
-                    </button>
-                    <div id="close-menu-overlay" onclick="togglePinnedMessages()"></div>
-                    <div class="dropdown-menu" id="dropdown-menu">
-                      
-                    </div>
+            <ul class="navbar-nav me-auto mb-lg-0">
+                <div class="nav navbar-left">
+                    <a href="select-discussion.html" class="boards-link" style="margin-left:15px;color:#ffffff;">Home</a>
                 </div>
-                <button id="leaveBoard" class="btn leaveboard-btn" onclick="leaveBoard()" style="margin-right:15px;">Leave board</button>
-                <form action="/logout" method="post">
-                    <button id="logout" type="logout" class="btn logout-btn">Logout</button>
-                </form>
+            </ul>
+            <img src="./img/hamburger.svg" alt="" class="hamburger" onclick="toggleHamburgerMenu()">
+            <div class="navbar-modified" id="navbarText">
+                <div id="hamburger-buttons">
+                    <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" id="dropdown-button" type="button" onclick="togglePinnedMessages()" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="./img/pin_icon.svg" class="pin" style="padding-right: 6px; padding-bottom: 4px;">
+                            Pinned
+                        </button>
+                        <div id="close-menu-overlay" onclick="togglePinnedMessages()"></div>
+                        <div class="dropdown-menu" id="dropdown-menu">
+                        
+                        </div>
+                    </div>
+                        <button id="leaveBoard" class="btn leaveboard-btn" onclick="leaveBoard()" style="margin-right:15px;">Leave board</button>
+                        <form action="/logout" method="post">
+                            <button id="logout" type="logout" class="btn logout-btn">Logout</button>
+                        </form>
+                </div>
             </div>
         </div>
     </nav>
@@ -95,8 +98,6 @@
         var board_id = '';
         var board_color = '';
         var cur_is_admin = false;
-        //TODO: change to actual username
-        var my_username = 'blank';
         const queryParams = new URLSearchParams(window.location.search);
         var board_name = queryParams.get('boardname');
         document.getElementById("board-name").innerHTML = board_name;
@@ -688,6 +689,19 @@
             disable_content.style.opacity = "0.5";
             disable_content.style.pointerEvents = "none";
         }
+
+        function toggleHamburgerMenu(){
+            var hamburger_menu = document.getElementById("hamburger-buttons");
+            var navbar = document.getElementById("navbar");
+            if (hamburger_menu.style.display != "inline-flex"){
+                hamburger_menu.style.display = "inline-flex";
+                navbar.style.height = "100px";
+            }
+            else{
+                hamburger_menu.style.display = "none";
+                navbar.style.height = "61px";
+            }
+        }   
 
         // Adding a new user to the board
         function newUser(){
