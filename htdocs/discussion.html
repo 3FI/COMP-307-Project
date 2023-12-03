@@ -710,7 +710,7 @@
                             errorAddingUser("A user with this email already exists.");
                         }
                         else if (this.responseText == "Invalid Email"){
-                            errorAddingUser("Invalid email.");
+                            errorAddingUser("A user with this email does not exist.");
                         }
                         else{
                             console.log(this.responseText);
