@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 if( !isset($_POST['boardName']) || !isset($_POST['description']) || !isset($_SESSION['user_id'])) {die("Invalid Request");}
 
 $board_name = $_POST['boardName'];
-$new_description = $_POST['newBoardDescription'];
+$new_description = $_POST['description'];
 
 $conn = new mysqli("localhost", "root", "", "COMP307-Project");
 if ($conn->connect_error) {
