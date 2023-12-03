@@ -6,7 +6,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     die();
 }
 
-if( !isset($_POST['boardName']) || !isset($_POST['newBoardDescription']) || !isset($_SESSION['user_id'])) {die("Invalid Request");}
+if( !isset($_POST['boardName']) || !isset($_POST['description']) || !isset($_SESSION['user_id'])) {die("Invalid Request");}
 
 $board_name = $_POST['boardName'];
 $new_description = $_POST['newBoardDescription'];
