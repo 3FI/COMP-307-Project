@@ -96,7 +96,7 @@
         var board_color = '';
         var cur_is_admin = false;
         //TODO: change to actual username
-        var my_username = 'matan@atlas.com';
+        var my_username = 'blank';
         const queryParams = new URLSearchParams(window.location.search);
         var board_name = queryParams.get('boardname');
         document.getElementById("board-name").innerHTML = board_name;
@@ -181,20 +181,6 @@
             checkForMessagesUpdates();
             checkForPinnedMessagesUpdates();
         }
-
-
-        //getMyUsername();
-        
-        // function getMyUsername(){
-        //     var xhr_fetch = new XMLHttpRequest();
-        //     xhr_fetch.onreadystatechange = function() {
-        //         if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
-        //             console.log(this.responseText);
-        //         }
-        //     }
-        //     xhr_fetch.open('GET', '/fetch-username', false); 
-        //     xhr_fetch.send();
-        // }
         
         function scrollToElm(container, elm_id, duration){
             var elm = document.getElementById(elm_id);
@@ -303,10 +289,22 @@
                 leaveBoardBtn.innerHTML = "Leave Board";
                 leaveBoardBtn.onclick = function() {leaveBoard()};
             }
+            leaveBoardBtn.addEventListener('mouseover', function() {
+                this.style.backgroundColor = "#e60000";
+            });
+            leaveBoardBtn.addEventListener('mouseout', function() {
+                this.style.backgroundColor = darkenColor(board_color, 40);
+            });
 
             logoutBtn = document.getElementById("logout");
             logoutBtn.style.backgroundColor = darkenColor(board_color, 60);
             logoutBtn.style.borderColor = darkenColor(board_color, 50);
+            logoutBtn.addEventListener('mouseover', function() {
+                this.style.backgroundColor = "#e60000";
+            });
+            logoutBtn.addEventListener('mouseout', function() {
+                this.style.backgroundColor = darkenColor(board_color, 60);
+            });
         }
         
         function darkenColor(hex, percentage) {
@@ -816,6 +814,7 @@
                             renderChannels();  
                             renderMessages(); 
                             closeWindow();
+                            chooseChannel(document.getElementsByClassName("channel")[channel_data.length-1]);
                         }
                         // If the channel was not created successfully, display an error message
                         else if (this.responseText == "Access Denied"){
