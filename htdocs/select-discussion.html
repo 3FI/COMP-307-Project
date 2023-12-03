@@ -254,18 +254,26 @@
         return true;
     };
 
-    function editDescription(newDescription) {
-        alert(newDescription);
-        form = document.getElementById("editDescription");
-        createButton = document.getElementById("dashboard-header");
-        dashboard = document.getElementById("dashboard");
-        container = document.getElementById("newDescription");
-        container.innerHTML = "Enter a description for "+newDescription+": "
-        hide(createButton);
-        hide(dashboard);
-        show(form);
-        form.reset();
-        return true;
+    function editDescription() {
+        numChecked = getCheckedBoards().length;
+        alert(numChecked);
+        if (numChecked == 1) {
+            boardName = getCheckedBoards()[0];
+            form = document.getElementById("editDescription");
+            createButton = document.getElementById("dashboard-header");
+            dashboard = document.getElementById("dashboard");
+            
+            hide(createButton);
+            hide(dashboard);
+            show(form);
+            form.reset();
+
+            container = document.getElementById("newDescription");
+            container.innerHTML = "Enter a description for "+boardName+": "
+            return true;
+        } else {
+            return false;
+        }
     };
 
     function displayForm() {
@@ -911,13 +919,14 @@
                     </div>
                     <div class="card-body text-center">
                         <p><button type="button" class="btn btn-primary" onclick="">Submit</button></p>
+                        <p><a href="./select-discussion.html" type="button" class="btn cancel-btn">Nevermind</a></p>
                     </div>
                 </form>
                 <div id="dashboard-header" class="container-fluid padding" style="display:block">
                     <a href="#" class="btn btn-primary float-end" onclick="return displayForm()">Create board</a>
                     <a href="#" type="submit" id="subscribeBtn" class="btn subscribe-btn float-end" style="margin-right:15px;display:block" onclick="modifySubscriptions('1')" disabled>&#128276; Subscribe</a>
                     <a href="#" id="selectAllBoards" class="btn btn-primary float-start" style="margin-right:15px" onclick="toggleSelectAll('0')">Select All</a>
-                    <a href="#" id="editDescriptionBtn" class="btn edit-description-btn float-start" style="margin-right:15px" onclick="editDescription(document.forms['description form']['new description'].value)" disabled>Edit description</a>
+                    <a href="#" type="submit" id="editDescriptionBtn" class="btn edit-description-btn float-start" style="margin-right:15px" onclick="editDescription()" disabled>Edit description</a>
                 </div>
                 <div id="dashboard" class="container-fluid" style="display:none"></div>
             </div>
