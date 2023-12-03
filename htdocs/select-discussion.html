@@ -254,9 +254,32 @@
         return true;
     };
 
+    function modifyBoardDescription() {
+        boards = getCheckedBoards();
+        boardName = boards[0];
+        newBoardDescription = document.forms["description form"]["new description"].value;
+
+        var xhr_update = new XMLHttpRequest();
+        xhr_update.onreadystatechange = function() {
+            if(xhr_update.readyState == 4 && xhr_update.status == 200) {
+                loadPage();
+            }
+        }
+
+        xhr_update.open('POST', '/update-board-description', true);  //asynchronous
+        xhr_update.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        //pass the board name and the new description
+        var params = "boardName="+boardName+"&description="+newBoardDescription;
+        xhr_update.send(params);
+
+        alert('Board: '+boardName+'\nNew description: '+newBoardDescription);
+        uncheckAll();
+        loadBoards(numPerRow, '0');
+        return true;
+    };
+
     function editDescription() {
         numChecked = getCheckedBoards().length;
-        alert(numChecked);
         if (numChecked == 1) {
             boardName = getCheckedBoards()[0];
             form = document.getElementById("editDescription");
@@ -765,34 +788,6 @@
     };
     
     function generateBoard() {
-        // //THIS IS THE AJAX TO CREATE A BOARD
-
-        // // SET THESE TO YOUR VALUES
-        // var name_input = 'TESTNAME';
-        // var xhr_create = new XMLHttpRequest();
-        // xhr_create.onreadystatechange = function() {
-        //     if(xhr_create.readyState == 4 && xhr_create.status == 200) {
-        //         if(this.responseText == "TRUE") {
-        //             // FETCH/RELOAD THE DASHBOARD
-        //         }
-        //     }
-        // }
-        // xhr_create.open('POST', '/create-board', false);  // Set the third parameter to false for a synchronous request
-        // xhr_create.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-        // xhr_create.send('name='+name_input);
-
-        // //THIS IS THE AJAX TO FETCH THE VALID BOARDS
-
-        // var xhr_fetch = new XMLHttpRequest();
-        // xhr_fetch.onreadystatechange = function() {
-        //     if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
-        //         // DO/CALL YOUR RENDER FROM IN HERE
-        //         console.log(this.responseText);
-        //     }
-        // }
-        // xhr_fetch.open('GET', '/fetch-board-list', false);  // Set the third parameter to false for a synchronous request
-        // xhr_fetch.send();
-        
         emptyDashboard = document.getElementById("empty-dashboard");
         form = document.getElementById("form");
         createButton = document.getElementById("dashboard-header");
@@ -918,7 +913,7 @@
                         <div class="col"></div>
                     </div>
                     <div class="card-body text-center">
-                        <p><button type="button" class="btn btn-primary" onclick="">Submit</button></p>
+                        <p><button type="button" class="btn btn-primary" onclick="return modifyBoardDescription()">Submit</button></p>
                         <p><a href="./select-discussion.html" type="button" class="btn cancel-btn">Nevermind</a></p>
                     </div>
                 </form>
