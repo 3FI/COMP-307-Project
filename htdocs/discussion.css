@@ -83,11 +83,49 @@ nav {
     width: 100%;
 }
 
+#open-channels-users{
+    display: none;
+    align-content: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 15%;
+    height: 95vh;
+    z-index: 1000;
+}
+@media screen and (max-width: 500px) {
+    #open-channels-users{
+        display: flex;
+    }
+    .channels-users{
+        /* display: none; */
+        transform: translateX(-150%);
+        width: 85%;
+    }
+    .discussion{
+        width: 85%;
+        right: 0!important;
+        position: fixed!important   ;
+    }
+    .text-box
+    {
+        width: 80%!important;
+    }
+    
+}
+@media screen and (min-width: 501px) {
+    .channels-users{
+        transform: translateX(0%)!important;
+        /* width: 15%; */
+    }
+}
+
 .channels-users {
     padding: 0px;
     /* background-color: darkgray; */
     height: 95vh;
     color: white;
+    z-index: 1000;
+    transition: transform 0.5s ease-in-out;
     /* overflow-y: scroll; */
     >.header {
         position: sticky;
@@ -111,7 +149,12 @@ nav {
 
     }
 }
-
+/* @media screen and (max-width: 500px) {
+    .channels-users {
+        display: none;
+    }
+    
+} */
 #channel-select, #users-select {
     padding: 4px 4px 0px 4px;
     height: 50vh;

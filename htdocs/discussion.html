@@ -56,6 +56,9 @@
     </div>
     <div class="container-fluid" id="disable">
         <div class="row">
+            <div id="open-channels-users">
+                <img id="arrow" src="./img/right_arrow.svg" alt="" onclick="openChannelsUsers()">
+            </div>
             <div class="channels-users col-lg-2 col-md-3 col-sm-4 col-4" id="l-column">
                 <div class="header channels l-col-headers">
                     <span class="navbar-brand" style="cursor:default">Channels</span>
@@ -97,7 +100,7 @@
         var active_channel_name = null;
         var board_id = '';
         var board_color = '';
-        var my_username = '';
+        var my_username = ''
         var cur_is_admin = false;
         const queryParams = new URLSearchParams(window.location.search);
         var board_name = queryParams.get('boardname');
@@ -254,6 +257,8 @@
             active_channel = channel_data[0].id;
             channels = document.getElementsByClassName("channel");
             channels[0].style.backgroundColor = darkenColor(board_color, 60);
+            open_channels_user = document.getElementById("open-channels-users");
+            open_channels_user.style.backgroundColor = darkenColor(board_color, 40);
             renderMessages();   
             renderPinnedMessages();  
             renderUsers();
@@ -703,6 +708,23 @@
                 navbar.style.height = "61px";
             }
         }   
+
+        function openChannelsUsers(){
+            var channels_users = document.getElementById("l-column");
+            var arrow = document.getElementById("arrow")
+            if (channels_users.style.transform == "translateX(0px)"){
+                channels_users.style.transform = "translateX(-150%)";
+                setTimeout(function() {
+                    arrow.src = "./img/right_arrow.svg"
+                }, 300);
+            }
+            else {
+                channels_users.style.transform = "translateX(0px)";
+                setTimeout(function() {
+                    arrow.src = "./img/left_arrow.svg"
+                }, 300);
+            }
+        }
 
         // Adding a new user to the board
         function newUser(){
