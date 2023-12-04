@@ -43,13 +43,14 @@
 - [x] Registration page
 - [X] Select Discussion Board page
     - [X] Create Board functionality
+    - [X] Modify Board Description functionality
     - [X] Navigate To Board functionality
     - [X] Subscribe To Board functionality
     - [X] Unsubscribe From Board functionality
 - [X] Discussion Board page
     - [X] Manage Channels functionality
     - [X] Manage Members functionality
-    - [ ] Manage Board functionality
+    - [X] Manage Board functionality
     - [ ] Search Messages functionality
 
 
