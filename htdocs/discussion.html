@@ -8,19 +8,19 @@
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="main.css">
     <link rel="stylesheet" href="discussion.css">
-    <title>Discussion Page</title>
-    <link rel="icon" type="image/x-icon" href="/img/logo.ico">
+    <title>Discussion Thread - myThreads - McGill University</title>
+    <link rel="icon" type="image/x-icon" href="./img/logo.ico">
 </head>
 
 <body onload="renderContent()">
 <!-- <body> -->
     <nav class="navbar navbar-expand-lg banner" id="navbar">
         <div class="container-fluid">
-            <img src="/img/logo.png" alt="logo" class="d-inline-block align-top" style="width:30px;height:30px;margin-right:15px;">
+            <img src="./img/logo.png" alt="logo" class="d-inline-block align-top" style="width:30px;height:30px;margin-right:15px;">
             <span class="navbar-brand" id="board-name" style="color:#ffffff;cursor:default;"></span>
             <ul class="navbar-nav me-auto mb-lg-0">
                 <div class="nav navbar-left">
-                    <a href="select-discussion.html" class="boards-link" style="margin-left:15px;color:#ffffff;">Home</a>
+                    <a href="./select-discussion.html" class="boards-link" style="margin-left:15px;color:#ffffff;">Home</a>
                 </div>
             </ul>
             <img src="./img/hamburger.svg" alt="" class="hamburger" onclick="toggleHamburgerMenu()">
@@ -37,7 +37,7 @@
                         </div>
                     </div>
                         <button id="leaveBoard" class="btn leaveboard-btn" onclick="leaveBoard()" style="margin-right:15px;">Leave board</button>
-                        <form action="/logout" method="post">
+                        <form action="./logout" method="post">
                             <button id="logout" type="logout" class="btn logout-btn">Logout</button>
                         </form>
                 </div>

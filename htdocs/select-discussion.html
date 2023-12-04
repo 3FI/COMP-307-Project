@@ -8,7 +8,7 @@
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link href="main.css" rel="stylesheet">
     <link href="select-discussion.css" rel="stylesheet">
-    <title>Discussions</title>
+    <title>Discussions - myThreads - McGill University</title>
     <link rel="icon" type="image/x-icon" href="./img/logo.ico">
 </head>
 <script>
@@ -258,6 +258,11 @@
         boards = getCheckedBoards();
         boardName = boards[0];
         newBoardDescription = document.forms["description form"]["new description"].value;
+        if (isEmpty(newBoardDescription)) {
+            newBoardDescription = "None";
+        } else {
+            newBoardDescription = capitalize(newBoardDescription);
+        }
 
         var xhr_update = new XMLHttpRequest();
         xhr_update.onreadystatechange = function() {
@@ -272,8 +277,8 @@
         var params = "boardName="+boardName+"&description="+newBoardDescription;
         xhr_update.send(params);
 
-        alert('Board: '+boardName+'\nNew description: '+newBoardDescription);
         uncheckAll();
+        disableEditDescription();
         loadBoards(numPerRow, '0');
         return true;
     };
@@ -833,10 +838,12 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-white banner">
         <div class="container-fluid">
             <div class="navbar-header">
-                <img src="./img/logo.png" alt="logo" class="d-inline-block align-top" style="width:30px;height:30px;margin-right:10px">
-                <a class="navbar-brand" style="cursor:default">Discussions</a>
+                <img src="./img/name-logo.jpg" alt="logo" class="d-inline-block align-top" style="height:45px;margin-top:2px;margin-right:20px">
             </div>
-            <div class="nav navbar-right">
+            <div class="nav">
+                <a class="navbar-brand float-start" style="cursor:default">Discussions</a>
+            </div>
+            <div class="nav">
                 <form action="./logout" method="post">
                     <button type="logout" class="btn logout-btn">Logout</button>
                 </form>
