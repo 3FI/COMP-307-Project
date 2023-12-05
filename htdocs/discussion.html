@@ -291,11 +291,11 @@
             leaveBoardBtn.style.borderColor = darkenColor(board_color, 30);
             if (cur_is_admin){
                 leaveBoardBtn.innerHTML = "Delete Board";
-                leaveBoardBtn.onclick = function() {deleteBoard()};
+                leaveBoardBtn.onclick = function() {toggleDeleteBoard()};
             }
             else {
                 leaveBoardBtn.innerHTML = "Leave Board";
-                leaveBoardBtn.onclick = function() {leaveBoard()};
+                leaveBoardBtn.onclick = function() {toggleLeaveBoard()};
             }
             leaveBoardBtn.addEventListener('mouseover', function() {
                 this.style.backgroundColor = "#e60000";
@@ -648,6 +648,67 @@
             disable_content.style.pointerEvents = "none";
         }
 
+        function toggleLeaveBoard(){
+            // Get channel window element and display it
+            var new_channel_window = document.getElementById("create-new-window");
+            new_channel_window.style.display = "flex";
+            // Get channel window elements and change their content
+            var new_channel_header = document.getElementById("create-new-header");
+            new_channel_header.innerHTML = "Leave Board?";
+            // Get the user name from the button and display confirmation message
+            var enter_below = document.getElementById("enter-below");
+            enter_below.innerHTML = "Are you sure you want to leave this board?";
+            // Hide the input box
+            var name = document.getElementById("name");
+            name.style.display = "none";
+            // Clear the message for duplicate additions
+            valid = document.getElementById("valid-input")
+            valid.innerHTML = "";
+            // Change the create button to say "Remove User" and set its onclick function
+            var create_btn = document.getElementById("create-btn");
+            create_btn.style.display = "inline-block";
+            create_btn.innerHTML = "Leave";
+            create_btn.onclick = function() {leaveBoard()};
+            // Change the close button to say "Cancel"
+            var close_btn = document.getElementById("close-btn");
+            close_btn.innerHTML = "Cancel";
+            // Disable the rest of the page
+            var disable_content = document.getElementById("disable");
+            disable_content.style.opacity = "0.5";
+            disable_content.style.pointerEvents = "none";
+        }
+        
+
+        function toggleDeleteBoard(){
+            // Get channel window element and display it
+            var new_channel_window = document.getElementById("create-new-window");
+            new_channel_window.style.display = "flex";
+            // Get channel window elements and change their content
+            var new_channel_header = document.getElementById("create-new-header");
+            new_channel_header.innerHTML = "Delete Board?";
+            // Get the user name from the button and display confirmation message
+            var enter_below = document.getElementById("enter-below");
+            enter_below.innerHTML = "Are you sure you want to delete this board?";
+            // Hide the input box
+            var name = document.getElementById("name");
+            name.style.display = "none";
+            // Clear the message for duplicate additions
+            valid = document.getElementById("valid-input")
+            valid.innerHTML = "";
+            // Change the create button to say "Remove User" and set its onclick function
+            var create_btn = document.getElementById("create-btn");
+            create_btn.style.display = "inline-block";
+            create_btn.innerHTML = "Delete";
+            create_btn.onclick = function() {deleteBoard()};
+            // Change the close button to say "Cancel"
+            var close_btn = document.getElementById("close-btn");
+            close_btn.innerHTML = "Cancel";
+            // Disable the rest of the page
+            var disable_content = document.getElementById("disable");
+            disable_content.style.opacity = "0.5";
+            disable_content.style.pointerEvents = "none";
+        }
+
         // Multipurpose function to close a popup window
         function closeWindow(){
             // Get channel window element and hide it
@@ -685,13 +746,13 @@
         }
 
         // Multipurpose function to display an error message
-        function errorAddingUser(errorString){
+        function error(errorHeader, errorString){
             // Get channel window element and display it
             var new_channel_window = document.getElementById("create-new-window");
             new_channel_window.style.display = "flex";
             // Get channel window elements and change their content
             var new_channel_header = document.getElementById("create-new-header");
-            new_channel_header.innerHTML = "Error Adding User";
+            new_channel_header.innerHTML = errorHeader;
             // Display the error message
             var enter_below = document.getElementById("enter-below");
             enter_below.innerHTML = errorString;
@@ -723,6 +784,7 @@
             }
         }   
 
+        //For the mobile version, opening the sidebar by clicking on the arrow
         function openChannelsUsers(){
             var channels_users = document.getElementById("l-column");
             var arrow = document.getElementById("arrow")
@@ -758,10 +820,10 @@
                             accessDenied();
                         }
                         else if (this.responseText == "Multiple Account with Email"){
-                            errorAddingUser("A user with this email already exists.");
+                            error("Error adding user", "A user with this email already exists.");
                         }
                         else if (this.responseText == "Invalid Email"){
-                            errorAddingUser("A user with this email does not exist.");
+                            error("Error adding user", "A user with this email does not exist.");
                         }
                         else{
                             console.log(this.responseText);
@@ -772,9 +834,9 @@
                 xhr_fetch.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                 xhr_fetch.send('board_id='+board_id+'&new_member_email='+userName);
             }
-            //If the user name is invalid, display an error message, change from alert
+            //If the user name is invalid, display an error message
             else{
-                errorAddingUser("Invalid email.");
+                error("Error adding user", "Invalid email.");
             }
         }
 
@@ -793,10 +855,9 @@
                         accessDenied();
                     }
                     else if(this.responseText == "Admin cannot remove himself"){
-                        alert("Admin cannot remove himself");
+                        error("Error removing user", "Admin cannot remove themself");
                     }
                     else{
-                        // alert("Error deleting user");
                         console.log(this.responseText);
                     }
                 }
@@ -875,7 +936,7 @@
                             accessDenied();
                         }
                         else{
-                            alert("Error creating channel");
+                            error("Error creating channel", "Please Try Again");
                         }
                     }
                 }
@@ -883,9 +944,8 @@
                 xhr_create.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
                 xhr_create.send('boardId='+board_id+'&name='+channelName);
             }
-            // TODO: Change from alert
             else{
-                alert("Invalid channel name");
+                error("Error creating channel", "Invalid channel name");
             }
         }
 
@@ -906,7 +966,7 @@
                         accessDenied();
                     }
                     else{
-                        alert("Error deleting channel");
+                        error("Error deleting channel", "Please try again");
                     }
                 }
             }
@@ -1081,47 +1141,39 @@
         }
 
         function leaveBoard(){
-
-            if (confirm("Do you really want to leave the discussion board ?") == true) {
-                var xhr_delete = new XMLHttpRequest();
-                xhr_delete.onreadystatechange = function() {
-                    if(xhr_delete.readyState == 4 && xhr_delete.status == 200) {
-                        console.log(this.responseText);
-                        // If the message was sent successfully, render the messages column
-                        if(this.responseText == "TRUE") {
-                            window.location.href = '/select-discussion';
-                        }
+            var xhr_delete = new XMLHttpRequest();
+            xhr_delete.onreadystatechange = function() {
+                if(xhr_delete.readyState == 4 && xhr_delete.status == 200) {
+                    console.log(this.responseText);
+                    // If the message was sent successfully, render the messages column
+                    if(this.responseText == "TRUE") {
+                        window.location.href = '/select-discussion';
                     }
                 }
+            }
             xhr_delete.open('POST', '/leave-board', false);
             xhr_delete.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
             xhr_delete.send("board_id="+board_id);
-            } 
-
         }
 
         function deleteBoard(){
-
-            if (confirm("Do you really want to delete the discussion board ?") == true) {
-                var xhr_delete = new XMLHttpRequest();
-                xhr_delete.onreadystatechange = function() {
-                    if(xhr_delete.readyState == 4 && xhr_delete.status == 200) {
-                        console.log(this.responseText);
-                        // If the message was sent successfully, render the messages column
-                        if(this.responseText == "TRUE") {
-                            window.location.href = '/select-discussion';
-                        }
+            var xhr_delete = new XMLHttpRequest();
+            xhr_delete.onreadystatechange = function() {
+                if(xhr_delete.readyState == 4 && xhr_delete.status == 200) {
+                    console.log(this.responseText);
+                    // If the message was sent successfully, render the messages column
+                    if(this.responseText == "TRUE") {
+                        window.location.href = '/select-discussion';
                     }
                 }
+            }
             xhr_delete.open('POST', '/delete-board', false);
             xhr_delete.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
             xhr_delete.send("board_id="+board_id);
-            } 
+        } 
 
-        }
 
         function is_admin(){
-
             var xhr_check = new XMLHttpRequest();
             xhr_check.onreadystatechange = function() {
                 if(xhr_check.readyState == 4 && xhr_check.status == 200) {
