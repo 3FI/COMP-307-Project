@@ -34,6 +34,9 @@ nav {
     margin-right: 10px; 
     margin-left: 10px; 
 }
+.hamburger:hover{
+    cursor: pointer;
+}
 #hamburger-buttons{
     display: flex;
 }
@@ -82,7 +85,14 @@ nav {
     margin: 0;
     width: 100%;
 }
-
+#arrow{
+    padding: 5px;
+    transition: all 0.1s ease-in-out;
+}
+#arrow:hover{
+    transform: scale(1.2);
+    cursor: pointer;
+}
 #open-channels-users{
     display: none;
     align-content: center;
@@ -380,5 +390,8 @@ nav {
 
     > #create-new-header{
         font-size: 24px;
+    }
+    > #enter-below{
+        padding: 20px;
     }
 }
