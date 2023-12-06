@@ -79,20 +79,15 @@
                 <input class="text-box" type="text" onkeypress="sendMessage();" placeholder="Type your message here...">
                 <div class="text-box-background"></div>
                 <div id="messages">
-                    <div class="message">
-                        <!-- <div class="username"><strong>User 1</strong></div>
-                        <div class="datetime">2023/8/2</div>
-                        <img src="./img/pin_icon.svg" alt="" class="pin" onclick="pinMessage(this)">
-                        <div id="pinned-mark">Pinned</div>
-                        <div class="text">Test message</div> -->
+                    <div class="message">                    
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
     
     <script>
+        // Global variables for page data
         var channel_data = {}; 
         var user_data = {};
         var message_data = {};
@@ -102,8 +97,13 @@
         var board_color = '';
         my_username = ''
         var cur_is_admin = false;
+        //extract the board name from the url
         const queryParams = new URLSearchParams(window.location.search);
         var board_name = queryParams.get('boardname');
+        //if the board name is null, redirect to the select discussion page
+        if (board_name == null){
+            window.location.href = "./select-discussion.html";
+        }
         document.getElementById("board-name").innerHTML = board_name;
         getBoardId(board_name);
 
@@ -111,7 +111,6 @@
         setInterval(checkForUpdates, 1000);
 
         function checkForUpdates(){
-
             function checkForChannelsUpdates(){
                 var xhr_fetch = new XMLHttpRequest();
                 xhr_fetch.onreadystatechange = function() {
@@ -231,11 +230,11 @@
 
         function easeInOutQuad(t){ return t<.5 ? 2*t*t : -1+(4-2*t)*t };
 
+        //get board data from the server
         function getBoardId(board_name){
             var xhr_fetch = new XMLHttpRequest();
             xhr_fetch.onreadystatechange = function() {
                 if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
-                    // Parse the response data
                     data = this.responseText;
                     parsed_data = JSON.parse(data);
                     for (var i = 0; i < parsed_data.length; i++) {
@@ -315,6 +314,7 @@
             });
         }
         
+        //A function to take a color and return a darkened version of it, this is used to create the standard color scheme for the board
         function darkenColor(hex, percentage) {
             // Convert hex to RGB
             const originalR = parseInt(hex.slice(1, 3), 16);
@@ -364,17 +364,14 @@
 
         //Call the server to update the message as pinned
         function pinMessage(pinButton){
-            
+            //Get the message id and its pinned status
             message = pinButton.parentNode;
-            
             message_id = message.id;
-            
             is_pinned = message.is_pinned;
 
             var xhr_update = new XMLHttpRequest();
             xhr_update.onreadystatechange = function() {
                 if(xhr_update.readyState == 4 && xhr_update.status == 200) {
-
                     var response = JSON.parse(xhr_update.responseText);
                     if (message.is_pinned == 1){
                         message.is_pinned = 0;
@@ -388,7 +385,7 @@
                 }
             }
 
-            xhr_update.open('POST', '/update-pinned-message', true);  //asynchronous
+            xhr_update.open('POST', '/update-pinned-message', true); 
             xhr_update.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
             var params = "message_id="+message_id+"&pinned_status="+is_pinned;
             xhr_update.send(params);
@@ -428,7 +425,6 @@
                             //set class name
                             pinned_message.className = "message mx-1";
                             pinned_message.onclick = function() {scrollToPinnedMessage(this.childNodes[4].innerHTML)};
-
                             //creating the user html element
                             var user = document.createElement("div");
                             user.className = "username";
@@ -449,14 +445,13 @@
                             var pin = document.createElement("img");
                             pin.className = "pin-icon unpin";
                             pin.src = "./img/pin_icon.svg";
+                            //set the onclick function to scroll to the pinned message
                             pin.onclick = function() {
                                 this.parentNode.onclick = null;
                                 var pinned_message = document.getElementById(pinned_id.innerHTML);
                                 pinMessage(pinned_message.childNodes[2]);
                                 this.parentNode.onclick = function() {scrollToPinnedMessage(this.parentNode.childNodes[4].innerHTML)};
                             };
-
-                            // pinned_message.innerHTML = "<div class=\"pinned-user\"><strong>" + parsed_data[i].username + "</strong></div><div class=\"text pinned-text\">" + parsed_data[i].message + "</div>";
                             pinned_message.appendChild(user);
                             pinned_message.appendChild(time);
                             pinned_message.appendChild(pin);
@@ -465,6 +460,7 @@
                             pinned_messages.appendChild(pinned_message);
                         }
                     }
+                    //if there are no pinned messages, display a message
                     if (num_pinned == 0){
                         var pinned_message = document.createElement("div");
                         pinned_message.className = "mx-1";
@@ -478,6 +474,7 @@
             xhr_fetch.send('channelId='+active_channel);
         }
 
+        //This was created as a separate function as it did not work properly when called directly inside renderPinnedMessages()
         function scrollToPinnedMessage(pinned_id){
             var pinned_message = document.getElementById(pinned_id);
             var pinned_messages = document.getElementById("messages");
@@ -771,6 +768,7 @@
             disable_content.style.pointerEvents = "none";
         }
 
+        //In the mobile version, click the hamburger menu to open the nav bar buttons
         function toggleHamburgerMenu(){
             var hamburger_menu = document.getElementById("hamburger-buttons");
             var navbar = document.getElementById("navbar");
@@ -1140,12 +1138,13 @@
             xhr_fetch.send('channelId='+active_channel);
         }
 
+        //leave a board if you're not the admin
         function leaveBoard(){
             var xhr_delete = new XMLHttpRequest();
             xhr_delete.onreadystatechange = function() {
                 if(xhr_delete.readyState == 4 && xhr_delete.status == 200) {
                     console.log(this.responseText);
-                    // If the message was sent successfully, render the messages column
+                    // If the message was sent successfully, redirect to the select discussion page
                     if(this.responseText == "TRUE") {
                         window.location.href = '/select-discussion';
                     }
@@ -1156,12 +1155,13 @@
             xhr_delete.send("board_id="+board_id);
         }
 
+        //delete a board if you're the admin
         function deleteBoard(){
             var xhr_delete = new XMLHttpRequest();
             xhr_delete.onreadystatechange = function() {
                 if(xhr_delete.readyState == 4 && xhr_delete.status == 200) {
                     console.log(this.responseText);
-                    // If the message was sent successfully, render the messages column
+                    // If the message was sent successfully, redirect to the select discussion page
                     if(this.responseText == "TRUE") {
                         window.location.href = '/select-discussion';
                     }
@@ -1172,7 +1172,7 @@
             xhr_delete.send("board_id="+board_id);
         } 
 
-
+        //Check if the user is an admin and set the global variable
         function is_admin(){
             var xhr_check = new XMLHttpRequest();
             xhr_check.onreadystatechange = function() {
