@@ -36,7 +36,7 @@
                 console.error('Error:', response.error);
                 window.location.href = '/logout';
             } else {
-                // If isValid is false (tickets are not equal) -> lougout
+                // If isValid is false (tickets are not equal) -> logout
                 if (!response.isValid){
                     window.location.href = '/logout';
                 }
@@ -224,6 +224,9 @@
     };
 
     function modifySubscriptions(mode) {
+
+        ticketCheck(); //ticket check
+
         boards = getCheckedBoards();
         for (var i = 0; i < boards.length; i++) {
             boardName = boards[i];
@@ -255,6 +258,9 @@
     };
 
     function modifyBoardDescription() {
+
+        ticketCheck(); //ticket check
+
         boards = getCheckedBoards();
         boardName = boards[0];
         newBoardDescription = document.forms["description form"]["new description"].value;
@@ -365,149 +371,147 @@
 
     function getNumBoards() {
 
-        if (ticketCheck()){
+        ticketCheck(); //ticket check
 
-            numBoards = -1;
-            var xhr_fetch = new XMLHttpRequest();
-            xhr_fetch.onreadystatechange = function() {
-                if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
-                    // DO/CALL YOUR RENDER FROM IN HERE
-                    console.log(this.responseText);
-                    data = JSON.parse(this.responseText);
-                    numBoards = data.length;
-                }
+        numBoards = -1;
+        var xhr_fetch = new XMLHttpRequest();
+        xhr_fetch.onreadystatechange = function() {
+            if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
+                // DO/CALL YOUR RENDER FROM IN HERE
+                console.log(this.responseText);
+                data = JSON.parse(this.responseText);
+                numBoards = data.length;
             }
-            xhr_fetch.open('GET', '/fetch-board-list', false);  // Set the third parameter to false for a synchronous request
-            xhr_fetch.send();
-            return numBoards;
-
         }
+        xhr_fetch.open('GET', '/fetch-board-list', false);  // Set the third parameter to false for a synchronous request
+        xhr_fetch.send();
+        return numBoards;
+
     };
 
     function getBoardNames() {
 
-        if (ticketCheck()){
+        ticketCheck(); //ticket check
 
-            boardNames = [];
-            var xhr_fetch = new XMLHttpRequest();
-            xhr_fetch.onreadystatechange = function() {
-                if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
-                    // DO/CALL YOUR RENDER FROM IN HERE
-                    console.log(this.responseText);
-                    data = JSON.parse(this.responseText);
-                    for (var i = 0; i < data.length; i++) {
-                        boardNames.push(data[i].name);
-                    }
+        boardNames = [];
+        var xhr_fetch = new XMLHttpRequest();
+        xhr_fetch.onreadystatechange = function() {
+            if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
+                // DO/CALL YOUR RENDER FROM IN HERE
+                console.log(this.responseText);
+                data = JSON.parse(this.responseText);
+                for (var i = 0; i < data.length; i++) {
+                    boardNames.push(data[i].name);
                 }
             }
-            xhr_fetch.open('GET', '/fetch-board-list', false);  // Set the third parameter to false for a synchronous request
-            xhr_fetch.send();
-            return boardNames;
         }
+        xhr_fetch.open('GET', '/fetch-board-list', false);  // Set the third parameter to false for a synchronous request
+        xhr_fetch.send();
+        return boardNames;
+        
     };
 
     function getBoardDescriptions() {
 
-        if (ticketCheck()){
+        ticketCheck(); //ticket check
 
-            boardDescriptions = [];
-            var xhr_fetch = new XMLHttpRequest();
-            xhr_fetch.onreadystatechange = function() {
-                if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
-                    // DO/CALL YOUR RENDER FROM IN HERE
-                    console.log(this.responseText);
-                    data = JSON.parse(this.responseText);
-                    for (var i = 0; i < data.length; i++) {
-                        boardDescriptions.push(data[i].description);
-                    }
+        boardDescriptions = [];
+        var xhr_fetch = new XMLHttpRequest();
+        xhr_fetch.onreadystatechange = function() {
+            if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
+                // DO/CALL YOUR RENDER FROM IN HERE
+                console.log(this.responseText);
+                data = JSON.parse(this.responseText);
+                for (var i = 0; i < data.length; i++) {
+                    boardDescriptions.push(data[i].description);
                 }
             }
-            xhr_fetch.open('GET', '/fetch-board-list', false);  // Set the third parameter to false for a synchronous request
-            xhr_fetch.send();
-            return boardDescriptions;
         }
+        xhr_fetch.open('GET', '/fetch-board-list', false);  // Set the third parameter to false for a synchronous request
+        xhr_fetch.send();
+        return boardDescriptions;
+        
     };
 
     function getBoardColors() {
 
-        if (ticketCheck()){
+        ticketCheck(); //ticket check
 
-            boardColors = [];
-            var xhr_fetch = new XMLHttpRequest();
-            xhr_fetch.onreadystatechange = function() {
-                if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
-                    // DO/CALL YOUR RENDER FROM IN HERE
-                    console.log(this.responseText);
-                    data = JSON.parse(this.responseText);
-                    for (var i = 0; i < data.length; i++) {
-                        //alert("the color of the " + i + "th board is: " + data[i].color);
-                        boardColors.push(data[i].color);
-                    }
+        boardColors = [];
+        var xhr_fetch = new XMLHttpRequest();
+        xhr_fetch.onreadystatechange = function() {
+            if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
+                // DO/CALL YOUR RENDER FROM IN HERE
+                console.log(this.responseText);
+                data = JSON.parse(this.responseText);
+                for (var i = 0; i < data.length; i++) {
+                    //alert("the color of the " + i + "th board is: " + data[i].color);
+                    boardColors.push(data[i].color);
                 }
             }
-            xhr_fetch.open('GET', '/fetch-board-list', false);  // Set the third parameter to false for a synchronous request
-            xhr_fetch.send();
-            return boardColors;
         }
+        xhr_fetch.open('GET', '/fetch-board-list', false);  // Set the third parameter to false for a synchronous request
+        xhr_fetch.send();
+        return boardColors;
+        
     };
 
     function getNumSubscriptions() {
-        count = 0;
-        if (ticketCheck()){
-            var xhr_fetch = new XMLHttpRequest();
-            xhr_fetch.onreadystatechange = function() {
-                if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
-                    // DO/CALL YOUR RENDER FROM IN HERE
-                    console.log(this.responseText);
-                }
-            }
-            xhr_fetch.open('GET', '/fetch-board-list', false);  // Set the third parameter to false for a synchronous request
-            xhr_fetch.send();
 
-            if (xhr_fetch.status === 200) {
-                var response = JSON.parse(xhr_fetch.responseText);
-                response.forEach(element => {
-                    console.log(element);
-                    if (element.subscribed == 1) {
-                        count += 1;
-                    }
-                });
-            } else {
-                console.error('Failed to fetch ticket:', xhr_fetch.status, xhxhr_fetchr.statusText);
-                window.location.href = '/logout';
+        ticketCheck(); //ticket check
+
+        count = 0;
+
+        var xhr_fetch = new XMLHttpRequest();
+        xhr_fetch.onreadystatechange = function() {
+            if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
+                // DO/CALL YOUR RENDER FROM IN HERE
+                console.log(this.responseText);
             }
-        } else {
-            alert("ticket check didn't work");
         }
+        xhr_fetch.open('GET', '/fetch-board-list', false);  // Set the third parameter to false for a synchronous request
+        xhr_fetch.send();
+
+        if (xhr_fetch.status === 200) {
+            var response = JSON.parse(xhr_fetch.responseText);
+            response.forEach(element => {
+                console.log(element);
+                if (element.subscribed == 1) {
+                    count += 1;
+                }
+            });
+        }
+     
         return count;
     };
 
     function getSubscriptions() {
-        subscriptions = [];
-        if (ticketCheck()){
-            var xhr_fetch = new XMLHttpRequest();
-            xhr_fetch.onreadystatechange = function() {
-                if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
-                    // DO/CALL YOUR RENDER FROM IN HERE
-                    console.log(this.responseText);
-                }
-            }
-            xhr_fetch.open('GET', '/fetch-board-list', false);  // Set the third parameter to false for a synchronous request
-            xhr_fetch.send();
 
-            if (xhr_fetch.status === 200) {
-                var response = JSON.parse(xhr_fetch.responseText);
-                response.forEach(element => {
-                    console.log(element);
-                    subscriptions.push(element.subscribed);
-                });
-            } else {
-                console.error('Failed to fetch ticket:', xhr_fetch.status, xhxhr_fetchr.statusText);
-                window.location.href = '/logout';
+        ticketCheck(); //ticket check
+
+        subscriptions = [];
+    
+        var xhr_fetch = new XMLHttpRequest();
+        xhr_fetch.onreadystatechange = function() {
+            if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
+                // DO/CALL YOUR RENDER FROM IN HERE
+                console.log(this.responseText);
             }
-        } else {
-            alert("ticket check didn't work");
         }
+        xhr_fetch.open('GET', '/fetch-board-list', false);  // Set the third parameter to false for a synchronous request
+        xhr_fetch.send();
+
+        if (xhr_fetch.status === 200) {
+            var response = JSON.parse(xhr_fetch.responseText);
+            response.forEach(element => {
+                console.log(element);
+                subscriptions.push(element.subscribed);
+            });
+        } else {
+            console.error('Failed to fetch ticket:', xhr_fetch.status, xhxhr_fetchr.statusText);
+            window.location.href = '/logout';
+        }
+        
         return subscriptions;
     };
 
@@ -655,52 +659,48 @@
 
     function loadBoards(numPerRow, mode) {
 
-        if (ticketCheck()){
+        ticketCheck(); //ticket check
 
-            var xhr_fetch = new XMLHttpRequest();
-            xhr_fetch.onreadystatechange = function() {
-                if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
-                    // DO/CALL YOUR RENDER FROM IN HERE
-                    console.log(this.responseText);
-                    renderBoards(this.responseText, numPerRow, mode);
-                }
+        var xhr_fetch = new XMLHttpRequest();
+        xhr_fetch.onreadystatechange = function() {
+            if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
+                // DO/CALL YOUR RENDER FROM IN HERE
+                console.log(this.responseText);
+                renderBoards(this.responseText, numPerRow, mode);
             }
-            xhr_fetch.open('GET', '/fetch-board-list', false);  // Set the third parameter to false for a synchronous request
-            xhr_fetch.send();
-
-            /* !!!!! FOR SISSY !!!! */
-
-            //This can only be called after the AJAX call which calls '/fetch-board-list', this is how you retrieve the data
-
-            if (xhr_fetch.status === 200) {
-                var response = JSON.parse(xhr_fetch.responseText);
-
-                //I did a foreach but you can also loop like you did in getboardcolor()
-
-                response.forEach(element => {
-
-                    console.log(element);
-
-                    //for Sissy : replace "element" by "name" or "subscribed" and then you can do anything with it
-                    //there is a pop up that will show you exactly what is returned in the foreach
-                    //alert(JSON.stringify(element));
-
-                    //get the name in the corresponding element of the array
-                    //alert("the name of this board is: " + element.name);
-
-                    //get the boolean value in the corresponding element of the array
-                    //alert("is the user subscribed to this board? -> " + element.subscribed);
-                });
-            } else {
-                console.error('Failed to fetch ticket:', xhr_fetch.status, xhxhr_fetchr.statusText);
-                window.location.href = '/logout';
-            }
-
-            /* !!!!! FOR SISSY !!!! */
-
-        } else {
-            alert("ticket check didn't work");
         }
+        xhr_fetch.open('GET', '/fetch-board-list', false);  // Set the third parameter to false for a synchronous request
+        xhr_fetch.send();
+
+        /* !!!!! FOR SISSY !!!! */
+
+        //This can only be called after the AJAX call which calls '/fetch-board-list', this is how you retrieve the data
+
+        if (xhr_fetch.status === 200) {
+            var response = JSON.parse(xhr_fetch.responseText);
+
+            //I did a foreach but you can also loop like you did in getboardcolor()
+
+            response.forEach(element => {
+
+                console.log(element);
+
+                //for Sissy : replace "element" by "name" or "subscribed" and then you can do anything with it
+                //there is a pop up that will show you exactly what is returned in the foreach
+                //alert(JSON.stringify(element));
+
+                //get the name in the corresponding element of the array
+                //alert("the name of this board is: " + element.name);
+
+                //get the boolean value in the corresponding element of the array
+                //alert("is the user subscribed to this board? -> " + element.subscribed);
+            });
+        } else {
+            console.error('Failed to fetch ticket:', xhr_fetch.status, xhxhr_fetchr.statusText);
+            window.location.href = '/logout';
+        }
+
+        /* !!!!! FOR SISSY !!!! */
     };
 
     function toggleSelectAll(buttonNumber) {
@@ -803,6 +803,9 @@
         boardName = document.forms["board form"]["board name"].value;
 
         if (validateBoardName()) {
+
+            ticketCheck(); //ticket check
+
             boardName = capitalize(boardName);
 
             boardDescription = document.forms["board form"]["board description"].value;
@@ -833,6 +836,10 @@
             return true;
         }
     };
+
+
+    //DELETE BOARD FUNCTION WHEN SELECTING BOARD FOR ADMIN?
+
 </script>
 <body onload="loadPage()">
     <nav class="navbar navbar-expand-lg navbar-light bg-white banner">
