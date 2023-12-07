@@ -111,6 +111,7 @@
         setInterval(checkForUpdates, 1000);
 
         function checkForUpdates(){
+
             function checkForChannelsUpdates(){
                 var xhr_fetch = new XMLHttpRequest();
                 xhr_fetch.onreadystatechange = function() {
@@ -232,6 +233,9 @@
 
         //get board data from the server
         function getBoardId(board_name){
+
+            ticketCheck(); //ticket check
+
             var xhr_fetch = new XMLHttpRequest();
             xhr_fetch.onreadystatechange = function() {
                 if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
@@ -364,6 +368,9 @@
 
         //Call the server to update the message as pinned
         function pinMessage(pinButton){
+
+            ticketCheck(); //ticket check
+
             //Get the message id and its pinned status
             message = pinButton.parentNode;
             message_id = message.id;
@@ -392,6 +399,9 @@
         }
 
         function renderPinnedMessages(){
+
+            ticketCheck(); //ticket check
+
             var xhr_fetch = new XMLHttpRequest();
             xhr_fetch.onreadystatechange = function() {
                 // If the messages were fetched successfully, render the messages column
@@ -805,6 +815,9 @@
             // Get the user name from the input box
             var userName = document.getElementById("name").value;
             if (userName != null && userName != "") {
+
+                ticketCheck(); //ticket check
+
                 var xhr_fetch = new XMLHttpRequest();
                 xhr_fetch.onreadystatechange = function() {
                     if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
@@ -840,6 +853,9 @@
 
         // Deleting a user from the board
         function deleteUser(userName){
+
+            ticketCheck(); //ticket check
+
             var xhr_delete = new XMLHttpRequest();
             xhr_delete.onreadystatechange = function() {
                 if(xhr_delete.readyState == 4 && xhr_delete.status == 200) {
@@ -867,6 +883,9 @@
 
         // Rendering the users column
         function renderUsers(){
+
+            ticketCheck(); //ticket check
+
             var xhr_fetch = new XMLHttpRequest();
             xhr_fetch.onreadystatechange = function() {
                 if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
@@ -919,6 +938,9 @@
         function newChannel(channelName){
             // Check if the channel name is valid
             if (channelName != null && channelName != "" && isAlphaNumeric(channelName)) {
+
+                ticketCheck(); //ticket check
+
                 var xhr_create = new XMLHttpRequest();
                 xhr_create.onreadystatechange = function() {
                     if(xhr_create.readyState == 4 && xhr_create.status == 200) {
@@ -949,6 +971,9 @@
 
         // Deleting a channel
         function deleteChannel(channelName){
+
+            ticketCheck(); //ticket check
+
             var xhr_delete = new XMLHttpRequest();
             xhr_delete.onreadystatechange = function() {
                 if(xhr_delete.readyState == 4 && xhr_delete.status == 200) {
@@ -976,6 +1001,9 @@
                 
         // Rendering the channels column
         function renderChannels(){
+
+            ticketCheck(); //ticket check
+
             var xhr_fetch = new XMLHttpRequest();
             xhr_fetch.onreadystatechange = function() {
                 if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
@@ -1036,6 +1064,9 @@
             var key = window.event.keyCode;
             // If the user presses enter and the message is not empty, send the message
             if (key === 13 && document.getElementsByClassName("text-box")[0].value != "") {
+
+                ticketCheck(); //ticket check
+
                 // Getting the message content
                 var message = document.getElementsByClassName("text-box")[0].value;
                 var xhr_create = new XMLHttpRequest();
@@ -1059,6 +1090,9 @@
 
         // Rendering the messages column
         function renderMessages(){
+
+            ticketCheck(); //ticket check
+
             var xhr_fetch = new XMLHttpRequest();
             xhr_fetch.onreadystatechange = function() {
                 // If the messages were fetched successfully, render the messages column
@@ -1140,6 +1174,9 @@
 
         //leave a board if you're not the admin
         function leaveBoard(){
+
+            ticketCheck(); //ticket check
+
             var xhr_delete = new XMLHttpRequest();
             xhr_delete.onreadystatechange = function() {
                 if(xhr_delete.readyState == 4 && xhr_delete.status == 200) {
@@ -1157,6 +1194,9 @@
 
         //delete a board if you're the admin
         function deleteBoard(){
+
+            ticketCheck(); //ticket check
+
             var xhr_delete = new XMLHttpRequest();
             xhr_delete.onreadystatechange = function() {
                 if(xhr_delete.readyState == 4 && xhr_delete.status == 200) {
@@ -1174,6 +1214,9 @@
 
         //Check if the user is an admin and set the global variable
         function is_admin(){
+
+            ticketCheck(); //ticket check
+
             var xhr_check = new XMLHttpRequest();
             xhr_check.onreadystatechange = function() {
                 if(xhr_check.readyState == 4 && xhr_check.status == 200) {
@@ -1188,5 +1231,37 @@
             xhr_check.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
             xhr_check.send("board_id="+board_id);
         }
+
+        function ticketCheck(){
+
+            // Synchronous request
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/validate-ticket', false); 
+            xhr.send();
+
+            if (xhr.status === 200) {
+                var response = JSON.parse(xhr.responseText);
+                validate_tickets(response);
+            } else {
+                console.error('Failed to fetch ticket:', xhr.status, xhr.statusText);
+                window.location.href = '/logout';
+            }
+
+            function validate_tickets(response) {
+                if (response.error) {
+                    console.error('Error:', response.error);
+                    window.location.href = '/logout';
+                } else {
+                    // If isValid is false (tickets are not equal) -> logout
+                    if (!response.isValid){
+                        window.location.href = '/logout';
+                    }
+                }
+            };
+
+            return true;
+
+        };
+
     </script>
 </body>
