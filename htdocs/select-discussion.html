@@ -857,13 +857,45 @@
 
     // Get username of user
     function renderUsername() {
-        msg = "";
 
-        // fetch username of user currently logged in
-        msg = "Welcome, username";
+        var user_email = ''
 
-        container = document.getElementById("username");
-        container.innerHTML = msg;
+        var xhr_fetch = new XMLHttpRequest();
+        xhr_fetch.onreadystatechange = function() {
+            if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
+
+                //ticket not valid -> logout
+                if (this.responseText == "TICKET NOT VALID"){
+                    window.location.href = '/logout';
+                }
+
+                console.log(this.responseText);
+                data = JSON.parse(this.responseText);
+
+                if (data.error == 'error'){
+
+                    msg = "Welcome"; 
+
+                    container = document.getElementById("username");
+                    container.innerHTML = msg;
+                
+                } else {
+
+                    user_email = data.email;
+
+                    // fetch username of user currently logged in
+                    msg = "Welcome " + user_email; 
+
+                    container = document.getElementById("username");
+                    container.innerHTML = msg;
+                }
+
+            }
+        }
+        
+        xhr_fetch.open('POST', '/fetch-user-email', true);
+        xhr_fetch.send();
+
     };
 
     // Load webpage
