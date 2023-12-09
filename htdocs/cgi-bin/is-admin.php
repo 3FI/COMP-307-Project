@@ -11,6 +11,13 @@ if(!isset($_POST['board_id']) || !isset($_SESSION['user_id'])) {die("Invalid Req
 $boardId = $_POST['board_id'];
 $userId = $_SESSION['user_id'];
 
+//RIGHT HERE CALL VALIDATE-TICKET-INCLUDE TO CHECK TICKET
+require 'validate-ticket-include.php';
+
+if(!$is_valid){
+    die('TICKET NOT VALID');
+}
+
 $conn = new mysqli("localhost", "root", "", "COMP307-Project");
 if ($conn->connect_error) {
     die("Internal Server Error: " . $conn->connect_error);

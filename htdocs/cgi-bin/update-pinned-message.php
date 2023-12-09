@@ -10,11 +10,19 @@ if( !isset($_POST['pinned_status']) || !isset($_POST['message_id']) || !isset($_
 
 $message_id = $_POST['message_id'];
 $is_pinned = $_POST['pinned_status'];
+$userId = $_SESSION['user_id'];
 
 if ($is_pinned == 1){
     $set_pinned_msg_to = 0;
 } else {
     $set_pinned_msg_to = 1;
+}
+
+//RIGHT HERE CALL VALIDATE-TICKET-INCLUDE TO CHECK TICKET
+require 'validate-ticket-include.php';
+
+if(!$is_valid){
+    die('TICKET NOT VALID');
 }
 
 $conn = new mysqli("localhost", "root", "", "COMP307-Project");

@@ -10,6 +10,14 @@ if( !isset($_POST['boardName']) || !isset($_POST['description']) || !isset($_SES
 
 $board_name = $_POST['boardName'];
 $new_description = $_POST['description'];
+$userId = $_SESSION['user_id'];
+
+//RIGHT HERE CALL VALIDATE-TICKET-INCLUDE TO CHECK TICKET
+require 'validate-ticket-include.php';
+
+if(!$is_valid){
+    die('TICKET NOT VALID');
+}
 
 $conn = new mysqli("localhost", "root", "", "COMP307-Project");
 if ($conn->connect_error) {

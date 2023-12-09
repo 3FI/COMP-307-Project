@@ -9,8 +9,14 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 if(!isset($_POST['channelId']) || !isset($_SESSION['user_id'])) {die("Invalid Request");}
 
 $userId = $_SESSION['user_id'];
-
 $channelId = $_POST['channelId'];
+
+//RIGHT HERE CALL VALIDATE-TICKET-INCLUDE TO CHECK TICKET
+require 'validate-ticket-include.php';
+
+if(!$is_valid){
+    die('TICKET NOT VALID');
+}
 
 $conn = new mysqli("localhost", "root", "", "COMP307-Project");
 if ($conn->connect_error) {
