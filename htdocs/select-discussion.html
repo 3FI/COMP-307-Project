@@ -146,16 +146,6 @@
         button.disabled = false;
     };
 
-    // Generate random colour and return its HEX code
-    function generateRandomColor() {
-        var randomColor = Math.floor(Math.random()*16777215).toString(16);
-        allColors = getBoardColors();
-        while (allColors.includes(randomColor) || randomColor == 'ffffff') {
-            randomColor = Math.floor(Math.random()*16777215).toString(16);
-        }
-        return '#'+randomColor;
-    };
-
     // Enable/disable Subscription and Edit board description features (used when selecting >= 1 board)
     function toggleSubscribeBtn() {
         var inputs = document.getElementsByTagName("input");
@@ -852,6 +842,7 @@
         validMsg = document.getElementById("validBoardName");
         errorMsg = document.getElementById("invalidBoardName");
         boardName = document.forms["board form"]["board name"].value;
+        boardColor = document.forms["board form"]["board color"].value;
 
         if (validateBoardName()) {
 
@@ -865,8 +856,6 @@
             } else {
                 boardDescription = capitalize(boardDescription);
             }
-
-            boardColor = generateRandomColor();
 
             var xhr_create = new XMLHttpRequest();
             xhr_create.onreadystatechange = function() {
@@ -940,7 +929,7 @@
                 <form id="form" name="board form" class="container box" style="display:none">
                     <div class="row bottom-padding">
                         <div class="col">
-                            <label for="boardName">Give it a name...</label>
+                            <label for="boardName">Give it a name:</label>
                         </div>
                         <div class="col">
                             <!-- board name input field -->
@@ -959,7 +948,7 @@
                     </div>
                     <div class="row bottom-padding">
                         <div class="col">
-                            <label for="boardName">...and a description if you'd like:</label>
+                            <label for="boardName">A description if you'd like:</label>
                         </div>
                         <div class="col">
                             <!-- board description input field -->
@@ -967,6 +956,16 @@
                             <small id="boardDescriptionHelp" class="form-text" style="color:#a6a6a6;display:block">
                                 (Max. 70 characters)
                             </small>
+                        </div>
+                        <div class="col"></div>
+                    </div>
+                    <div class="row bottom-padding">
+                        <div class="col">
+                            <label for="boardColor">...and a colour if you're feeling fancy:</label>
+                        </div>
+                        <div class="col">
+                            <!-- board color selector -->
+                            <input type="color" id="boardColor" style="text-align:left" name="board color" value="#000000">
                         </div>
                         <div class="col"></div>
                     </div>
