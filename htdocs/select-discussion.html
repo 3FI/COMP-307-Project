@@ -12,6 +12,7 @@
     <link rel="icon" type="image/x-icon" href="./img/logo.ico">
 </head>
 <script>
+    // Global variables
     numPerRow = 4;
     selectAllCount = 0
     selectAllSubscribedCount = 0
@@ -77,63 +78,75 @@
 
     /* !!! FOR MATAN !!! */
 
+    // Reset toggle for Select All button (used when changing menu tab)
     function resetToggleCounts() {
         selectAllCount = 0
         selectAllSubscribedCount = 0
     };
 
+    // Hide HTML element
     function hide(element) {
         element.style.display = "none";
     };
 
+    // Show HTML element
     function show(element) {
         element.style.display = "block";
     };
 
+    // Color HTML element red
     function colorRed(element) {
         element.style.color = "#dc3545";
     };
 
+    // Color HTML element with default colour
     function colorDefault(helpMsg) {
         helpMsg.style.color = "#a6a6a6";
     };
 
+    // Disable board subscription (used when no board is selected)
     function disableSubscribe() {
         button = document.getElementById('subscribeBtn');
         button.className = "btn subscribe-btn float-end";
         button.disabled = true;
     };
 
+    // Enable board subscription (used when >= 1 board is selected)
     function enableSubscribe() {
         button = document.getElementById('subscribeBtn');
         button.className = "btn subscribe-btn on float-end";
         button.disabled = false;
     };
 
+    // Disable board unsubscription (used when no board is selected)
     function disableUnsubscribe() {
         button = document.getElementById('unsubscribeBtn');
         button.className = "btn cancel-btn";
         button.disabled = true;
     };
 
+    // Enable board subscription (used when >= 1 board is selected)
     function enableUnsubscribe() {
         button = document.getElementById('unsubscribeBtn');
         button.className = "btn cancel-btn on";
         button.disabled = false;
     };
 
+    // Disable edit board description (used when no board is selected)
     function disableEditDescription() {
         button = document.getElementById('editDescriptionBtn');
         button.className = "btn edit-description-btn";
         button.disabled = true;
     };
 
+    // Enable edit board description (used when exactly 1 board is selected)
     function enableEditDescription() {
         button = document.getElementById('editDescriptionBtn');
         button.className = "btn edit-description-btn on";
         button.disabled = false;
     };
 
+    // Generate random colour and return its HEX code
     function generateRandomColor() {
         var randomColor = Math.floor(Math.random()*16777215).toString(16);
         allColors = getBoardColors();
@@ -143,6 +156,7 @@
         return '#'+randomColor;
     };
 
+    // Enable/disable Subscription and Edit board description features (used when selecting >= 1 board)
     function toggleSubscribeBtn() {
         var inputs = document.getElementsByTagName("input");
         count = 0;
@@ -167,6 +181,7 @@
         }
     };
 
+    // Enable/disable Unsubscription feature (used when selecting >= 1 board)
     function toggleUnsubscribeBtn() {
         var inputs = document.getElementsByTagName("input");
         atLeastOneChecked = false;
@@ -185,6 +200,7 @@
         }
     };
 
+    // Get names of all selected boards
     function getCheckedBoards() {
         checkedBoardNames = [];
         var inputs = document.getElementsByTagName("input");
@@ -199,6 +215,7 @@
         return checkedBoardNames;
     };
 
+    // Select all boards
     function checkAll() {
         var inputs = document.getElementsByTagName("input");
         for (var i = 0; i < inputs.length; i++) {
@@ -210,6 +227,7 @@
         enableUnsubscribe();
     };
 
+    // Deselect all boards
     function uncheckAll() {
         var inputs = document.getElementsByTagName("input");
         for (var i = 0; i < inputs.length; i++) {
@@ -223,6 +241,7 @@
         disableUnsubscribe();
     };
 
+    // Subscribe to/Unsubscribe from selected boards
     function modifySubscriptions(mode) {
 
         ticketCheck(); //ticket check
@@ -257,6 +276,7 @@
         return true;
     };
 
+    // Modify board description in the DB
     function modifyBoardDescription() {
 
         ticketCheck(); //ticket check
@@ -289,6 +309,7 @@
         return true;
     };
 
+    // Display edit board description form
     function editDescription() {
         numChecked = getCheckedBoards().length;
         if (numChecked == 1) {
@@ -310,6 +331,7 @@
         }
     };
 
+    // Display create board form
     function displayForm() {
         inputField = document.getElementById("boardName");
         emptyDashboard = document.getElementById("empty-dashboard");
@@ -332,6 +354,7 @@
         return true;
     };
 
+    // Return whether a string contains only letters, digits, and spaces
     function isAlphaNumeric(str) {
         var code, i, len;
         let empty = true;
@@ -350,6 +373,7 @@
         return !(empty);
     };
 
+    // Return whether a string is empty
     function isEmpty(str) {
         var code, i, len;
         for (i = 0, len = str.length; i < len; i++) {
@@ -361,6 +385,7 @@
         return true;
     };
 
+    // Return string reformated with every word capitalized
     function capitalize(str) {
         var arr = str.split(' ');
         for (var i = 0; i < arr.length; i++) {
@@ -369,6 +394,7 @@
         return arr.join(' '); 
     };
 
+    // Get number of boards the user has access to
     function getNumBoards() {
 
         ticketCheck(); //ticket check
@@ -389,6 +415,7 @@
 
     };
 
+    // Get names of boards the user has access to
     function getBoardNames() {
 
         ticketCheck(); //ticket check
@@ -411,6 +438,7 @@
         
     };
 
+    // Get descriptions of boards the user has access to
     function getBoardDescriptions() {
 
         ticketCheck(); //ticket check
@@ -433,6 +461,7 @@
         
     };
 
+    // Get colours of boards the user has access to
     function getBoardColors() {
 
         ticketCheck(); //ticket check
@@ -456,6 +485,7 @@
         
     };
 
+    // Get number of boards the user is subscribed to
     function getNumSubscriptions() {
 
         ticketCheck(); //ticket check
@@ -485,6 +515,7 @@
         return count;
     };
 
+    // Get subscription values (0/1) of all boards the user has access to
     function getSubscriptions() {
 
         ticketCheck(); //ticket check
@@ -515,6 +546,7 @@
         return subscriptions;
     };
 
+    // Return whether a given board name is valid
     function validateBoardName() {
         inputField = document.getElementById("boardName");
         boardName = document.forms["board form"]["board name"].value;
@@ -549,10 +581,12 @@
         }
     };
 
+    // Return whether a board description in the DB is "None"
     function isNone(boardDescription) {
         return boardDescription == "None";
     };
 
+    // Dynamically render on webpage all boards the user has access to/is subscribed to
     function renderBoards(data, numPerRow, mode) {
         if (mode == '0') {
             const container = document.getElementById("dashboard");
@@ -657,6 +691,7 @@
         }
     };
 
+    // Retrieve boards data from the DB for all boards the user has access to/is subscribed to
     function loadBoards(numPerRow, mode) {
 
         ticketCheck(); //ticket check
@@ -703,6 +738,7 @@
         /* !!!!! FOR SISSY !!!! */
     };
 
+    // Modify appearance of Select All button
     function toggleSelectAll(buttonNumber) {
         if (buttonNumber == '0') {
             selectAllCount += 1;
@@ -727,6 +763,7 @@
         }
     };
 
+    // Display webpage contents based on menu navigation
     function showMenuContent(menuID, contentID) {
 
         // reset all
@@ -786,12 +823,26 @@
         resetToggleCounts();
     };
 
+    // Get username of user
+    function renderUsername() {
+        msg = "";
+
+        // fetch username of user currently logged in
+        msg = "Welcome, username";
+
+        container = document.getElementById("username");
+        container.innerHTML = msg;
+    };
+
+    // Load webpage
     function loadPage() {
         ticketCheck();  //onload -> initial ticket check
         // If tickets are valid, load the page
+        renderUsername();
         showMenuContent('menu0', 'content0');
     };
     
+    // Update DB with new board info
     function generateBoard() {
         emptyDashboard = document.getElementById("empty-dashboard");
         form = document.getElementById("form");
@@ -837,18 +888,22 @@
         }
     };
 
-
     //DELETE BOARD FUNCTION WHEN SELECTING BOARD FOR ADMIN?
 
 </script>
 <body onload="loadPage()">
+    <!-- header (features: logout)-->
     <nav class="navbar navbar-expand-lg navbar-light bg-white banner">
         <div class="container-fluid">
             <div class="navbar-header">
+                <!-- website logo -->
                 <img src="./img/name-logo.jpg" alt="logo" class="d-inline-block align-top float-start" style="height:45px;margin-top:3px;margin-right:20px">
+                <!-- webpage title -->
                 <a class="navbar-brand float-start" style="margin-top:3px;cursor:default">Discussions</a>
             </div>
             <div class="nav">
+                <p id="username" class="nav float-start" style="color:#a6a6a6;margin-top:6px;margin-right:25px;cursor:default"></p>
+                <!-- logout button -->
                 <form action="./logout" method="post">
                     <button type="logout" class="btn logout-btn">Logout</button>
                 </form>
@@ -856,31 +911,39 @@
         </div>
     </nav>
     <div class="card">
+        <!-- menu -->
         <div class="card-header">
             <ul class="nav nav-tabs card-header-tabs">
+                <!-- all boards menu tab -->
                 <li class="nav-item">
                     <a id="menu0" href="#" class="nav-link active" onclick="showMenuContent('menu0', 'content0')">All boards</a>
                 </li>
+                <!-- subscribed boards menu tab -->
                 <li class="nav-item">
                     <a id="menu1" href="#" class="nav-link" onclick="showMenuContent('menu1', 'content1')">Subscribed</a>
                 </li>
             </ul>
         </div>
+        <!-- boards the user has access to -->
         <div id="content0" style="display:none">
             <div class="card" style="height:85vh">
+                <!-- empty dashboard (no boards, features: create board) -->
                 <div id="empty-dashboard" class="card-body text-center box">
                     <div class="bottom-padding">
                         <p class="empty-dashboard">Your dashboard is looking a little empty...</p>
                         <p class="empty-dashboard">Let's start a discussion board!</p>
                     </div>
+                    <!-- create board button -->
                     <a class="btn btn-primary top-padding" onclick="return displayForm()">Create board</a>
                 </div>
+                <!-- create board form (features: create board, return to dashboard) -->
                 <form id="form" name="board form" class="container box" style="display:none">
                     <div class="row bottom-padding">
                         <div class="col">
                             <label for="boardName">Give it a name...</label>
                         </div>
                         <div class="col">
+                            <!-- board name input field -->
                             <input type="text" name="board name" class="form-control" id="boardName" placeholder="COMP 307" maxlength="30" onfocusout="validateBoardName()">
                             <small id="boardNameHelp" class="form-text" style="color:#a6a6a6;display:block">
                                 Only letters, digits, and spaces allowed
@@ -899,6 +962,7 @@
                             <label for="boardName">...and a description if you'd like:</label>
                         </div>
                         <div class="col">
+                            <!-- board description input field -->
                             <input type="text" name="board description" class="form-control" id="boardDescription" placeholder="The best course ever" maxlength="70">
                             <small id="boardDescriptionHelp" class="form-text" style="color:#a6a6a6;display:block">
                                 (Max. 70 characters)
@@ -907,16 +971,20 @@
                         <div class="col"></div>
                     </div>
                     <div class="card-body text-center">
+                        <!-- create board button -->
                         <p><button type="button" class="btn btn-primary" onclick="return generateBoard()">Create</button></p>
+                        <!-- return to dashboard button -->
                         <p><a href="./select-discussion.html" type="button" class="btn cancel-btn">Nevermind</a></p>
                     </div>
                 </form>
+                <!-- edit board description form (features: edit board description, return to dashboard) -->
                 <form id="editDescription" name="description form" class="container box" style="display:none">
                     <div class="row bottom-padding">
                         <div class="col">
                             <label ID="newDescription" for="newBoardDescription"></label>
                         </div>
                         <div class="col">
+                            <!-- new board description input field -->
                             <input type="text" name="new description" class="form-control" id="newBoardDescription" placeholder="e.g., Principles Of Web Development" maxlength="70">
                             <small id="newBoardDescriptionHelp" class="form-text" style="color:#a6a6a6;display:block">
                                 (Max. 70 characters)
@@ -925,32 +993,46 @@
                         <div class="col"></div>
                     </div>
                     <div class="card-body text-center">
+                        <!-- edit board description button -->
                         <p><button type="button" class="btn btn-primary" onclick="return modifyBoardDescription()">Submit</button></p>
+                        <!-- return to dashboard button -->
                         <p><a href="./select-discussion.html" type="button" class="btn cancel-btn">Nevermind</a></p>
                     </div>
                 </form>
+                <!-- dashboard header (features: select/deselect all, edit board description, subscribe to board(s), create board) -->
                 <div id="dashboard-header" class="container-fluid padding" style="display:block">
+                    <!-- create board button -->
                     <a href="#" class="btn btn-primary float-end" onclick="return displayForm()">Create board</a>
+                    <!-- subscribe button -->
                     <a href="#" type="submit" id="subscribeBtn" class="btn subscribe-btn float-end" style="margin-right:15px;display:block" onclick="modifySubscriptions('1')" disabled>&#128276; Subscribe</a>
+                    <!-- select/deselect all button -->
                     <a href="#" id="selectAllBoards" class="btn btn-primary float-start" style="margin-right:15px" onclick="toggleSelectAll('0')">Select All</a>
+                    <!-- edit board description button -->
                     <a href="#" type="submit" id="editDescriptionBtn" class="btn edit-description-btn float-start" style="margin-right:15px" onclick="editDescription()" disabled>Edit description</a>
                 </div>
+                <!-- dashboard (dynamic rendering through renderBoards() function) -->
                 <div id="dashboard" class="container-fluid" style="display:none"></div>
             </div>
         </div>
+        <!-- boards the user is subscribed to-->
         <div id="content1" style="display:none">
             <div class="card" style="height:85vh">
+                <!-- empty dashboard (no subscribed boards) -->
                 <div id="no-subscriptions" class="card-body text-center box">
                     <p class="empty-dashboard">No boards to show.</p>
                 </div>
+                <!-- select/deselect all button -->
                 <div id="subscriptions-header" class="container-fluid padding" style="display:block">
                     <a href="#" id="selectAllSubscribedBoards" class="btn btn-primary float-start" style="margin-right:15px" onclick="toggleSelectAll('1')">Select All</a>
                 </div>
+                <!-- dashboard (dynamic rendering through renderBoards() function) -->
                 <div id="subscriptions" class="container-fluid" style="display:none"></div>
+                <!-- unsubscribe button -->
                 <div id="subscriptions-footer" class="container-fluid padding" style="display:block">
                     <a href="#" type="submit" id="unsubscribeBtn" class="btn cancel-btn" style="display:block;width:150px;margin:auto" onclick="modifySubscriptions('0')" disabled>&#128277; Unsubscribe</a>
                 </div>
             </div>
         </div>
     </div>
+    <!-- footer? -->
 </body>
