@@ -57,6 +57,12 @@
         xhr_fetch.onreadystatechange = function() {
             if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
 
+                //ticket not valid -> logout
+                if (this.responseText == "TICKET NOT VALID"){
+                    window.location.href = '/logout';
+                }
+
+
                 var response = JSON.parse(xhr_fetch.responseText);
 
                 var users = response.users;
@@ -234,8 +240,6 @@
     // Subscribe to/Unsubscribe from selected boards
     function modifySubscriptions(mode) {
 
-        ticketCheck(); //ticket check
-
         boards = getCheckedBoards();
         for (var i = 0; i < boards.length; i++) {
             boardName = boards[i];
@@ -243,6 +247,12 @@
             var xhr_update = new XMLHttpRequest();
             xhr_update.onreadystatechange = function() {
                 if(xhr_update.readyState == 4 && xhr_update.status == 200) {
+
+                    //ticket not valid -> logout
+                    if (this.responseText == "TICKET NOT VALID"){
+                        window.location.href = '/logout';
+                    }
+
                     if (mode == '0') {
                         loadBoards(numPerRow, '1');
                         button = document.getElementById('selectAllSubscribedBoards');
@@ -269,8 +279,6 @@
     // Modify board description in the DB
     function modifyBoardDescription() {
 
-        ticketCheck(); //ticket check
-
         boards = getCheckedBoards();
         boardName = boards[0];
         newBoardDescription = document.forms["description form"]["new description"].value;
@@ -283,6 +291,12 @@
         var xhr_update = new XMLHttpRequest();
         xhr_update.onreadystatechange = function() {
             if(xhr_update.readyState == 4 && xhr_update.status == 200) {
+
+                //ticket not valid -> logout
+                if (this.responseText == "TICKET NOT VALID"){
+                    window.location.href = '/logout';
+                }
+
                 loadPage();
             }
         }
@@ -387,12 +401,16 @@
     // Get number of boards the user has access to
     function getNumBoards() {
 
-        ticketCheck(); //ticket check
-
         numBoards = -1;
         var xhr_fetch = new XMLHttpRequest();
         xhr_fetch.onreadystatechange = function() {
             if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
+
+                //ticket not valid -> logout
+                if (this.responseText == "TICKET NOT VALID"){
+                    window.location.href = '/logout';
+                }
+
                 // DO/CALL YOUR RENDER FROM IN HERE
                 console.log(this.responseText);
                 data = JSON.parse(this.responseText);
@@ -408,12 +426,16 @@
     // Get names of boards the user has access to
     function getBoardNames() {
 
-        ticketCheck(); //ticket check
-
         boardNames = [];
         var xhr_fetch = new XMLHttpRequest();
         xhr_fetch.onreadystatechange = function() {
             if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
+
+                //ticket not valid -> logout
+                if (this.responseText == "TICKET NOT VALID"){
+                    window.location.href = '/logout';
+                }
+
                 // DO/CALL YOUR RENDER FROM IN HERE
                 console.log(this.responseText);
                 data = JSON.parse(this.responseText);
@@ -431,12 +453,16 @@
     // Get descriptions of boards the user has access to
     function getBoardDescriptions() {
 
-        ticketCheck(); //ticket check
-
         boardDescriptions = [];
         var xhr_fetch = new XMLHttpRequest();
         xhr_fetch.onreadystatechange = function() {
             if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
+
+                //ticket not valid -> logout
+                if (this.responseText == "TICKET NOT VALID"){
+                    window.location.href = '/logout';
+                }
+
                 // DO/CALL YOUR RENDER FROM IN HERE
                 console.log(this.responseText);
                 data = JSON.parse(this.responseText);
@@ -454,12 +480,16 @@
     // Get colours of boards the user has access to
     function getBoardColors() {
 
-        ticketCheck(); //ticket check
-
         boardColors = [];
         var xhr_fetch = new XMLHttpRequest();
         xhr_fetch.onreadystatechange = function() {
             if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
+
+                //ticket not valid -> logout
+                if (this.responseText == "TICKET NOT VALID"){
+                    window.location.href = '/logout';
+                }
+
                 // DO/CALL YOUR RENDER FROM IN HERE
                 console.log(this.responseText);
                 data = JSON.parse(this.responseText);
@@ -478,13 +508,17 @@
     // Get number of boards the user is subscribed to
     function getNumSubscriptions() {
 
-        ticketCheck(); //ticket check
-
         count = 0;
 
         var xhr_fetch = new XMLHttpRequest();
         xhr_fetch.onreadystatechange = function() {
             if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
+
+                //ticket not valid -> logout
+                if (this.responseText == "TICKET NOT VALID"){
+                    window.location.href = '/logout';
+                }
+
                 // DO/CALL YOUR RENDER FROM IN HERE
                 console.log(this.responseText);
             }
@@ -508,13 +542,17 @@
     // Get subscription values (0/1) of all boards the user has access to
     function getSubscriptions() {
 
-        ticketCheck(); //ticket check
-
         subscriptions = [];
     
         var xhr_fetch = new XMLHttpRequest();
         xhr_fetch.onreadystatechange = function() {
             if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
+
+                //ticket not valid -> logout
+                if (this.responseText == "TICKET NOT VALID"){
+                    window.location.href = '/logout';
+                }
+
                 // DO/CALL YOUR RENDER FROM IN HERE
                 console.log(this.responseText);
             }
@@ -684,11 +722,15 @@
     // Retrieve boards data from the DB for all boards the user has access to/is subscribed to
     function loadBoards(numPerRow, mode) {
 
-        ticketCheck(); //ticket check
-
         var xhr_fetch = new XMLHttpRequest();
         xhr_fetch.onreadystatechange = function() {
             if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
+
+                //ticket not valid -> logout
+                if (this.responseText == "TICKET NOT VALID"){
+                    window.location.href = '/logout';
+                }
+
                 // DO/CALL YOUR RENDER FROM IN HERE
                 console.log(this.responseText);
                 renderBoards(this.responseText, numPerRow, mode);
@@ -846,8 +888,6 @@
 
         if (validateBoardName()) {
 
-            ticketCheck(); //ticket check
-
             boardName = capitalize(boardName);
 
             boardDescription = document.forms["board form"]["board description"].value;
@@ -860,6 +900,12 @@
             var xhr_create = new XMLHttpRequest();
             xhr_create.onreadystatechange = function() {
                 if(xhr_create.readyState == 4 && xhr_create.status == 200) {
+
+                    //ticket not valid -> logout
+                    if (this.responseText == "TICKET NOT VALID"){
+                        window.location.href = '/logout';
+                    }                   
+                    
                     if(this.responseText == "TRUE") {
                         // FETCH/RELOAD THE DASHBOARD
                         loadPage();
