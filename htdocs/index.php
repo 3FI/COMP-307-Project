@@ -64,6 +64,8 @@
 			require __DIR__ . $viewDir . 'leave-board.php';
 		case '/is-admin':
 			require __DIR__ . $viewDir . 'is-admin.php';
+		case '/fetch-user-email':
+			require __DIR__ . $viewDir . 'fetch-user-email.php';
 
 
 	    default:
