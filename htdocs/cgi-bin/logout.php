@@ -2,6 +2,7 @@
     
     session_start();
 
+    //SET VARIABLE
     $userid = $_SESSION['user_id'];
 
     $conn = new mysqli("localhost", "root", "", "COMP307-Project");
@@ -9,6 +10,7 @@
         die("Internal Server Error: " . $conn->connect_error);
     }
 
+    //UPDATE USER TICKET TO NULL 
     $sql = "UPDATE users SET ticket = NULL WHERE user_id = ?";
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, 'i', $userid);
@@ -20,6 +22,7 @@
         echo "Error updating record: " . mysqli_error($conn);
     }
 
+    //REDIRECT TO LOGIN PAGE
     header('Location: /login-form');
 
     // Close the database connection

@@ -6,7 +6,7 @@
         die();
     }
 
-    # TODO : DOUBLE CHECK IF INVALID INPUT
+    //ISSET CHECK
     if(!isset($_POST['email'])) {$errors["invalid_password"] = "Invalid Password";}
     if(!isset($_POST['password'])) {$errors["invalid_password"] = "Invalid Password";}
     if (isset($errors)) {
@@ -16,13 +16,14 @@
         die();
     }
 
-
+    //SET VARIABLES
     $email = $_POST['email'];
     $password = $_POST['password'];
     
     $conn = new mysqli("localhost", "root", "", "COMP307-Project");
     if ($conn->connect_error) { die("Internal Server Error: " . $conn->connect_error); }
 
+    //SELECT USER INFO
     $sql = "SELECT * FROM users WHERE email=?";
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, 's', $email);
@@ -36,20 +37,21 @@
                 
                 $_SESSION["user_id"] = $user['user_id'];
 
-                #Generate ticket
+                //GENERATE TICKET
                 $min = 10000000;
                 $max = 99999999; 
                 $ticket = rand($min, $max);
  
-                //store ticket in the DB
+                //STORE TICKET IN DB
                 $updateSql = "UPDATE users SET ticket = ? WHERE user_id = ?";
                 $updateStmt = mysqli_prepare($conn, $updateSql);
                 mysqli_stmt_bind_param($updateStmt, 'ii', $ticket, $user['user_id']);
                 mysqli_stmt_execute($updateStmt);
 
-                //store ticket in $_SESSION
+                //STORE TICKET IN $_SESSION
                 $_SESSION["SESSION_ticket"] = $ticket;
  
+                //REDIRECT TO SELECT-DISCUSSION PAGE
                 header('Location: /select-discussion');
 
             }

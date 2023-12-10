@@ -6,12 +6,14 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     die();
 }
 
+//ISSET CHECK
 if(!isset($_POST['board_id']) || !isset($_SESSION['user_id'])) {die("Invalid Request");}
 
+//SET VARIABLES
 $boardId = $_POST['board_id'];
 $userId = $_SESSION['user_id'];
 
-//RIGHT HERE CALL VALIDATE-TICKET-INCLUDE TO CHECK TICKET
+//TICKET CHECK
 require 'validate-ticket-include.php';
 
 if(!$is_valid){
@@ -23,7 +25,7 @@ if ($conn->connect_error) {
     die("Internal Server Error: " . $conn->connect_error);
 }
 
-#VERIFY user_id is NOT the admin of the board
+#VERIFY USERID IS NOT THE ADMIN OF THE BOARD
 $sql = "SELECT * FROM boards WHERE admin_id=? and id=?";
 $stmt = mysqli_prepare($conn, $sql);
 mysqli_stmt_bind_param($stmt, 'ii', $userId, $boardId);
@@ -35,6 +37,7 @@ if (mysqli_stmt_execute($stmt)) {
     }
 }
 
+//DELETE USER FROM BOARD ACCESS
 $sql = "DELETE FROM board_access where user_id=? and board_id=?";
 $stmt = mysqli_prepare($conn, $sql);
 mysqli_stmt_bind_param($stmt, 'ii', $userId, $boardId);

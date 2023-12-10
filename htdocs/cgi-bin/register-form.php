@@ -1,5 +1,7 @@
 <?php
 session_start();
+
+//ISSET CHECK
 if (isset($_SESSION['errors'])) {
     $errors = $_SESSION['errors'];
     unset($_SESSION['errors']);

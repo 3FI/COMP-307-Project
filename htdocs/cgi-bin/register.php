@@ -6,7 +6,7 @@
         die();
     }
 
-    # TODO : DOUBLE CHECK IF INVALID INPUT
+    //ISSET CHECK
     if(!isset($_POST['email'])) {$errors["invalid_password"] = "Invalid Password";}
     if(!isset($_POST['password'])) {$errors["invalid_password"] = "Invalid Password";}
     if (isset($errors)) {
@@ -16,12 +16,11 @@
         die();
     }
 
-
+    //SET VARIABLES
     $email = $_POST['email'];
-
-    #TODO : EMAIL VERIFICATION (STOP SPAM)
-
     $password = $_POST['password'];
+
+    //HASH PASSWORD
     $password = password_hash($password, PASSWORD_DEFAULT);
 
     $conn = new mysqli("localhost", "root", "", "COMP307-Project");
@@ -29,6 +28,7 @@
         die("Internal Server Error: " . $conn->connect_error);
     }
     
+    //SELECT USER INFO
     $sql = "SELECT * FROM users WHERE email=?";
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, 's', $email);
@@ -36,8 +36,7 @@
         $result = mysqli_stmt_get_result($stmt);
         if ($result->num_rows === 0) {
 
-            #set default username to email
-
+            #CREATE USER ACCOUNT IN DB
             $sql = "INSERT INTO users (email, password, username) VALUES (?, ?, ?)";
             $stmt = mysqli_prepare($conn, $sql);
             mysqli_stmt_bind_param($stmt, 'sss', $email, $password,$email);
