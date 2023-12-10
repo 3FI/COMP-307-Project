@@ -4,13 +4,9 @@ html, body {
     overflow: hidden; 
 }
 
-.form-title {
-    margin-top: 15%;
-    margin-bottom: 25px;
-}
-
-.form-buttons {
-    margin-top: 5px;
+img {
+    max-width: 100%;
+    max-height: 100%;
 }
 
 .field {
@@ -122,10 +118,80 @@ html, body {
     border-color: #cc0000;
 }
 
-.pin {
-    filter: invert(11%) sepia(94%) saturate(6687%) hue-rotate(9deg) brightness(90%) contrast(117%);
+.column-large {
+    float: left;
+    width: 75%;
+    padding: 0;
+    margin: 0;
 }
 
-.unpin {
-    filter: invert(55%) sepia(2%) saturate(20%) hue-rotate(34deg) brightness(99%) contrast(95%);
+.header-column {
+    float: left;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.column-small {
+    float: left;
+    width: 25%;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+}
+
+.form-column {
+    padding-left: 15%;
+    padding-right: 15%;
+    margin: auto;
+}
+
+.register-column {
+    padding-left: 35%;
+    padding-right: 35%;
+    margin: auto;
+}
+
+.form-title {
+    padding-top: 35%;
+    margin-bottom: 10%;
+}
+
+.form-buttons {
+    margin-top: 6%;
+}
+
+/* Responsive layout */
+@media screen and (max-width: 1400px) {
+    .column-large {
+        display: none;
+    }
+
+    .header-column {
+        float: left;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+    }
+
+    .column-small {
+        width: 100%;
+    }
+
+    .form-column {
+        padding-left: 19%;
+        padding-right: 19%;
+        margin: auto;
+    }
+
+    .register-column {
+        padding-left: 20%;
+        padding-right: 20%;
+        margin: auto;
+    }
+
+    .form-title {
+        margin-top: 4%;
+        margin-bottom: 3%;
+    }
 }
