@@ -6,13 +6,15 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     die();
 }
 
+//ISSET CHECK
 if(!isset($_POST['boardId']) || !isset($_POST['name']) || !isset($_SESSION['user_id'])) {die("Invalid Request");}
 
+//SET VARIABLES
 $name = $_POST['name'];
 $userId = $_SESSION['user_id'];
 $boardId = $_POST['boardId'];
 
-//RIGHT HERE CALL VALIDATE-TICKET-INCLUDE TO CHECK TICKET
+//TICKET CHECK
 require 'validate-ticket-include.php';
 
 if(!$is_valid){
