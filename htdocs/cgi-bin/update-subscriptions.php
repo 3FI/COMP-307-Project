@@ -35,7 +35,7 @@ WHERE board_ID = (
 ";
 
 $stmt = mysqli_prepare($conn, $sql);
-mysqli_stmt_bind_param($stmt, 'isi', $mode, $boardName, $user_id);
+mysqli_stmt_bind_param($stmt, 'isi', $mode, $boardName, $userId);
 if (mysqli_stmt_execute($stmt)) {
     $conn->close();
     die(json_encode("Successfully updated the subscriptions"));
