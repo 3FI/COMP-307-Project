@@ -15,8 +15,8 @@ img {
 }
 
 .box {
-    margin-top: 17%;
-    margin-bottom: 18%;
+    margin-top: 5%;
+    margin-bottom: 30%;
     vertical-align: middle;
 }
 
@@ -132,6 +132,7 @@ img {
     width: 100%;
     padding: 0;
     margin: 0;
+    margin-bottom: 14%;
 }
 
 .column-small {
@@ -155,8 +156,11 @@ img {
 }
 
 .form-title {
-    padding-top: 35%;
     margin-bottom: 10%;
+}
+
+.register {
+    margin-bottom: 5%;
 }
 
 .form-buttons {
@@ -178,6 +182,7 @@ img {
         width: 100%;
         padding: 0;
         margin: 0;
+        margin-bottom: 12%;
     }
 
     .column-small {
@@ -197,8 +202,11 @@ img {
     }
 
     .form-title {
-        margin-top: 4%;
         margin-bottom: 3%;
+    }
+
+    .register {
+        margin-bottom: 10%;
     }
 
     .banner {

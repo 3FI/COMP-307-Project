@@ -884,7 +884,7 @@
                     user_email = data.email;
 
                     // fetch username of user currently logged in
-                    msg = "Welcome " + user_email; 
+                    msg = "Welcome <div class='user'>" + user_email +"</div>"; 
 
                     container = document.getElementById("username");
                     container.innerHTML = msg;
@@ -969,7 +969,7 @@
                 <a class="navbar-brand float-start" style="margin-top:3px;cursor:default">Discussions</a>
             </div>
             <div class="nav">
-                <p id="username" class="nav float-start responsive" style="color:#a6a6a6;margin-top:6px;margin-right:25px;cursor:default"></p>
+                <p id="username" class="nav float-start responsive" style="display:inline-block;color:#a6a6a6;margin-top:6px;margin-right:25px;cursor:default"></p>
                 <!-- logout button -->
                 <form action="./logout" method="post">
                     <button type="logout" class="btn logout-btn">Logout</button>

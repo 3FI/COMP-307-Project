@@ -2,6 +2,12 @@ html, body {
     height:100%;
 }
 
+.user {
+    color: #999999;
+    display: inline-block;
+    font-weight: 500;
+}
+
 p.empty-dashboard {
     color: #a6a6a6;
     text-align: center;
