@@ -15,8 +15,9 @@ img {
 }
 
 .box {
-    margin-top: 100px;
-    margin-bottom: 100px;
+    margin-top: 17%;
+    margin-bottom: 18%;
+    vertical-align: middle;
 }
 
 .padding {

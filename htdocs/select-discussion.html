@@ -992,7 +992,7 @@
             </ul>
         </div>
         <!-- boards the user has access to -->
-        <div id="content0" style="display:none">
+        <div id="content0" style="display:none;height:85vh;overflow-y:auto">
             <div class="card">
                 <!-- empty dashboard (no boards, features: create board) -->
                 <div id="empty-dashboard" class="card-body text-center box">
@@ -1089,11 +1089,11 @@
                     <a href="#" type="submit" id="editDescriptionBtn" class="btn edit-description-btn float-start" style="margin-right:1%" onclick="editDescription()" disabled>Edit description</a>
                 </div>
                 <!-- dashboard (dynamic rendering through renderBoards() function) -->
-                <div id="dashboard" class="container-fluid" style="display:none"></div>
+                <div id="dashboard" class="container-fluid" style="display:none;overflow-y:auto"></div>
             </div>
         </div>
         <!-- boards the user is subscribed to-->
-        <div id="content1" style="display:none">
+        <div id="content1" style="display:none;height:85vh;overflow-y:auto">
             <div class="card">
                 <!-- empty dashboard (no subscribed boards) -->
                 <div id="no-subscriptions" class="card-body text-center box">
@@ -1104,7 +1104,7 @@
                     <a href="#" id="selectAllSubscribedBoards" class="btn btn-primary float-start" style="margin-right:1%" onclick="toggleSelectAll('1')">Select All</a>
                 </div>
                 <!-- dashboard (dynamic rendering through renderBoards() function) -->
-                <div id="subscriptions" class="container-fluid" style="display:none"></div>
+                <div id="subscriptions" class="container-fluid" style="display:none;overflow-y:auto"></div>
                 <!-- unsubscribe button -->
                 <div id="subscriptions-footer" class="container-fluid padding" style="display:block">
                     <a href="#" type="submit" id="unsubscribeBtn" class="btn cancel-btn" style="display:block;width:150px;margin:auto" 
@@ -1113,5 +1113,4 @@
             </div>
         </div>
     </div>
-    <!-- footer? -->
 </body>
