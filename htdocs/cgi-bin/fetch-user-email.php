@@ -6,11 +6,13 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     die();
 }
 
+//ISSET CHECK
 if(!isset($_SESSION['user_id'])) {die("Invalid Request");}
 
+//SET THE VARIABLES
 $userId = $_SESSION['user_id'];
 
-//RIGHT HERE CALL VALIDATE-TICKET-INCLUDE TO CHECK TICKET
+//TICKET CHECK
 require 'validate-ticket-include.php';
 
 if(!$is_valid){
@@ -22,7 +24,7 @@ if ($conn->connect_error) {
     die("Internal Server Error: " . $conn->connect_error);
 }
 
-//select email of user
+//FETCH USER EMAIL
 $sql = "SELECT email
 FROM users
 WHERE user_id = ?

@@ -6,12 +6,14 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     die();
 }
 
+//ISSET CHECK
 if(!isset($_POST['boardId'])) {die("Invalid Request");}
 
+//SET VARIABLES
 $boardId = $_POST['boardId'];
 $userId = $_SESSION['user_id'];
 
-//RIGHT HERE CALL VALIDATE-TICKET-INCLUDE TO CHECK TICKET
+//TICKET CHECK
 require 'validate-ticket-include.php';
 
 if(!$is_valid){
@@ -23,7 +25,7 @@ if ($conn->connect_error) {
     die("Internal Server Error: " . $conn->connect_error);
 }
 
-#SELECT ALL USER_ID FROM SPECIFIC BOARD_ID
+//SELECT ALL USER_ID FROM SPECIFIC BOARD_ID
 // $sql = "SELECT user_id FROM board_access WHERE board_id=?";
 $sql = "SELECT u.username
 FROM board_access ba
