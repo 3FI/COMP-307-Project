@@ -969,7 +969,7 @@
                 <a class="navbar-brand float-start" style="margin-top:3px;cursor:default">Discussions</a>
             </div>
             <div class="nav">
-                <p id="username" class="nav float-start" style="color:#a6a6a6;margin-top:6px;margin-right:25px;cursor:default"></p>
+                <p id="username" class="nav float-start responsive" style="color:#a6a6a6;margin-top:6px;margin-right:25px;cursor:default"></p>
                 <!-- logout button -->
                 <form action="./logout" method="post">
                     <button type="logout" class="btn logout-btn">Logout</button>
@@ -1081,11 +1081,12 @@
                     <!-- create board button -->
                     <a href="#" class="btn btn-primary float-end" onclick="return displayForm()">Create board</a>
                     <!-- subscribe button -->
-                    <a href="#" type="submit" id="subscribeBtn" class="btn subscribe-btn float-end" style="margin-right:15px;display:block" onclick="modifySubscriptions('1')" disabled>&#128276; Subscribe</a>
+                    <a href="#" type="submit" id="subscribeBtn" class="btn subscribe-btn float-end" style="margin-right:1%;display:block" 
+                    onclick="modifySubscriptions('1')" disabled><div class="responsive">&#128276;&nbsp;</div>Subscribe</a>
                     <!-- select/deselect all button -->
-                    <a href="#" id="selectAllBoards" class="btn btn-primary float-start" style="margin-right:15px" onclick="toggleSelectAll('0')">Select All</a>
+                    <a href="#" id="selectAllBoards" class="btn btn-primary float-start" style="margin-right:1%" onclick="toggleSelectAll('0')">Select All</a>
                     <!-- edit board description button -->
-                    <a href="#" type="submit" id="editDescriptionBtn" class="btn edit-description-btn float-start" style="margin-right:15px" onclick="editDescription()" disabled>Edit description</a>
+                    <a href="#" type="submit" id="editDescriptionBtn" class="btn edit-description-btn float-start" style="margin-right:1%" onclick="editDescription()" disabled>Edit description</a>
                 </div>
                 <!-- dashboard (dynamic rendering through renderBoards() function) -->
                 <div id="dashboard" class="container-fluid" style="display:none"></div>
@@ -1100,13 +1101,14 @@
                 </div>
                 <!-- select/deselect all button -->
                 <div id="subscriptions-header" class="container-fluid padding" style="display:block">
-                    <a href="#" id="selectAllSubscribedBoards" class="btn btn-primary float-start" style="margin-right:15px" onclick="toggleSelectAll('1')">Select All</a>
+                    <a href="#" id="selectAllSubscribedBoards" class="btn btn-primary float-start" style="margin-right:1%" onclick="toggleSelectAll('1')">Select All</a>
                 </div>
                 <!-- dashboard (dynamic rendering through renderBoards() function) -->
                 <div id="subscriptions" class="container-fluid" style="display:none"></div>
                 <!-- unsubscribe button -->
                 <div id="subscriptions-footer" class="container-fluid padding" style="display:block">
-                    <a href="#" type="submit" id="unsubscribeBtn" class="btn cancel-btn" style="display:block;width:150px;margin:auto" onclick="modifySubscriptions('0')" disabled>&#128277; Unsubscribe</a>
+                    <a href="#" type="submit" id="unsubscribeBtn" class="btn cancel-btn" style="display:block;width:150px;margin:auto" 
+                    onclick="modifySubscriptions('0')" disabled><div class="responsive">&#128277;&nbsp;</div>Unsubscribe</a>
                 </div>
             </div>
         </div>

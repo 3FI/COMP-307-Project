@@ -41,8 +41,9 @@ img {
 }
 
 .banner {
-    height: 61px;
+    height: 62px;
     vertical-align: middle;
+    width: 100%;
 }
 
 .leaveboard-btn {
@@ -161,6 +162,10 @@ img {
     margin-top: 6%;
 }
 
+.responsive {
+    display: inline-block;
+}
+
 /* Responsive layout */
 @media screen and (max-width: 1400px) {
     .column-large {
@@ -193,5 +198,15 @@ img {
     .form-title {
         margin-top: 4%;
         margin-bottom: 3%;
+    }
+
+    .banner {
+        height: 62px;
+        vertical-align: middle;
+        width: 100%;
+    }
+
+    .responsive {
+        display: none;
     }
 }
