@@ -86,38 +86,38 @@
 </script>
 
 <body>
-    <nav class="navbar navbar-light">
-        <a class="navbar-brand" href="#" style="margin-left: 15px">
-            <img src="./img/name-logo.jpg" alt="logo" class="d-inline-block align-top" style="height:45px">
-        </a>
-    </nav>
-    <div>
-        <div class="col-8 col-md-4 col-lg-3 px-0 d-sm-block box" style="margin:auto">
-            <h1 class="col-8 mx-auto text-center form-title">Register</h1>
-            <form name="register form" class="container top-padding" action="./register" method="post" onsubmit="return validateRegistration()">
-                <div class="row top-padding">
-                    <label for="email">Email address</label>
-                    <input type="text" name="email" class="form-control field" id="email" placeholder="e.g., john.doe@mail.mcgill.ca" autofocus>
-                    <div id="invalidEmail" class="invalid-feedback" style="display:none">
-                        Invalid email
-                    </div>
-                    <div id="duplicateEmail" class="invalid-feedback" style="display:none">
-                        This email address is already associated with another account.
-                    </div>
+    <div class="header-column">
+        <nav class="navbar navbar-light bg-white">
+            <a class="navbar-brand" style="cursor:default">
+                <img src="./img/name-logo.jpg" alt="logo" style="margin-left:10px;height:45px">
+            </a>
+        </nav>
+    </div>
+    <div class="register-column">
+        <h1 class="form-title" style="text-align:center">Register</h1>
+        <form name="register form" class="container top-padding" action="./register" method="post" onsubmit="return validateRegistration()">
+            <div class="row top-padding">
+                <label for="email">Email address</label>
+                <input type="text" name="email" class="form-control field" id="email" placeholder="e.g., john.doe@mail.mcgill.ca" autofocus>
+                <div id="invalidEmail" class="invalid-feedback" style="display:none">
+                    Invalid email
                 </div>
-                <div class="row padding">
-                    <label for="password">Password</label>
-                    <input type="password" name="password" class="form-control field" id="password" onfocusin="return validateEmail()">
-                    <small id="invalidPassword" class="form-text" style="color:#a6a6a6">
-                        Must have at least 8 characters and contain one number, one uppercase letter and one lowercase letter
-                    </small>
+                <div id="duplicateEmail" class="invalid-feedback" style="display:none">
+                    This email address is already associated with another account.
                 </div>
-                <div class="text-center small-top-padding">
-                    <p><button type="submit" class="btn btn-primary">Register</button></p>
-                    <hr>
-                    <p><a href="./index.html" type="button" class="btn btn-outline-secondary">Return to Homepage</a></p>
-                </div>
-            </form>
-        </div>
+            </div>
+            <div class="row padding">
+                <label for="password">Password</label>
+                <input type="password" name="password" class="form-control field" id="password" onfocusin="return validateEmail()">
+                <small id="invalidPassword" class="form-text" style="color:#a6a6a6">
+                    Must have at least 8 characters and contain one number, one uppercase letter and one lowercase letter
+                </small>
+            </div>
+            <div class="text-center form-buttons">
+                <p><button type="submit" class="btn btn-primary">Register</button></p>
+                <hr>
+                <p><a href="./index.html" type="button" class="btn btn-outline-secondary">Return to Homepage</a></p>
+            </div>
+        </form>
     </div>
 </body>

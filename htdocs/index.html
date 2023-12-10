@@ -98,41 +98,41 @@
 
 
 <body>
-    <nav class="navbar navbar-light bg-white mw-100">
-        <a class="navbar-brand text-center" style="cursor:default">
-            <img src="./img/name-logo.jpg" alt="logo" class="d-inline-block align-top" style="height:40px;margin-left:10px">
-        </a>
-    </nav>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-7 col-lg-9 px-0 d-none d-md-block">
-                <img src="./img/mcgill-campus2.jpg" alt="McGill campus" class="mw-100 mh-100" style="object-fit:contain;object-position:left">
+    <div class="row">
+        <div class="column-large">
+            <img src="./img/mcgill-campus.jpg" alt="McGill campus">
+        </div>
+        <div class="column-small">
+            <div class="header-column">
+                <nav class="navbar navbar-light bg-white">
+                    <a class="navbar-brand" style="cursor:default">
+                        <img src="./img/name-logo.jpg" alt="logo" style="margin-left:22px;height:45px">
+                    </a>
+                </nav>
             </div>
-            <div class="col-md-5 col-lg-3 px-0 d-sm-block text-center" style="overflow:hidden;position:relative">
-                <div class="m-5">
-                    <h1 class="form-title">Login</h1>
-                    <form class="container top-padding" action="./login" method="post" onsubmit="return validateLogin()">
-                        <div class="row bottom-padding" id="registrationError">
-                            <img class="error-icon" src="./img/error_icon.svg" width="30" height="30">
-                            <div class="form-buttons small-bottom-padding" id="invalidEmail">Invalid Email</div>
-                            <div class="form-buttons small-bottom-padding" id="invalidPassword">Invalid Password</div>
-                        </div>
-                        <div class="row padding">
-                            <label for="inputEmail" id="emailLabel">Email address</label>
-                            <input type="email" class="form-control field" id="inputEmail" name="email"
-                                aria-describedby="emailHelp" placeholder="Enter email" onfocusin="hide(document.getElementById('registrationError'))" autofocus>
-                        </div>
-                        <div class="row padding">
-                            <label for="inputPassword" id="passwordLabel">Password</label>
-                            <input type="password" class="form-control field" id="inputPassword" name="password" placeholder="Password">
-                        </div>
-                        <button type="submit" class="btn btn-primary form-buttons">Login</button>
-                    </form>
-                    <hr>
-                    <button type="button" onclick="location.href='./register-form'" class="btn btn-outline-success">Register</button>
-                    <div id="successMessage" class="small-top-padding">
-                        <small class="form-text" color="#d9d9d9">Your account has been successfully created.</small>
+            <div class="form-column">
+                <h1 class="form-title">Login</h1>
+                <form class="container top-padding" action="./login" method="post" onsubmit="return validateLogin()">
+                    <div class="row bottom-padding" id="registrationError">
+                        <img class="error-icon" src="./img/error_icon.svg" width="30" height="30">
+                        <div class="form-buttons small-bottom-padding" id="invalidEmail">Invalid Email</div>
+                        <div class="form-buttons small-bottom-padding" id="invalidPassword">Invalid Password</div>
                     </div>
+                    <div class="row padding">
+                        <label for="inputEmail" id="emailLabel">Email address</label>
+                        <input type="email" class="form-control field" id="inputEmail" name="email"
+                            aria-describedby="emailHelp" placeholder="Enter email" onfocusin="hide(document.getElementById('registrationError'))" autofocus>
+                    </div>
+                    <div class="row padding">
+                        <label for="inputPassword" id="passwordLabel">Password</label>
+                        <input type="password" class="form-control field" id="inputPassword" name="password" placeholder="Password">
+                    </div>
+                    <button type="submit" class="btn btn-primary form-buttons">Login</button>
+                </form>
+                <hr>
+                <button type="button" onclick="location.href='./register-form'" class="btn btn-outline-success">Register</button>
+                <div id="successMessage" class="small-top-padding">
+                    <small class="form-text" color="#d9d9d9">Your account has been successfully created.</small>
                 </div>
             </div>
         </div>
