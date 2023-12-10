@@ -6,8 +6,10 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     die();
 }
 
+//ISSET CHECK
 if( !isset($_POST['pinned_status']) || !isset($_POST['message_id']) || !isset($_SESSION['user_id'])) {die("Invalid Request");}
 
+//SET VARIABLES
 $message_id = $_POST['message_id'];
 $is_pinned = $_POST['pinned_status'];
 $userId = $_SESSION['user_id'];
@@ -18,7 +20,7 @@ if ($is_pinned == 1){
     $set_pinned_msg_to = 1;
 }
 
-//RIGHT HERE CALL VALIDATE-TICKET-INCLUDE TO CHECK TICKET
+//TICKET CHECK
 require 'validate-ticket-include.php';
 
 if(!$is_valid){
@@ -30,7 +32,7 @@ if ($conn->connect_error) {
     die("Internal Server Error: " . $conn->connect_error);
 }
 
-#UPDATE is_pinned status
+#UPDATE IS_PINNED STATUS OF MESSAGE
 $sql = "UPDATE messages
 SET is_pinned = ?
 WHERE id = ?

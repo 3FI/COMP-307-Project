@@ -1,10 +1,16 @@
 <?php
 
+/*  
+REQUIRED IN MOST PHP FILE FOR AN ADDITIONAL TICKET CHECK
+BEFORE CONNECTING TO THE DB
+*/
+
 $conn = new mysqli("localhost", "root", "", "COMP307-Project");
 if ($conn->connect_error) {
     $is_valid = false;
 }
 
+//SELECT USER TICKET
 $sql = "SELECT ticket FROM users WHERE user_id = ?";
 $stmt = mysqli_prepare($conn, $sql);
 mysqli_stmt_bind_param($stmt, 'i', $userId);
@@ -17,6 +23,7 @@ if (mysqli_stmt_execute($stmt)) {
 
     $ticketFromSESSION = $_SESSION['SESSION_ticket']; //ticket from POST request
 
+    //CHECK IF TICKETS ARE EQUAL
     if ($ticketFromSESSION == $ticketFromDB){
         $is_valid = true;
     }

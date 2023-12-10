@@ -6,13 +6,15 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     die();
 }
 
+//ISSET CHECK
 if( !isset($_POST['boardName']) || !isset($_POST['description']) || !isset($_SESSION['user_id'])) {die("Invalid Request");}
 
+//SET VARIABLES
 $board_name = $_POST['boardName'];
 $new_description = $_POST['description'];
 $userId = $_SESSION['user_id'];
 
-//RIGHT HERE CALL VALIDATE-TICKET-INCLUDE TO CHECK TICKET
+//TICKET CHECK
 require 'validate-ticket-include.php';
 
 if(!$is_valid){
@@ -24,7 +26,7 @@ if ($conn->connect_error) {
     die("Internal Server Error: " . $conn->connect_error);
 }
 
-#UPDATE is_pinned status
+#UPDATE BOARD'S DESCRIPTION 
 $sql = "UPDATE boards
 SET description = ?
 WHERE name = ?

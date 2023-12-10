@@ -6,14 +6,16 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     die();
 }
 
+//ISSET CHECK
 if(!isset($_POST['board_id']) || !isset($_POST['old_member_email']) || !isset($_SESSION['user_id'])) {die("Invalid Request");}
 
+//SET VARIABLES
 $boardId = $_POST['board_id'];
 $email = $_POST['old_member_email'];
 $oldMemberId = -1;
 $userId = $_SESSION['user_id'];
 
-//RIGHT HERE CALL VALIDATE-TICKET-INCLUDE TO CHECK TICKET
+//TICKET CHECK
 require 'validate-ticket-include.php';
 
 if(!$is_valid){
@@ -37,6 +39,7 @@ if (mysqli_stmt_execute($stmt)) {
     }
 }
 
+//SELECT INFO FROM USER
 $sql = "SELECT * FROM users WHERE email=?";
 $stmt = mysqli_prepare($conn, $sql);
 mysqli_stmt_bind_param($stmt, 's', $email);
@@ -56,7 +59,7 @@ if (mysqli_stmt_execute($stmt)){
     }
 }
 
-#Check if admin is trying to remove himself
+#CHECK IF ADMIN IS TRYING TO REMOVE HIMSELF
 $sql = "SELECT * FROM boards WHERE admin_id=? and id=?";
 $stmt = mysqli_prepare($conn, $sql);
 mysqli_stmt_bind_param($stmt, 'ii', $oldMemberId, $boardId);
@@ -68,7 +71,7 @@ if (mysqli_stmt_execute($stmt)){
     }
 }
 
-#Delete remove member from board
+#DELETE MEMBER FORM BOARD
 $sql = "DELETE FROM board_access WHERE user_id=? and board_id=?";
 $stmt = mysqli_prepare($conn, $sql);
 mysqli_stmt_bind_param($stmt, 'ii' ,$oldMemberId ,$boardId);

@@ -1,4 +1,10 @@
 <?php
+
+/*
+TICKET VERIFICATION FOR THE ONLOAD JAVASCRIPT CALL OF SELECT-DISCUSSION.HTML
+*/
+
+
 session_start();
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') { 
@@ -6,11 +12,13 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     die();
 }
 
+//ISSET CHECK
 if (!isset($_SESSION['user_id'])) {
     echo json_encode(['error' => 'Unauthorized']);
     exit();
 }
 
+//SET VARIABLES
 $userid = $_SESSION['user_id'];
 
 $conn = new mysqli("localhost", "root", "", "COMP307-Project");
@@ -18,6 +26,7 @@ if ($conn->connect_error) {
     die("Internal Server Error: " . $conn->connect_error);
 }
 
+//SELECT USER TICKET
 $sql = "SELECT ticket FROM users WHERE user_id = ?";
 $stmt = mysqli_prepare($conn, $sql);
 mysqli_stmt_bind_param($stmt, 'i', $userid);
@@ -30,6 +39,7 @@ if (mysqli_stmt_execute($stmt)) {
 
     $ticketFromSESSION = $_SESSION['SESSION_ticket']; //ticket from POST request
 
+    //CHECK IF TICKETS ARE EQUAL
     $isValid = ($ticketFromSESSION == $ticketFromDB);
 
     $response = ['isValid' => $isValid];
