@@ -15,8 +15,8 @@ img {
 }
 
 .box {
-    margin-top: 5%;
-    margin-bottom: 30%;
+    min-height: 100vh;
+    margin-top: 10%;
     vertical-align: middle;
 }
 
@@ -213,6 +213,12 @@ img {
         height: 62px;
         vertical-align: middle;
         width: 100%;
+    }
+
+    .box {
+        min-height: 100vh;
+        margin-top: 25%;
+        vertical-align: middle;
     }
 
     .responsive {

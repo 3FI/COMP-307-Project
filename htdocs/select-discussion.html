@@ -969,9 +969,9 @@
                 <a class="navbar-brand float-start" style="margin-top:3px;cursor:default">Discussions</a>
             </div>
             <div class="nav">
-                <p id="username" class="nav float-start responsive" style="display:inline-block;color:#a6a6a6;margin-top:6px;margin-right:25px;cursor:default"></p>
+                <p id="username" class="nav float-start responsive-dashboard" style="color:#a6a6a6;margin-top:6px;margin-right:25px;cursor:default"></p>
                 <!-- logout button -->
-                <form action="./logout" method="post">
+                <form action="./logout" method="post" style="display:inline-block">
                     <button type="logout" class="btn logout-btn">Logout</button>
                 </form>
             </div>
@@ -992,10 +992,10 @@
             </ul>
         </div>
         <!-- boards the user has access to -->
-        <div id="content0" style="display:none;height:85vh;overflow-y:auto">
+        <div id="content0" style="display:none">
             <div class="card">
                 <!-- empty dashboard (no boards, features: create board) -->
-                <div id="empty-dashboard" class="card-body text-center box">
+                <div id="empty-dashboard" class="card-body text-center box" style="overflow-y:hidden">
                     <div class="bottom-padding">
                         <p class="empty-dashboard">Your dashboard is looking a little empty...</p>
                         <p class="empty-dashboard">Let's start a discussion board!</p>
@@ -1082,21 +1082,21 @@
                     <a href="#" class="btn btn-primary float-end" onclick="return displayForm()">Create board</a>
                     <!-- subscribe button -->
                     <a href="#" type="submit" id="subscribeBtn" class="btn subscribe-btn float-end" style="margin-right:1%;display:block" 
-                    onclick="modifySubscriptions('1')" disabled><div class="responsive">&#128276;&nbsp;</div>Subscribe</a>
+                    onclick="modifySubscriptions('1')" disabled><div class="responsive-dashboard">&#128276;&nbsp;</div>Subscribe</a>
                     <!-- select/deselect all button -->
                     <a href="#" id="selectAllBoards" class="btn btn-primary float-start" style="margin-right:1%" onclick="toggleSelectAll('0')">Select All</a>
                     <!-- edit board description button -->
                     <a href="#" type="submit" id="editDescriptionBtn" class="btn edit-description-btn float-start" style="margin-right:1%" onclick="editDescription()" disabled>Edit description</a>
                 </div>
                 <!-- dashboard (dynamic rendering through renderBoards() function) -->
-                <div id="dashboard" class="container-fluid" style="display:none;overflow-y:auto"></div>
+                <div id="dashboard" class="container-fluid" style="display:none;height:74vh;overflow-y:auto"></div>
             </div>
         </div>
         <!-- boards the user is subscribed to-->
-        <div id="content1" style="display:none;height:85vh;overflow-y:auto">
+        <div id="content1" style="display:none">
             <div class="card">
                 <!-- empty dashboard (no subscribed boards) -->
-                <div id="no-subscriptions" class="card-body text-center box">
+                <div id="no-subscriptions" class="card-body text-center box" style="overflow-y:hidden">
                     <p class="empty-dashboard">No boards to show.</p>
                 </div>
                 <!-- select/deselect all button -->
@@ -1104,11 +1104,11 @@
                     <a href="#" id="selectAllSubscribedBoards" class="btn btn-primary float-start" style="margin-right:1%" onclick="toggleSelectAll('1')">Select All</a>
                 </div>
                 <!-- dashboard (dynamic rendering through renderBoards() function) -->
-                <div id="subscriptions" class="container-fluid" style="display:none;overflow-y:auto"></div>
+                <div id="subscriptions" class="container-fluid" style="display:none;height:65vh;overflow-y:auto"></div>
                 <!-- unsubscribe button -->
                 <div id="subscriptions-footer" class="container-fluid padding" style="display:block">
                     <a href="#" type="submit" id="unsubscribeBtn" class="btn cancel-btn" style="display:block;width:150px;margin:auto" 
-                    onclick="modifySubscriptions('0')" disabled><div class="responsive">&#128277;&nbsp;</div>Unsubscribe</a>
+                    onclick="modifySubscriptions('0')" disabled><div class="responsive-dashboard">&#128277;&nbsp;</div>Unsubscribe</a>
                 </div>
             </div>
         </div>

@@ -70,6 +70,10 @@ input[type=checkbox]:checked {
     border-color: #8c1aff;
 }
 
+.responsive-dashboard {
+    display: inline-block;
+}
+
 .responsive-card {
     display: block;
 }
@@ -79,7 +83,11 @@ input[type=checkbox]:checked {
 }
 
 /* Responsive layout */
-@media screen and (max-width: 1400px) {
+@media screen and (max-width: 900px) {
+    .responsive-dashboard {
+        display: none;
+    }
+
     .responsive-card {
         display: none;
     }
