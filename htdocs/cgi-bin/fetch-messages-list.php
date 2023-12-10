@@ -16,7 +16,7 @@ $channelId = $_POST['channelId'];
 //TICKET CHECK
 require 'validate-ticket-include.php';
 
-if(!$is_valid){
+if(!$is_valid || !isset($is_valid) || !isset($_SESSION['SESSION_ticket'])){
     die('TICKET NOT VALID');
 }
 

@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 //ISSET CHECK
-if(!isset($_POST['name']) || !isset($_SESSION['user_id'])) {die("Invalid Request");}
+if(!isset($_POST['name']) || !isset($_SESSION['user_id']) || !isset($_SESSION['SESSION_ticket'])) {die("Invalid Request");}
 
 //SET VARIABLES
 $name = $_POST['name'];
@@ -18,7 +18,7 @@ $color = $_POST['color'];
 //TICKET CHECK
 require 'validate-ticket-include.php';
 
-if(!$is_valid){
+if(!$is_valid || !isset($is_valid)){
     die('TICKET NOT VALID');
 }
 
@@ -53,5 +53,5 @@ if (mysqli_stmt_execute($stmt)) {
     $conn->close();
     die("Failed to Execute the Querry");
 }
-
+$conn->close();
 ?>

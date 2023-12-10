@@ -17,7 +17,7 @@ $userId = $_SESSION['user_id'];
 //TICKET CHECK
 require 'validate-ticket-include.php';
 
-if(!$is_valid){
+if(!$is_valid || !isset($is_valid)){
     die('TICKET NOT VALID');
 }
 

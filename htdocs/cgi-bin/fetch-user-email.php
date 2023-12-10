@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 //ISSET CHECK
-if(!isset($_SESSION['user_id'])) {die("Invalid Request");}
+if(!isset($_SESSION['user_id']) || !isset($_SESSION['SESSION_ticket'])) {die("Invalid Request");}
 
 //SET THE VARIABLES
 $userId = $_SESSION['user_id'];
@@ -15,7 +15,7 @@ $userId = $_SESSION['user_id'];
 //TICKET CHECK
 require 'validate-ticket-include.php';
 
-if(!$is_valid){
+if(!$is_valid || !isset($is_valid)){
     die('TICKET NOT VALID');
 }
 

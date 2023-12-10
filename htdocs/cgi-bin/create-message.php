@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 //ISSET CHECK
-if(!isset($_POST['channelId']) || !isset($_POST['message']) || !isset($_SESSION['user_id'])) {die("Invalid Request");}
+if(!isset($_POST['channelId']) || !isset($_POST['message']) || !isset($_SESSION['user_id']) || !isset($_SESSION['SESSION_ticket'])) {die("Invalid Request");}
 
 //SET VARIABLES
 $message = $_POST['message'];
@@ -17,7 +17,7 @@ $channelId = $_POST['channelId'];
 //TICKET CHECK
 require 'validate-ticket-include.php';
 
-if(!$is_valid){
+if(!$is_valid || !isset($is_valid)){
     die('TICKET NOT VALID');
 }
 

@@ -27,6 +27,9 @@ if (mysqli_stmt_execute($stmt)) {
     if ($ticketFromSESSION == $ticketFromDB){
         $is_valid = true;
     }
+    else{
+        $is_valid = false;
+    }
 
 } else {
     $is_valid = false;

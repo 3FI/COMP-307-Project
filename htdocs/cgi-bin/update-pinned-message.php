@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 //ISSET CHECK
-if( !isset($_POST['pinned_status']) || !isset($_POST['message_id']) || !isset($_SESSION['user_id'])) {die("Invalid Request");}
+if( !isset($_POST['pinned_status']) || !isset($_POST['message_id']) || !isset($_SESSION['user_id']) || !isset($_SESSION['SESSION_ticket'])) {die("Invalid Request");}
 
 //SET VARIABLES
 $message_id = $_POST['message_id'];
@@ -23,7 +23,7 @@ if ($is_pinned == 1){
 //TICKET CHECK
 require 'validate-ticket-include.php';
 
-if(!$is_valid){
+if(!$is_valid || !isset($is_valid)){
     die('TICKET NOT VALID');
 }
 

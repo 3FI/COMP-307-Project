@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 //ISSET CHECK
-if(!isset($_POST['channel_id']) || !isset($_SESSION['user_id'])) {die("Invalid Request");}
+if(!isset($_POST['channel_id']) || !isset($_SESSION['user_id']) || !isset($_SESSION['SESSION_ticket'])) {die("Invalid Request");}
 
 //SET VARIABLES
 $channelId = $_POST['channel_id'];
@@ -16,7 +16,7 @@ $userId = $_SESSION['user_id'];
 //TICKET CHECK
 require 'validate-ticket-include.php';
 
-if(!$is_valid){
+if(!$is_valid || !isset($is_valid)){
     die('TICKET NOT VALID');
 }
 
@@ -25,7 +25,7 @@ if ($conn->connect_error) {
     die("Internal Server Error: " . $conn->connect_error);
 }
 
-#VERIFY ADMIN ACCESS
+#VERIFY ADMIN ACCESS BUT FROM THE CHANNEL ID
 $sql = "SELECT * FROM boards WHERE admin_id=? and id=(SELECT board_id FROM channels WHERE id=?)";
 $stmt = mysqli_prepare($conn, $sql);
 mysqli_stmt_bind_param($stmt, 'ii', $userId, $channelId);

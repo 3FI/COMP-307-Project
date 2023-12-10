@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 //ISSET CHECK
-if(!isset($_POST['boardId'])) {die("Invalid Request");}
+if(!isset($_POST['boardId'])|| !isset($_SESSION['SESSION_ticket'])) {die("Invalid Request");}
 
 //SET VARIABLES
 $boardId = $_POST['boardId'];
@@ -16,7 +16,7 @@ $userId = $_SESSION['user_id'];
 //TICKET CHECK
 require 'validate-ticket-include.php';
 
-if(!$is_valid){
+if(!$is_valid || !isset($is_valid)){
     die('TICKET NOT VALID');
 }
 
@@ -26,7 +26,6 @@ if ($conn->connect_error) {
 }
 
 //SELECT ALL USER_ID FROM SPECIFIC BOARD_ID
-// $sql = "SELECT user_id FROM board_access WHERE board_id=?";
 $sql = "SELECT u.username
 FROM board_access ba
 JOIN users u ON ba.user_id = u.user_id
