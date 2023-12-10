@@ -13,7 +13,7 @@
 </head>
 
 <body onload="renderContent()">
-<!-- <body> -->
+    <!-- Bootstrap navbar template, with some modifications for responsiveness and additional buttons -->
     <nav class="navbar navbar-expand-lg banner" id="navbar">
         <div class="container-fluid">
             <img src="./img/logo.png" alt="logo" class="d-inline-block align-top" style="width:30px;height:30px;margin-right:15px;">
@@ -44,6 +44,7 @@
             </div>
         </div>
     </nav>
+    <!-- This window will toggle when interacting with the page (Adding/deleting, confirmations, and error messages) -->
     <div id="create-new-window">
         <div class="header" id="create-new-header"></div>
         <div id="enter-below"></div>
@@ -54,6 +55,7 @@
             <button type="button" class="btn btn-primary" id="create-btn"></button>
         </div>
     </div>
+    <!-- This container houses the majority of the content of the page, includes the mobile sidebar toggle button, sidebar, and messages -->
     <div class="container-fluid" id="disable">
         <div class="row">
             <div id="open-channels-users">
@@ -212,6 +214,7 @@
             checkForPinnedMessagesUpdates();
         }
         
+        // Scroll to an element, used when clicking on a pinned messages to jump to it.
         function scrollToElm(container, elm_id, duration){
             var elm = document.getElementById(elm_id);
             var pos = getRelativePos(elm);
@@ -253,6 +256,7 @@
             animateScroll();
         };
 
+        // helper function for smooth scrolling effect
         function easeInOutQuad(t){ return t<.5 ? 2*t*t : -1+(4-2*t)*t };
 
         //get board data from the server
@@ -281,20 +285,28 @@
             xhr_fetch.send();
         }
         
+        // render the content of the page onload
         function renderContent(){
             renderChannels();
+            //if the board is new, create the general channel
             if (channel_data.length == 0){
                 newChannel("General");
             }
+            //set the active channel to the general channel and set its active background color
             active_channel = channel_data[0].id;
             channels = document.getElementsByClassName("channel");
             channels[0].style.backgroundColor = darkenColor(board_color, 60);
+            //set the background color of the mobile sidebar button
             open_channels_user = document.getElementById("open-channels-users");
             open_channels_user.style.backgroundColor = darkenColor(board_color, 40);
+            //render the messages of the active channel
             renderMessages();   
             renderPinnedMessages();  
+            //render the users of the board
             renderUsers();
+            //check if the user is an admin of the board and set the cur_is_admin variable accordingly
             is_admin();
+            //set the color scheme of the board
             var navbar = document.getElementById("navbar");
             navbar.style.backgroundColor = board_color;
             var pinned_btn = document.getElementById("dropdown-button");
@@ -320,6 +332,7 @@
             leaveBoardBtn = document.getElementById("leaveBoard");
             leaveBoardBtn.style.backgroundColor = darkenColor(board_color, 40);
             leaveBoardBtn.style.borderColor = darkenColor(board_color, 30);
+            //set the function of the leave/delete board menu depending on users admin status
             if (cur_is_admin){
                 leaveBoardBtn.innerHTML = "Delete Board";
                 leaveBoardBtn.onclick = function() {toggleDeleteBoard()};
@@ -877,7 +890,7 @@
                             error("Error adding user", "A user with this email does not exist.");
                         }
                         else{
-                            console.log(this.responseText);
+                            error("Error adding user", "Failed to add user. Please try again.");
                         }
                     }
                 }
@@ -916,7 +929,8 @@
                         error("Error removing user", "Admin cannot remove themself");
                     }
                     else{
-                        console.log(this.responseText);
+                        error("Error removing user", "Please Try Again");
+
                     }
                 }
             }
@@ -1252,7 +1266,6 @@
                         window.location.href = '/logout';
                     }
 
-                    console.log(this.responseText);
                     // If the message was sent successfully, redirect to the select discussion page
                     if(this.responseText == "TRUE") {
                         window.location.href = '/select-discussion';
@@ -1276,7 +1289,6 @@
                         window.location.href = '/logout';
                     }
 
-                    console.log(this.responseText);
                     // If the message was sent successfully, redirect to the select discussion page
                     if(this.responseText == "TRUE") {
                         window.location.href = '/select-discussion';
