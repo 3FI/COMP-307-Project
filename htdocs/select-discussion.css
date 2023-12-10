@@ -63,3 +63,26 @@ input[type=checkbox]:checked {
     background-color: #8c1aff;
     border-color: #8c1aff;
 }
+
+.responsive-card {
+    display: block;
+}
+
+.navbar-brand {
+    margin-left: 20px;
+}
+
+/* Responsive layout */
+@media screen and (max-width: 1400px) {
+    .responsive-card {
+        display: none;
+    }
+
+    .navbar-brand {
+        margin-left: 5px;
+    }
+
+    .board-title {
+        font-size: medium;
+    }
+}
