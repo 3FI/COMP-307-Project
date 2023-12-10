@@ -6,12 +6,14 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     die();
 }
 
+//ISSSET CHECK
 if(!isset($_POST['message_id']) || !isset($_SESSION['user_id'])) {die("Invalid Request");}
 
+//SET VARIABLES
 $messageId = $_POST['message_id'];
 $userId = $_SESSION['user_id'];
 
-//RIGHT HERE CALL VALIDATE-TICKET-INCLUDE TO CHECK TICKET
+//TICKET CHECK
 require 'validate-ticket-include.php';
 
 if(!$is_valid){
@@ -26,7 +28,7 @@ if ($conn->connect_error) {
 $isAdmin = FALSE;
 $isSelf = FALSE;
 
-#VERIFY ADMIN ACCESS
+//VERIFY ADMIN ACCESS
 $sql = "SELECT * FROM boards WHERE admin_id=? and id=(SELECT board_id FROM channels WHERE id=(SELECT channel_id FROM messages WHERE id=?))";
 $stmt = mysqli_prepare($conn, $sql);
 mysqli_stmt_bind_param($stmt, 'ii', $userId, $messageId);
@@ -37,6 +39,7 @@ if (mysqli_stmt_execute($stmt)) {
     }
 }
 
+//VERIFY IF MESSAGE FROM USER
 $sql = "SELECT * FROM messages WHERE user_id=? and id=?";
 $stmt = mysqli_prepare($conn, $sql);
 mysqli_stmt_bind_param($stmt, 'ii', $userId, $messageId);
@@ -52,7 +55,7 @@ if(!$isAdmin && !$isSelf){
     die("Access Denied");
 }
 
-
+//DELETE MESSAGE 
 $sql = "DELETE FROM messages where id=?";
 $stmt = mysqli_prepare($conn, $sql);
 mysqli_stmt_bind_param($stmt, 'i',$messageId);

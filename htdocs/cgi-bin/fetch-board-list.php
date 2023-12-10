@@ -6,13 +6,13 @@ if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
     die();
 }
 
-#TODO : VERIFY TICKET
-
+//ISSET CHECK
 if(!isset($_SESSION['user_id'])) {die("Invalid Request");}
 
+//SET VARIABLES
 $userId = $_SESSION['user_id'];
 
-//RIGHT HERE CALL VALIDATE-TICKET-INCLUDE TO CHECK TICKET
+//TICKET CHECK
 require 'validate-ticket-include.php';
 
 if(!$is_valid){
@@ -24,6 +24,7 @@ if ($conn->connect_error) {
     die("Internal Server Error: " . $conn->connect_error);
 }
 
+//FETCH THE LIST OF BOARDS FOR USERID
 $sql = "SELECT boards.name as pName, boards.description as pDescription, boards.id as pId, boards.color as pColor, board_access.subscribed as pSubscribed
 FROM boards
 JOIN board_access ON boards.id = board_access.board_id
