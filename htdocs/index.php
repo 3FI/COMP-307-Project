@@ -16,7 +16,8 @@
 	        require __DIR__ . $viewDir . 'register-form.php';
 	        break;
 		case '/register':
-			require __DIR__ . $viewDir . 'register.php';
+			echo "REGISTER";
+			#require __DIR__ . $viewDir . 'register.php';
 			break;
 	    case '/logout':
 	        require __DIR__ . $viewDir . 'logout.php';

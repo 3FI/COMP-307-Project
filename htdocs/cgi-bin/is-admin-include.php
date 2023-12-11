@@ -5,7 +5,7 @@ REQUIRED IN MOST PHP FILE FOR AN ADDITIONAL TICKET CHECK
 BEFORE CONNECTING TO THE DB
 */
 
-$conn = new mysqli("localhost", "root", "", "COMP307-Project");
+$conn = new mysqli("mysql.cs.mcgill.ca", "ecadot", "n#K#p6CEVw2USkJVFNDyetUb", "2023fall-comp307-ecadot");
 if ($conn->connect_error) {
     $is_valid = false;
 }

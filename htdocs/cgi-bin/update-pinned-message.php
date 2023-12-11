@@ -27,7 +27,7 @@ if(!$is_valid || !isset($is_valid)){
     die('TICKET NOT VALID');
 }
 
-$conn = new mysqli("localhost", "root", "", "COMP307-Project");
+$conn = new mysqli("mysql.cs.mcgill.ca", "ecadot", "n#K#p6CEVw2USkJVFNDyetUb", "2023fall-comp307-ecadot");
 if ($conn->connect_error) {
     die("Internal Server Error: " . $conn->connect_error);
 }

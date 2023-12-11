@@ -5,7 +5,7 @@
     //SET VARIABLE
     $userid = $_SESSION['user_id'];
 
-    $conn = new mysqli("localhost", "root", "", "COMP307-Project");
+    $conn = new mysqli("mysql.cs.mcgill.ca", "ecadot", "n#K#p6CEVw2USkJVFNDyetUb", "2023fall-comp307-ecadot");
     if ($conn->connect_error) {
         die("Internal Server Error: " . $conn->connect_error);
     }
@@ -23,7 +23,7 @@
     }
 
     //REDIRECT TO LOGIN PAGE
-    header('Location: /login-form');
+    header('Location: ./login-form');
 
     // Close the database connection
     $conn->close();

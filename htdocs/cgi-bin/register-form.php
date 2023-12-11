@@ -1,4 +1,6 @@
 <?php
+echo("test");
+
 session_start();
 
 //ISSET CHECK

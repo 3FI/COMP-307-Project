@@ -2,7 +2,7 @@
     session_start();
 
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') { 
-        header('Location: /404'); 
+        header('Location: ./404'); 
         die();
     }
 
@@ -12,15 +12,15 @@
     if (isset($errors)) {
         $_SESSION['errors'] = $errors;
         $conn->close();
-        header('Location: /login-form');
+        header('Location: ./login-form');
         die();
     }
 
     //SET VARIABLES
     $email = $_POST['email'];
     $password = $_POST['password'];
-    
-    $conn = new mysqli("localhost", "root", "", "COMP307-Project");
+    #comp307admin       Etienne_Password
+    $conn = new mysqli("mysql.cs.mcgill.ca", "ecadot", "n#K#p6CEVw2USkJVFNDyetUb", "2023fall-comp307-ecadot");
     if ($conn->connect_error) { die("Internal Server Error: " . $conn->connect_error); }
 
     //SELECT USER INFO
@@ -52,7 +52,7 @@
                 $_SESSION["SESSION_ticket"] = $ticket;
  
                 //REDIRECT TO SELECT-DISCUSSION PAGE
-                header('Location: /select-discussion');
+                header('Location: ./select-discussion');
 
             }
             else{ $errors["invalid_password"] = "Invalid Password"; }
@@ -65,7 +65,7 @@
     if (isset($errors)) {
         $_SESSION['errors'] = $errors;
         $conn->close();
-        header('Location: /login-form');
+        header('Location: ./login-form');
         die();
     }
 ?>
