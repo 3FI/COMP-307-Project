@@ -107,7 +107,7 @@
     function ticketCheck(){
         // Synchronous request
         var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/validate-ticket', false); 
+        xhr.open('POST', './validate-ticket', false); 
         xhr.send();
 
         if (xhr.status === 200) {
@@ -115,7 +115,7 @@
             if (!response.error) {
                 // If isValid is false (tickets are not equal) -> logout
                 if (response.isValid){
-                    window.location.href = '/select-discussion';
+                    window.location.href = './select-discussion';
                 }
             }
         }

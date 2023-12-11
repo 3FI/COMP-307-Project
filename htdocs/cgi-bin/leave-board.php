@@ -1,5 +1,4 @@
 <?php
-die('reached');
 session_start();
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') { 
@@ -8,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 //ISSET CHECK
-if(!isset($_POST['board_id']) || !isset($_SESSION['user_id'])) || !isset($_SESSION['SESSION_ticket']) {die("Invalid Request");}
+if(!isset($_POST['board_id']) || !isset($_SESSION['user_id']) || !isset($_SESSION['SESSION_ticket'])) {die("Invalid Request");}
 
 //SET VARIABLES
 $boardId = $_POST['board_id'];

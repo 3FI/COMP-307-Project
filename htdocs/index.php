@@ -15,7 +15,7 @@
 	    case '/register-form':
 	        require __DIR__ . $viewDir . 'register-form.php';
 	        break;
-		case '/register':
+		case '/register-user':
 			require __DIR__ . $viewDir . 'register.php';
 			break;
 	    case '/logout':
@@ -61,7 +61,6 @@
 		case '/update-pinned-message':
 			require __DIR__ . $viewDir . 'update-pinned-message.php';
 		case '/leave-board':
-			die("reached");
 			require __DIR__ . $viewDir . 'leave-board.php';
 		case '/is-admin':
 			require __DIR__ . $viewDir . 'is-admin.php';

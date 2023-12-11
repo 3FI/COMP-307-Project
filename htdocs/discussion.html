@@ -1277,7 +1277,6 @@
             var xhr_delete = new XMLHttpRequest();
             xhr_delete.onreadystatechange = function() {
                 if(xhr_delete.readyState == 4 && xhr_delete.status == 200) {
-
                     //ticket not valid -> logout
                     if (this.responseText == "TICKET NOT VALID"){
                         window.location.href = './logout';
@@ -1287,8 +1286,6 @@
                     if(this.responseText == "TRUE") {
                         window.location.href = './select-discussion';
                     }
-
-                    console.log(this.responseText);
                 }
             }
             xhr_delete.open('POST', './leave-board', false);
