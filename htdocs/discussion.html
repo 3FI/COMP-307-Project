@@ -976,10 +976,10 @@
                         var newUser = document.createElement("div");
                         newUser.className = "user";
                         if (users[i] == my_username){
-                            newUser.innerHTML = "<span>" + users[i] + "</span>";
+                            newUser.innerHTML = "<span>" + users[i].split("@")[0] + "</span>";
                         }
                         else{
-                            newUser.innerHTML = "<span>" + users[i] + "</span><img class=\"settings-icon\" src=\"./img/settings_icon.svg\" onclick=\"toggleDeleteUser(this)\">";
+                            newUser.innerHTML = "<span>" + users[i].split("@")[0] + "</span><img class=\"settings-icon\" src=\"./img/settings_icon.svg\" onclick=\"toggleDeleteUser(this)\">";
                         }
                         users_select.appendChild(newUser);
                     }
