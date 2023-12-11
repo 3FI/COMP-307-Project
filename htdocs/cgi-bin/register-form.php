@@ -35,5 +35,5 @@ if (isset($errors["invalid_password"])){
     } </script>"; 
 }
 
-require "register.html";
+require "./register.html";
 ?>

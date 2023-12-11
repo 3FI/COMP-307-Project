@@ -2,7 +2,7 @@
 session_start();
 
 if ($_SERVER['REQUEST_METHOD'] !== 'GET') { 
-    header('Location: /404'); 
+    header('Location: ./404'); 
     die();
 }
 

@@ -8,7 +8,7 @@ TICKET VERIFICATION FOR THE ONLOAD JAVASCRIPT CALL OF SELECT-DISCUSSION.HTML
 session_start();
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') { 
-    header('Location: /404'); 
+    header('Location: ./404'); 
     die();
 }
 

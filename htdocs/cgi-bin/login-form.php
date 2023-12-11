@@ -34,5 +34,5 @@ if (isset($inputs["register_success"])){
         $('#successMessage').show();
     }); </script>"; 
 }
-require "index.html";
+require "./index.html";
 ?>
