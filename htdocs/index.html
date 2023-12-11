@@ -94,10 +94,33 @@
             return true;
         }
     };
+
+    
+    // Load webpage
+    function loadPage() {
+        ticketCheck();  //onload -> initial ticket check
+    };
+
+    function ticketCheck(){
+        // Synchronous request
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/validate-ticket', false); 
+        xhr.send();
+
+        if (xhr.status === 200) {
+            var response = JSON.parse(xhr.responseText);
+            if (!response.error) {
+                // If isValid is false (tickets are not equal) -> logout
+                if (response.isValid){
+                    window.location.href = '/select-discussion';
+                }
+            }
+        }
+    };
 </script>
 
 
-<body>
+<body onload="loadPage()">
     <div class="row">
         <div class="column-large">
             <img src="./img/mcgill-campus.jpg" alt="McGill campus">
