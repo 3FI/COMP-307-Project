@@ -412,7 +412,7 @@
                 }
 
                 // DO/CALL YOUR RENDER FROM IN HERE
-                console.log(this.responseText);
+                //console.log(this.responseText);
                 data = JSON.parse(this.responseText);
                 numBoards = data.length;
             }
@@ -437,7 +437,7 @@
                 }
 
                 // DO/CALL YOUR RENDER FROM IN HERE
-                console.log(this.responseText);
+                //console.log(this.responseText);
                 data = JSON.parse(this.responseText);
                 for (var i = 0; i < data.length; i++) {
                     boardNames.push(data[i].name);
@@ -464,7 +464,7 @@
                 }
 
                 // DO/CALL YOUR RENDER FROM IN HERE
-                console.log(this.responseText);
+                //console.log(this.responseText);
                 data = JSON.parse(this.responseText);
                 for (var i = 0; i < data.length; i++) {
                     boardDescriptions.push(data[i].description);
@@ -491,7 +491,7 @@
                 }
 
                 // DO/CALL YOUR RENDER FROM IN HERE
-                console.log(this.responseText);
+                //console.log(this.responseText);
                 data = JSON.parse(this.responseText);
                 for (var i = 0; i < data.length; i++) {
                     //alert("the color of the " + i + "th board is: " + data[i].color);
@@ -520,7 +520,7 @@
                 }
 
                 // DO/CALL YOUR RENDER FROM IN HERE
-                console.log(this.responseText);
+                //console.log(this.responseText);
             }
         }
         xhr_fetch.open('GET', './fetch-board-list', false);  // Set the third parameter to false for a synchronous request
@@ -529,7 +529,7 @@
         if (xhr_fetch.status === 200) {
             var response = JSON.parse(xhr_fetch.responseText);
             response.forEach(element => {
-                console.log(element);
+                //console.log(element);
                 if (element.subscribed == 1) {
                     count += 1;
                 }
@@ -554,7 +554,7 @@
                 }
 
                 // DO/CALL YOUR RENDER FROM IN HERE
-                console.log(this.responseText);
+                //console.log(this.responseText);
             }
         }
         xhr_fetch.open('GET', './fetch-board-list', false);  // Set the third parameter to false for a synchronous request
@@ -563,7 +563,7 @@
         if (xhr_fetch.status === 200) {
             var response = JSON.parse(xhr_fetch.responseText);
             response.forEach(element => {
-                console.log(element);
+                //console.log(element);
                 subscriptions.push(element.subscribed);
             });
         } else {
@@ -734,7 +734,7 @@
                 }
 
                 // DO/CALL YOUR RENDER FROM IN HERE
-                console.log(this.responseText);
+                //console.log(this.responseText);
                 renderBoards(this.responseText, numPerRow, mode);
             }
         }
@@ -752,7 +752,7 @@
 
             response.forEach(element => {
 
-                console.log(element);
+                //console.log(element);
 
                 //for Sissy : replace "element" by "name" or "subscribed" and then you can do anything with it
                 //there is a pop up that will show you exactly what is returned in the foreach
@@ -871,7 +871,7 @@
                     window.location.href = './logout';
                 }
 
-                console.log(this.responseText);
+                //console.log(this.responseText);
                 data = JSON.parse(this.responseText);
 
                 if (data.error == 'error'){
