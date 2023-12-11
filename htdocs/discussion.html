@@ -118,6 +118,7 @@
                 var xhr_fetch = new XMLHttpRequest();
                 xhr_fetch.onreadystatechange = function() {
                     if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
+                        parsed_data = JSON.parse(this.responseText);
                         for(var i = 0; i < parsed_data.length; i++){
                             if (parsed_data[i].id == board_id){
                                 return;
@@ -140,18 +141,17 @@
                 var xhr_fetch = new XMLHttpRequest();
                 xhr_fetch.onreadystatechange = function() {
                     if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
-                        for (var i = 0; i < parsed_data.length; i++) {
-                            if (parsed_data[i] == my_username){
-                                return;
-                            }
+                        parsed_data = JSON.parse(this.responseText);
+                        test_name =  (JSON.stringify(my_username)).substring(14, (JSON.stringify(my_username)).length - 4)
+                        if (!JSON.stringify(parsed_data).includes(test_name)){
+                            //if the user was removed from the board, redirect to the select discussion page
+                            error("Removed From Board", "Redirecting you to the home page.");
+                            var create_btn = document.getElementById("create-btn");
+                            create_btn.style.display = "none";
+                            var close_btn = document.getElementById("close-btn");
+                            close_btn.style.display = "none";
+                            setInterval(function(){window.location.href = "./select-discussion.html";}, 3000);
                         }
-                        //if the user was removed from the board, redirect to the select discussion page
-                        error("Removed From Board", "Redirecting you to the home page.");
-                        var create_btn = document.getElementById("create-btn");
-                        create_btn.style.display = "none";
-                        var close_btn = document.getElementById("close-btn");
-                        close_btn.style.display = "none";
-                        setInterval(function(){window.location.href = "./select-discussion.html";}, 3000);
                     }
                 }
                 xhr_fetch.open('POST', './fetch-board-users', true);  //asynchronous
