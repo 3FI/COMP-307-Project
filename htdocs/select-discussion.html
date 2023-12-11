@@ -614,6 +614,18 @@
         return boardDescription == "None";
     };
 
+    // Redirect user to boards if selected board does not exist
+    function checkBoardExists(boardName) {
+        userBoards = getBoardNames();
+        boardCard = document.getElementById(boardName);
+        if (!userBoards.includes(boardName)) {
+            alert("The board "+boardName+" no longer exists.");
+            boardCard.href = "./select-discussion.html";
+        } else {
+            boardCard.href = "./discussion.html?boardname="+boardName;
+        }
+    };
+
     // Dynamically render on webpage all boards the user has access to/is subscribed to
     function renderBoards(data, numPerRow, mode) {
         if (mode == '0') {
@@ -638,12 +650,12 @@
                     contents += `<div class="col"><div class="card board-widget" style="border-left:5px solid `+color+`"><div class="card-body">
                         <h5 class="board-title">`+name+`</h5><input type="checkbox" class="float-end" value="`+name+`" onclick="toggleSubscribeBtn()">
                         <p class="card-text responsive-card">`+description+`</p>
-                        <a href="./discussion.html?boardname=`+name+`" class="stretched-link"></a></div></div></div>`;
+                        <a id="`+name+`" href="./discussion.html?boardname=`+name+`" class="stretched-link" onclick="checkBoardExists('`+name+`')"></a></div></div></div>`;
                 } else {
                     contents += `<div class="col"><div class="card board-widget" style="border-left:5px solid `+color+`"><div class="card-body">
                         <h5 class="board-title">`+name+`</h5><input type="checkbox" class="float-end" value="`+name+`" onclick="toggleSubscribeBtn()">
                         <p class="card-text responsive-card" style="color:#ffffff">`+description+`</p>
-                        <a href="./discussion.html?boardname=`+name+`" class="stretched-link"></a></div></div></div>`;
+                        <a id="`+name+`" href="./discussion.html?boardname=`+name+`" class="stretched-link" onclick="checkBoardExists('`+name+`')"></a></div></div></div>`;
                 }
                 count += 1;
                 if (count == numPerRow) {
@@ -696,12 +708,12 @@
                             contents += `<div class="col"><div class="card board-widget" style="border-left:5px solid `+color+`"><div class="card-body">
                                 <h5 class="board-title">`+name+`</h5><input type="checkbox" class="float-end" value="`+name+`" onclick="toggleUnsubscribeBtn()">
                                 <p class="card-text responsive-card">`+description+`</p>
-                                <a href="./discussion.html?boardname=`+name+`" class="stretched-link"></a></div></div></div>`;
+                                <a id="`+name+`" href="./discussion.html?boardname=`+name+`" class="stretched-link" onclick="checkBoardExists('`+name+`')"></a></div></div></div>`;
                         } else {
                             contents += `<div class="col"><div class="card board-widget" style="border-left:5px solid `+color+`"><div class="card-body">
                                 <h5 class="board-title">`+name+`</h5><input type="checkbox" class="float-end" value="`+name+`" onclick="toggleUnsubscribeBtn()">
                                 <p class="card-text responsive-card" style="color:#ffffff">`+description+`</p>
-                                <a href="./discussion.html?boardname=`+name+`" class="stretched-link"></a></div></div></div>`;
+                                <a id="`+name+`" href="./discussion.html?boardname=`+name+`" class="stretched-link" onclick="checkBoardExists('`+name+`')"></a></div></div></div>`;
                         }
                         count += 1;
                         displayed += 1;
@@ -956,9 +968,6 @@
             return true;
         }
     };
-
-    //DELETE BOARD FUNCTION WHEN SELECTING BOARD FOR ADMIN?
-
 </script>
 <body onload="loadPage()">
     <!-- header (features: logout)-->
