@@ -1,5 +1,5 @@
 Website: myThreads
-Link to the running website: TBD
+Link to the running website: https://cs.mcgill.ca/~ecadot
 Github: https://github.com/3FI/COMP-307-Project
 
 Made by:
