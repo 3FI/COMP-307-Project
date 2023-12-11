@@ -632,7 +632,7 @@
                 color = colors[i];
 
                 if (count == 0) {
-                    contents += `<div class="row bottom-padding">`;
+                    contents += `<div class="row">`;
                 }
                 if (!isNone(description)) {
                     contents += `<div class="col"><div class="card board-widget" style="border-left:5px solid `+color+`"><div class="card-body">
@@ -655,6 +655,7 @@
                     }
                 }
             }
+            contents += `<div class="bottom-padding"></div>`
             container.innerHTML = contents;
         } else {
             num = getNumSubscriptions();
@@ -689,7 +690,7 @@
                         color = colors[i];
 
                         if (count == 0) {
-                            contents += `<div class="row bottom-padding">`;
+                            contents += `<div class="row">`;
                         }
                         if (!isNone(description)) {
                             contents += `<div class="col"><div class="card board-widget" style="border-left:5px solid `+color+`"><div class="card-body">
@@ -714,6 +715,7 @@
                         }
                     }
                 }
+                contents += `<div class="bottom-padding"></div>`
                 container.innerHTML = contents;
             }
         }
@@ -1077,7 +1079,7 @@
                     </div>
                 </form>
                 <!-- dashboard header (features: select/deselect all, edit board description, subscribe to board(s), create board) -->
-                <div id="dashboard-header" class="container-fluid padding" style="display:block">
+                <div id="dashboard-header" class="container-fluid top-padding" style="display:block">
                     <!-- create board button -->
                     <a href="#" class="btn btn-primary float-end" onclick="return displayForm()">Create board</a>
                     <!-- subscribe button -->
@@ -1089,7 +1091,7 @@
                     <a href="#" type="submit" id="editDescriptionBtn" class="btn edit-description-btn float-start" style="margin-right:1%" onclick="editDescription()" disabled>Edit description</a>
                 </div>
                 <!-- dashboard (dynamic rendering through renderBoards() function) -->
-                <div id="dashboard" class="container-fluid" style="display:none;height:74vh;overflow-y:auto"></div>
+                <div id="dashboard" class="container-fluid" style="display:none;height:76vh;overflow-y:auto"></div>
             </div>
         </div>
         <!-- boards the user is subscribed to-->
@@ -1100,15 +1102,17 @@
                     <p class="empty-dashboard">No boards to show.</p>
                 </div>
                 <!-- select/deselect all button -->
-                <div id="subscriptions-header" class="container-fluid padding" style="display:block">
+                <div id="subscriptions-header" class="container-fluid top-padding" style="display:block">
                     <a href="#" id="selectAllSubscribedBoards" class="btn btn-primary float-start" style="margin-right:1%" onclick="toggleSelectAll('1')">Select All</a>
                 </div>
-                <!-- dashboard (dynamic rendering through renderBoards() function) -->
-                <div id="subscriptions" class="container-fluid" style="display:none;height:65vh;overflow-y:auto"></div>
-                <!-- unsubscribe button -->
-                <div id="subscriptions-footer" class="container-fluid padding" style="display:block">
-                    <a href="#" type="submit" id="unsubscribeBtn" class="btn cancel-btn" style="display:block;width:150px;margin:auto" 
-                    onclick="modifySubscriptions('0')" disabled><div class="responsive-dashboard">&#128277;&nbsp;</div>Unsubscribe</a>
+                <div style="height:76vh;overflow-y:auto">
+                    <!-- dashboard (dynamic rendering through renderBoards() function) -->
+                    <div id="subscriptions" class="container-fluid" style="display:none"></div>
+                    <!-- unsubscribe button -->
+                    <div id="subscriptions-footer" class="container-fluid padding" style="display:block">
+                        <a href="#" type="submit" id="unsubscribeBtn" class="btn cancel-btn" style="display:block;width:150px;margin:auto" 
+                        onclick="modifySubscriptions('0')" disabled><div class="responsive-dashboard">&#128277;&nbsp;</div>Unsubscribe</a>
+                    </div>
                 </div>
             </div>
         </div>
