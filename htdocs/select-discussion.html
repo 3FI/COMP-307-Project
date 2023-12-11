@@ -16,6 +16,7 @@
     numPerRow = 4;
     selectAllCount = 0
     selectAllSubscribedCount = 0
+    $("#inexistentBoardAlert").modal();
 
     function ticketCheck(){
 
@@ -614,13 +615,28 @@
         return boardDescription == "None";
     };
 
+    // Delay href redirection
+    function delay(URL) {
+        inexistentBoardAlert = document.getElementById("inexistentBoardAlert");
+        const closeAlert = () => {
+            inexistentBoardAlert.style.display = "none";
+        }
+        const showAlert = () => {
+            inexistentBoardAlert.style.display = "block";
+            setTimeout(closeAlert, 3000);
+        }
+        showAlert();
+        setTimeout( function() { window.location = URL }, 3000);
+    };
+
     // Redirect user to boards if selected board does not exist
     function checkBoardExists(boardName) {
         userBoards = getBoardNames();
         boardCard = document.getElementById(boardName);
         if (!userBoards.includes(boardName)) {
-            alert("The board "+boardName+" no longer exists.");
-            boardCard.href = "./select-discussion.html";
+            inexistentBoardMsg = document.getElementById("inexistentBoardMsg");
+            inexistentBoardMsg.innerHTML = "The board "+boardName+" no longer exists.";
+            boardCard.href = "javascript:delay('./select-discussion.html')";
         } else {
             boardCard.href = "./discussion.html?boardname="+boardName;
         }
@@ -1098,6 +1114,16 @@
                     <a href="#" id="selectAllBoards" class="btn btn-primary float-start" style="margin-right:1%" onclick="toggleSelectAll('0')">Select All</a>
                     <!-- edit board description button -->
                     <a href="#" type="submit" id="editDescriptionBtn" class="btn edit-description-btn float-start" style="margin-right:1%" onclick="editDescription()" disabled>Edit description</a>
+                </div>
+                <!-- inexistent board alert -->
+                <div id="inexistentBoardAlert" class="modal" tabindex="-1" show="false">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <p id="inexistentBoardMsg"></p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <!-- dashboard (dynamic rendering through renderBoards() function) -->
                 <div id="dashboard" class="container-fluid" style="display:none;height:76vh;overflow-y:auto"></div>
