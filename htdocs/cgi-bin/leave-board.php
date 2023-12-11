@@ -1,4 +1,5 @@
 <?php
+die('reached');
 session_start();
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') { 
@@ -29,7 +30,7 @@ if($is_valid || !isset($is_valid)){
 }
 
 
-$conn = new mysqli("mysql.cs.mcgill.ca", "ecadot", "n#K#p6CEVw2USkJVFNDyetUb", "2023fall-comp307-ecadot");
+$conn = new mysqli("localhost", "root", "", "COMP307-Project");
 if ($conn->connect_error) {
     die("Internal Server Error: " . $conn->connect_error);
 }

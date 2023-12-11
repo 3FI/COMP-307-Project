@@ -21,7 +21,7 @@ if (!isset($_SESSION['user_id'])) {
 //SET VARIABLES
 $userid = $_SESSION['user_id'];
 
-$conn = new mysqli("mysql.cs.mcgill.ca", "ecadot", "n#K#p6CEVw2USkJVFNDyetUb", "2023fall-comp307-ecadot");
+$conn = new mysqli("localhost", "root", "", "COMP307-Project");
 if ($conn->connect_error) {
     die("Internal Server Error: " . $conn->connect_error);
 }

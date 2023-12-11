@@ -121,7 +121,7 @@
 
                         //ticket not valid -> logout
                         if (this.responseText == "TICKET NOT VALID"){
-                            window.location.href = '/logout';
+                            window.location.href = './logout';
                         }
 
                         var response = JSON.parse(xhr_fetch.responseText);
@@ -130,7 +130,7 @@
                         }
                     }
                 }
-                xhr_fetch.open('POST', '/fetch-channels-list', true);  //asynchronous
+                xhr_fetch.open('POST', './fetch-channels-list', true);  //asynchronous
                 xhr_fetch.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
                 xhr_fetch.send('boardId='+board_id);
             }
@@ -141,7 +141,7 @@
 
                         //ticket not valid -> logout
                         if (this.responseText == "TICKET NOT VALID"){
-                            window.location.href = '/logout';
+                            window.location.href = './logout';
                         }
 
                         var response = JSON.parse(xhr_fetch.responseText);
@@ -150,7 +150,7 @@
                         }
                     }
                 }
-                xhr_fetch.open('POST', '/fetch-board-users', true);  //asynchronous
+                xhr_fetch.open('POST', './fetch-board-users', true);  //asynchronous
                 xhr_fetch.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
                 var params = "boardId="+board_id;
                 xhr_fetch.send(params);
@@ -162,7 +162,7 @@
 
                         //ticket not valid -> logout
                         if (this.responseText == "TICKET NOT VALID"){
-                            window.location.href = '/logout';
+                            window.location.href = './logout';
                         }
 
                         var response = JSON.parse(xhr_fetch.responseText);
@@ -176,7 +176,7 @@
                         }
                     }
                 }
-                xhr_fetch.open('POST', '/fetch-messages-list', true);  //asynchronous
+                xhr_fetch.open('POST', './fetch-messages-list', true);  //asynchronous
                 xhr_fetch.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
                 xhr_fetch.send('channelId='+active_channel);
             }
@@ -187,7 +187,7 @@
 
                         //ticket not valid -> logout
                         if (this.responseText == "TICKET NOT VALID"){
-                            window.location.href = '/logout';
+                            window.location.href = './logout';
                         }
 
                         var response = JSON.parse(xhr_fetch.responseText);
@@ -197,7 +197,7 @@
                         }
                     }
                 }
-                xhr_fetch.open('POST', '/fetch-messages-list', true);  //asynchronous
+                xhr_fetch.open('POST', './fetch-messages-list', true);  //asynchronous
                 xhr_fetch.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
                 xhr_fetch.send('channelId='+active_channel);
             }
@@ -268,7 +268,7 @@
 
                     //ticket not valid -> logout
                     if (this.responseText == "TICKET NOT VALID"){
-                        window.location.href = '/logout';
+                        window.location.href = './logout';
                     }
 
                     data = this.responseText;
@@ -281,7 +281,7 @@
                     }
                 }
             }
-            xhr_fetch.open('GET', '/fetch-board-list', false);  // Set the third parameter to false for a synchronous request
+            xhr_fetch.open('GET', './fetch-board-list', false);  // Set the third parameter to false for a synchronous request
             xhr_fetch.send();
         }
         
@@ -437,7 +437,7 @@
 
                     //ticket not valid -> logout
                     if (this.responseText == "TICKET NOT VALID"){
-                        window.location.href = '/logout';
+                        window.location.href = './logout';
                     }
 
                     var response = JSON.parse(xhr_update.responseText);
@@ -453,7 +453,7 @@
                 }
             }
 
-            xhr_update.open('POST', '/update-pinned-message', true); 
+            xhr_update.open('POST', './update-pinned-message', true); 
             xhr_update.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
             var params = "message_id="+message_id+"&pinned_status="+is_pinned;
             xhr_update.send(params);
@@ -468,7 +468,7 @@
 
                     //ticket not valid -> logout
                     if (this.responseText == "TICKET NOT VALID"){
-                        window.location.href = '/logout';
+                        window.location.href = './logout';
                     }
 
                     // Parse the response data
@@ -544,7 +544,7 @@
                     }
                 }
             }
-            xhr_fetch.open('POST', '/fetch-messages-list', false);
+            xhr_fetch.open('POST', './fetch-messages-list', false);
             xhr_fetch.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             xhr_fetch.send('channelId='+active_channel);
         }
@@ -887,7 +887,7 @@
 
                         //ticket not valid -> logout
                         if (this.responseText == "TICKET NOT VALID"){
-                            window.location.href = '/logout';
+                            window.location.href = './logout';
                         }
 
                         // If the user was added successfully, render the users column
@@ -910,7 +910,7 @@
                         }
                     }
                 }
-                xhr_fetch.open('POST', '/add-member', false);
+                xhr_fetch.open('POST', './add-member', false);
                 xhr_fetch.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                 xhr_fetch.send('board_id='+board_id+'&new_member_email='+userName);
             }
@@ -929,7 +929,7 @@
 
                     //ticket not valid -> logout
                     if (this.responseText == "TICKET NOT VALID"){
-                        window.location.href = '/logout';
+                        window.location.href = './logout';
                     }
 
                     // If the user was deleted successfully, render the users column and close the window
@@ -945,12 +945,13 @@
                         error("Error removing user", "Admin cannot remove themself");
                     }
                     else{
+                        console.log(this.responseText);
                         error("Error removing user", "Please Try Again");
 
                     }
                 }
             }
-            xhr_delete.open('POST', '/remove-member', false);
+            xhr_delete.open('POST', './remove-member', false);
             xhr_delete.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
             xhr_delete.send('board_id='+board_id+'&old_member_email='+userName);
         }
@@ -964,7 +965,7 @@
 
                     //ticket not valid -> logout
                     if (this.responseText == "TICKET NOT VALID"){
-                        window.location.href = '/logout';
+                        window.location.href = './logout';
                     }
 
                     var response = JSON.parse(xhr_fetch.responseText);
@@ -976,17 +977,17 @@
                         var newUser = document.createElement("div");
                         newUser.className = "user";
                         if (users[i] == my_username){
-                            newUser.innerHTML = "<span>" + users[i].split("@")[0] + "</span>";
+                            newUser.innerHTML = "<span>" + users[i] + "</span>";
                         }
                         else{
-                            newUser.innerHTML = "<span>" + users[i].split("@")[0] + "</span><img class=\"settings-icon\" src=\"./img/settings_icon.svg\" onclick=\"toggleDeleteUser(this)\">";
+                            newUser.innerHTML = "<span>" + users[i] + "</span><img class=\"settings-icon\" src=\"./img/settings_icon.svg\" onclick=\"toggleDeleteUser(this)\">";
                         }
                         users_select.appendChild(newUser);
                     }
 
                 }
             }
-            xhr_fetch.open('POST', '/fetch-board-users', true);  //asynchronous
+            xhr_fetch.open('POST', './fetch-board-users', true);  //asynchronous
             xhr_fetch.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
             var params = "boardId="+board_id;
             xhr_fetch.send(params);
@@ -1023,7 +1024,7 @@
 
                         //ticket not valid -> logout
                         if (this.responseText == "TICKET NOT VALID"){
-                            window.location.href = '/logout';
+                            window.location.href = './logout';
                         }
 
                         // If the channel was created successfully, render the channels column, render messages, and close the window
@@ -1042,7 +1043,7 @@
                         }
                     }
                 }
-                xhr_create.open('POST', '/create-channel', false);
+                xhr_create.open('POST', './create-channel', false);
                 xhr_create.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
                 xhr_create.send('boardId='+board_id+'&name='+channelName);
             }
@@ -1060,7 +1061,7 @@
 
                     //ticket not valid -> logout
                     if (this.responseText == "TICKET NOT VALID"){
-                        window.location.href = '/logout';
+                        window.location.href = './logout';
                     }
 
                     // If the channel was deleted successfully, render the channels column, render messages, and close the window
@@ -1079,7 +1080,7 @@
                     }
                 }
             }
-            xhr_delete.open('POST', '/delete-channel', false);
+            xhr_delete.open('POST', './delete-channel', false);
             xhr_delete.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
             channel_id = channel_data.find(x => x.name === channelName).id;
             xhr_delete.send('channel_id='+channel_id);
@@ -1094,7 +1095,7 @@
 
                     //ticket not valid -> logout
                     if (this.responseText == "TICKET NOT VALID"){
-                        window.location.href = '/logout';
+                        window.location.href = './logout';
                     }
 
                     // Parse the response data
@@ -1144,7 +1145,7 @@
                     
                 }
             }
-            xhr_fetch.open('POST', '/fetch-channels-list', false);
+            xhr_fetch.open('POST', './fetch-channels-list', false);
             xhr_fetch.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             xhr_fetch.send('boardId='+board_id);
         }
@@ -1163,7 +1164,7 @@
 
                         //ticket not valid -> logout
                         if (this.responseText == "TICKET NOT VALID"){
-                            window.location.href = '/logout';
+                            window.location.href = './logout';
                         }
 
                         // If the message was sent successfully, render the messages column
@@ -1176,7 +1177,7 @@
                         }
                     }
                 }
-                xhr_create.open('POST', '/create-message', false);
+                xhr_create.open('POST', './create-message', false);
                 xhr_create.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
                 xhr_create.send('channelId='+active_channel+'&message='+message);
             }
@@ -1192,7 +1193,7 @@
 
                     //ticket not valid -> logout
                     if (this.responseText == "TICKET NOT VALID"){
-                        window.location.href = '/logout';
+                        window.location.href = './logout';
                     }
 
                     // Parse the response data
@@ -1265,7 +1266,7 @@
                     }
                 }
             }
-            xhr_fetch.open('POST', '/fetch-messages-list', false);
+            xhr_fetch.open('POST', './fetch-messages-list', false);
             xhr_fetch.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             xhr_fetch.send('channelId='+active_channel);
         }
@@ -1279,16 +1280,18 @@
 
                     //ticket not valid -> logout
                     if (this.responseText == "TICKET NOT VALID"){
-                        window.location.href = '/logout';
+                        window.location.href = './logout';
                     }
 
                     // If the message was sent successfully, redirect to the select discussion page
                     if(this.responseText == "TRUE") {
-                        window.location.href = '/select-discussion';
+                        window.location.href = './select-discussion';
                     }
+
+                    console.log(this.responseText);
                 }
             }
-            xhr_delete.open('POST', '/leave-board', false);
+            xhr_delete.open('POST', './leave-board', false);
             xhr_delete.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
             xhr_delete.send("board_id="+board_id);
         }
@@ -1302,16 +1305,16 @@
 
                     //ticket not valid -> logout
                     if (this.responseText == "TICKET NOT VALID"){
-                        window.location.href = '/logout';
+                        window.location.href = './logout';
                     }
 
                     // If the message was sent successfully, redirect to the select discussion page
                     if(this.responseText == "TRUE") {
-                        window.location.href = '/select-discussion';
+                        window.location.href = './select-discussion';
                     }
                 }
             }
-            xhr_delete.open('POST', '/delete-board', false);
+            xhr_delete.open('POST', './delete-board', false);
             xhr_delete.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
             xhr_delete.send("board_id="+board_id);
         } 
@@ -1325,7 +1328,7 @@
 
                     //ticket not valid -> logout
                     if (this.responseText == "TICKET NOT VALID"){
-                        window.location.href = '/logout';
+                        window.location.href = './logout';
                     }
 
                     if(this.responseText == "TRUE") {
@@ -1335,7 +1338,7 @@
                     }
                 }
             }
-            xhr_check.open('POST', '/is-admin', false);
+            xhr_check.open('POST', './is-admin', false);
             xhr_check.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
             xhr_check.send("board_id="+board_id);
         }
