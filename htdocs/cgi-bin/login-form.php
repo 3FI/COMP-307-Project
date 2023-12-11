@@ -12,24 +12,27 @@ if (isset($_SESSION['inputs'])) {
 }
 
 if (isset($errors["invalid_email"])){
-    echo "<script> window.onload = function () {
-        document.getElementById('registrationError').style.display = 'block';
-        document.getElementById('invalidEmail').style.display = 'block';
-        document.getElementById('invalidPassword').style.display = 'none';
-     } </script>"; 
+    echo "<script src='https://code.jquery.com/jquery-3.6.4.min.js'></script>";
+    echo "<script> $(document).ready(function() {
+        $('#registrationError').show();
+        $('#invalidEmail').show();
+        $('#invalidPassword').hide();
+     }); </script>"; 
 } 
 if (isset($errors["invalid_password"])){
-    echo "<script> window.onload = function () {
-        document.getElementById('registrationError').style.display = 'block';
-        document.getElementById('invalidEmail').style.display = 'none';
-        document.getElementById('invalidPassword').style.display = 'block';
-     } </script>"; 
+    echo "<script src='https://code.jquery.com/jquery-3.6.4.min.js'></script>";
+    echo "<script> $(document).ready(function() {
+        $('#registrationError').show();
+        $('#invalidEmail').hide();
+        $('#invalidPassword').show();
+     }); </script>"; 
 }
 
 if (isset($inputs["register_success"])){
-    echo "<script> window.onload = function () {
-        document.getElementById('successMessage').style.display = 'block';
-    } </script>"; 
+    echo "<script src='https://code.jquery.com/jquery-3.6.4.min.js'></script>";
+    echo "<script> $(document).ready(function() {
+        $('#successMessage').show();
+    }); </script>"; 
 }
 require "index.html";
 ?>
