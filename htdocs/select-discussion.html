@@ -914,7 +914,7 @@
                     user_email = data.email;
 
                     // fetch username of user currently logged in
-                    msg = "Welcome <div class='user'>" + user_email +"</div>"; 
+                    msg = "Welcome <div class='user'>" + user_email.split("@")[0] +"</div>"; 
 
                     container = document.getElementById("username");
                     container.innerHTML = msg;
@@ -1119,7 +1119,7 @@
                 <div id="inexistentBoardAlert" class="modal" tabindex="-1" show="false">
                     <div class="modal-dialog">
                         <div class="modal-content">
-                            <div class="modal-body">
+                            <div class="modal-body" style="text-align:center;margin-top:3%">
                                 <p id="inexistentBoardMsg"></p>
                             </div>
                         </div>
