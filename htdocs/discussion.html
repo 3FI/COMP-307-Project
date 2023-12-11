@@ -97,7 +97,7 @@
         var active_channel_name = null;
         var board_id = '';
         var board_color = '';
-        my_username = ''
+        my_username = getUserEmail();
         var cur_is_admin = false;
         //extract the board name from the url
         const queryParams = new URLSearchParams(window.location.search);
@@ -113,6 +113,51 @@
         setInterval(checkForUpdates, 1000);
 
         function checkForUpdates(){
+
+            function checkIfBoardDeleted(){
+                var xhr_fetch = new XMLHttpRequest();
+                xhr_fetch.onreadystatechange = function() {
+                    if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
+                        for(var i = 0; i < parsed_data.length; i++){
+                            if (parsed_data[i].id == board_id){
+                                return;
+                            }
+                        }
+                        //if the board was deleted, redirect to the select discussion page
+                        error("Board Deleted", "Redirecting you to the home page.");
+                        var create_btn = document.getElementById("create-btn");
+                        create_btn.style.display = "none";
+                        var close_btn = document.getElementById("close-btn");
+                        close_btn.style.display = "none";
+                        setInterval(function(){window.location.href = "./select-discussion.html";}, 3000);
+                    }
+                }
+                xhr_fetch.open('GET', './fetch-board-list', true);  //asynchronous
+                xhr_fetch.send();
+            }
+
+            function checkIfRemovedFromBoard(){
+                var xhr_fetch = new XMLHttpRequest();
+                xhr_fetch.onreadystatechange = function() {
+                    if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
+                        for (var i = 0; i < parsed_data.length; i++) {
+                            if (parsed_data[i] == my_username){
+                                return;
+                            }
+                        }
+                        //if the user was removed from the board, redirect to the select discussion page
+                        error("Removed From Board", "Redirecting you to the home page.");
+                        var create_btn = document.getElementById("create-btn");
+                        create_btn.style.display = "none";
+                        var close_btn = document.getElementById("close-btn");
+                        close_btn.style.display = "none";
+                        setInterval(function(){window.location.href = "./select-discussion.html";}, 3000);
+                    }
+                }
+                xhr_fetch.open('POST', './fetch-board-users', true);  //asynchronous
+                xhr_fetch.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                xhr_fetch.send('boardId='+board_id);
+            }
 
             function checkForChannelsUpdates(){
                 var xhr_fetch = new XMLHttpRequest();
@@ -207,7 +252,8 @@
 
                 return jsonString1 === jsonString2;
             }
-
+            checkIfBoardDeleted();
+            checkIfRemovedFromBoard();
             checkForChannelsUpdates();
             checkForUsersUpdates();
             checkForMessagesUpdates();
@@ -283,6 +329,23 @@
             }
             xhr_fetch.open('GET', './fetch-board-list', false);  // Set the third parameter to false for a synchronous request
             xhr_fetch.send();
+        }
+
+        function getUserEmail(){
+            var xhr_fetch = new XMLHttpRequest();
+            xhr_fetch.onreadystatechange = function() {
+                if(xhr_fetch.readyState == 4 && xhr_fetch.status == 200) {
+
+                    //ticket not valid -> logout
+                    if (this.responseText == "TICKET NOT VALID"){
+                        window.location.href = './logout';
+                    }
+                    my_username = this.responseText;
+                }
+            }
+            xhr_fetch.open('POST', './fetch-user-email', true);  //asynchronous
+                xhr_fetch.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                xhr_fetch.send();
         }
         
         // render the content of the page onload
@@ -525,7 +588,13 @@
                                 this.parentNode.onclick = null;
                                 var pinned_message = document.getElementById(pinned_id.innerHTML);
                                 pinMessage(pinned_message.childNodes[2]);
-                                this.parentNode.onclick = function() {scrollToPinnedMessage(this.parentNode.childNodes[4].innerHTML)};
+                                this.parentNode.onclick = function() {
+                                    // referencing the innerHTML produced an error even though the assignment worked as intended, this is why the try catch is used
+                                    try{
+                                        scrollToPinnedMessage(this.childNodes[4].innerHTML);
+                                    }
+                                    catch(err){}
+                                };
                             };
                             pinned_message.appendChild(user);
                             pinned_message.appendChild(time);
@@ -1104,7 +1173,11 @@
                     channel_data = parsed_data;
                     // If there is no active channel, set it to the first channel
                     if (active_channel == null){
-                        active_channel = channel_data[0].id;
+                        // referencing the id produced an error even though the assignment worked as intended, this is why the try catch is used
+                        try{
+                            active_channel = channel_data[0].id;
+                        }
+                        catch(err){}
                     }
                     // Otherwise, set it to the last active channel, this occurs when a channel is deleted
                     else if (parsed_data.find(x => x.id === active_channel) == null){
@@ -1115,7 +1188,12 @@
                     // Clear the channels column
                     channels.innerHTML = "";
                     // Find the active channels name
-                    active_channel_name = parsed_data.find(x => x.id === active_channel).name;
+                    try{
+                        active_channel_name = parsed_data.find(x => x.id === active_channel).name;
+                    }
+                    catch(err){
+                        active_channel_name = "General";
+                    }
                     // Add each channel to the channels column
                     for (var i = 0; i < parsed_data.length; i++) {
                         var newChannel = document.createElement("div");
