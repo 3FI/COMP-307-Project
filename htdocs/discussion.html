@@ -312,6 +312,18 @@
             var pinned_btn = document.getElementById("dropdown-button");
             pinned_btn.style.backgroundColor = darkenColor(board_color, 40);
             pinned_btn.style.borderColor = darkenColor(board_color, 30);
+            pinned_btn.addEventListener('mouseover', function() {
+                this.style.backgroundColor = darkenColor(board_color, 60);
+                this.style.borderColor = darkenColor(board_color, 50);
+            });
+            pinned_btn.addEventListener('click', function() {
+                this.style.backgroundColor = darkenColor(board_color, 60);
+                this.style.borderColor = darkenColor(board_color, 50);
+            });
+            pinned_btn.addEventListener('mouseout', function() {
+                this.style.backgroundColor = darkenColor(board_color, 40);
+                this.style.borderColor = darkenColor(board_color, 30);
+            });
             var l_col = document.getElementById("l-column");
             l_col.style.backgroundColor = darkenColor(board_color, 40);
             var l_col_headers = document.getElementsByClassName("l-col-headers");
@@ -343,9 +355,11 @@
             }
             leaveBoardBtn.addEventListener('mouseover', function() {
                 this.style.backgroundColor = "#e60000";
+                this.style.borderColor = "#e60000";
             });
             leaveBoardBtn.addEventListener('mouseout', function() {
                 this.style.backgroundColor = darkenColor(board_color, 40);
+                this.style.borderColor = darkenColor(board_color, 30);
             });
 
             logoutBtn = document.getElementById("logout");
@@ -353,9 +367,11 @@
             logoutBtn.style.borderColor = darkenColor(board_color, 50);
             logoutBtn.addEventListener('mouseover', function() {
                 this.style.backgroundColor = "#cc0000";
+                this.style.borderColor = "#cc0000";
             });
             logoutBtn.addEventListener('mouseout', function() {
                 this.style.backgroundColor = darkenColor(board_color, 60);
+                this.style.borderColor = darkenColor(board_color, 50);
             });
         }
         
