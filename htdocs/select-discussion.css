@@ -5,7 +5,6 @@ html, body {
 .user {
     color: #999999;
     display: inline-block;
-    font-weight: 500;
 }
 
 p.empty-dashboard {
