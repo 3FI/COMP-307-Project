@@ -1,5 +1,6 @@
 Website: myThreads
 Link to the running website: TBD
+Github: https://github.com/3FI/COMP-307-Project
 
 Made by:
 
